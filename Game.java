@@ -89,7 +89,12 @@ public class Game implements MouseMotionListener{
             if(left){
                 WorldPosX-=5;
             }
-
+            if(up){
+                WorldPosY-=5;
+            }
+            if(down){
+                WorldPosY+=5;
+            }
             //wait 10 milliseconds
             Thread.sleep(10);
             //repeat
