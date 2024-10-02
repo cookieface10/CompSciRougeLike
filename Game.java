@@ -14,8 +14,10 @@ public class Game implements MouseMotionListener{
     public static boolean down = false;
     public static int characterPosX = 0;
     public static int characterPosY = 0;
+    public static ArrayList<BasicBullet> bullets = new ArrayList<>();
     public static int x;
     public static int y;
+
     public static void main(String[] args) throws Exception {
         //setup the frame
         JFrame frame = new JFrame("JFrame");  
@@ -124,6 +126,7 @@ class CoolMouseEvents implements MouseListener{
     //clicked
     @Override
     public void mousePressed(MouseEvent e) {
+        Game.bullets.add(new BasicBullet(0, 5, Game.characterPosX+25, Game.characterPosY+25, Game.x, Game.y));
     }
     @Override
     public void mouseReleased(MouseEvent e) {}
@@ -144,5 +147,10 @@ class ShapeDrawing extends JComponent{
             }
         }
         g.fillRect(Game.characterPosX, Game.characterPosY, 50,50);
+        for (BasicBullet b : Game.bullets) {
+            b.Move();
+            g.fillRect(b.xPos, b.yPos, 20, 20);
+            if(b.dead){Game.bullets.remove(b);}
+        }
     }
 }
