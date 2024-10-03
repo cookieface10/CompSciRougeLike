@@ -1,28 +1,31 @@
 public class BasicBullet {
     public boolean dead;
     public int damage;
-    public float speed;
-    public int xPos;
-    public int yPos;
-    public int xDestination;
-    public int yDestination;
+    public double speed;
+    public double xPos;
+    public double yPos;
+    public double xDestination;
+    public double yDestination;
+    //public double startX;
+    //public double startY;
     public int screenSizeX;
     public int screenSizeY;
-    BasicBullet(int dam, float bulletSpeed, int x, int y, int xDest, int yDest){
+    BasicBullet(int dam, double bulletSpeed, int x, int y, int xDest, int yDest, int charPosX, int charPosY){
         damage=dam;
         speed = bulletSpeed;
-        xPos=x;
-        yPos=y;
-        xDestination=xDest-x;
-        yDestination=yDest-y;
+        xPos=(double)x;
+        yPos=(double)y;
+        xDestination=(double)xDest-charPosX;
+        yDestination=(double)yDest-charPosY;
         screenSizeX=x*2;
         screenSizeY=y*2;
+
     }
     public void Move(){
         double angle = Math.atan2(yDestination, xDestination);
         xPos += Math.cos(angle)*speed;
         yPos += Math.sin(angle)*speed;
 
-        if(xPos<-50 || xPos > screenSizeX || yPos<-50 || yPos > screenSizeY){dead=true;}
+        if(xPos > screenSizeX || yPos > screenSizeY){dead=true;}
     }
 }

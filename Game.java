@@ -126,7 +126,7 @@ class CoolMouseEvents implements MouseListener{
     //clicked
     @Override
     public void mousePressed(MouseEvent e) {
-        Game.bullets.add(new BasicBullet(0, 5, Game.characterPosX+25, Game.characterPosY+25, Game.x, Game.y));
+        Game.bullets.add(new BasicBullet(0, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX, Game.characterPosY));
     }
     @Override
     public void mouseReleased(MouseEvent e) {}
@@ -149,7 +149,7 @@ class ShapeDrawing extends JComponent{
         g.fillRect(Game.characterPosX, Game.characterPosY, 50,50);
         for (BasicBullet b : Game.bullets) {
             b.Move();
-            g.fillRect(b.xPos, b.yPos, 20, 20);
+            g.fillRect((int)Math.round(b.xPos)+(orientatedXWorldPosition), (int)Math.round(b.yPos)+(orientatedYWorldPosition), 20, 20);
             if(b.dead){Game.bullets.remove(b);}
         }
     }
