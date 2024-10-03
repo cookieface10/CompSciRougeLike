@@ -6,8 +6,6 @@ public class BasicBullet {
     public double yPos;
     public double xDestination;
     public double yDestination;
-    //public double startX;
-    //public double startY;
     public int screenSizeX;
     public int screenSizeY;
     BasicBullet(int dam, double bulletSpeed, int x, int y, int xDest, int yDest, int charPosX, int charPosY){
@@ -19,13 +17,12 @@ public class BasicBullet {
         yDestination=(double)yDest-charPosY;
         screenSizeX=x*2;
         screenSizeY=y*2;
-
     }
     public void Move(){
         double angle = Math.atan2(yDestination, xDestination);
         xPos += Math.cos(angle)*speed;
         yPos += Math.sin(angle)*speed;
 
-        if(xPos > screenSizeX || yPos > screenSizeY){dead=true;}
+        if(xPos+(-Game.WorldPosX+Game.characterPosX) > Game.frame.getWidth() || yPos+(-Game.WorldPosY+Game.characterPosY) > Game.frame.getHeight()){dead=true;System.out.println("s");}
     }
 }

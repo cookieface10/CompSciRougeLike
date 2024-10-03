@@ -17,10 +17,12 @@ public class Game implements MouseMotionListener{
     public static ArrayList<BasicBullet> bullets = new ArrayList<>();
     public static int x;
     public static int y;
+    public static JFrame frame;
+    public static JPanel panel;
 
     public static void main(String[] args) throws Exception {
         //setup the frame
-        JFrame frame = new JFrame("JFrame");  
+        frame = new JFrame("JFrame");  
         JPanel panel = new JPanel();  
         frame.add(panel);  
         frame.setSize(800, 800);  
