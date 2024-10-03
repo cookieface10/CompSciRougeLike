@@ -15,6 +15,7 @@ public class Game implements MouseMotionListener{
     public static int characterPosX = 0;
     public static int characterPosY = 0;
     public static ArrayList<BasicBullet> bullets = new ArrayList<>();
+    public static ArrayList<BasicEnemy> enemys = new ArrayList<>();
     public static int x;
     public static int y;
     public static JFrame frame;
@@ -38,6 +39,9 @@ public class Game implements MouseMotionListener{
         WorldPosX = center.x;
         characterPosX = center.x-25;
         characterPosY = center.y-25;
+
+        //testing enemy
+        enemys.add(new BasicEnemy(5,WorldPosX,WorldPosY,2,center.x,center.y));
 
         //adds keyListener
         frame.addKeyListener(new KeyAdapter() {
@@ -128,7 +132,7 @@ class CoolMouseEvents implements MouseListener{
     //clicked
     @Override
     public void mousePressed(MouseEvent e) {
-        Game.bullets.add(new BasicBullet(0, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX, Game.characterPosY));
+        Game.bullets.add(new BasicBullet(1, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX, Game.characterPosY));
     }
     @Override
     public void mouseReleased(MouseEvent e) {}
@@ -153,6 +157,13 @@ class ShapeDrawing extends JComponent{
             b.Move();
             g.fillRect((int)Math.round(b.xPos)+(orientatedXWorldPosition), (int)Math.round(b.yPos)+(orientatedYWorldPosition), 20, 20);
             if(b.dead){Game.bullets.remove(b);}
+        }
+        for (BasicEnemy e : Game.enemys){
+            e.move();
+            e.orientatedX=orientatedXWorldPosition;
+            e.orientatedY=orientatedYWorldPosition;
+            g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition, Math.round(e.yPos)+orientatedYWorldPosition, 50, 100);
+            if(e.dead){Game.enemys.remove(e);}
         }
     }
 }
