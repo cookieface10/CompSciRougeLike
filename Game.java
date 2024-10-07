@@ -8,10 +8,13 @@ import javax.swing.*;
 public class Game implements MouseMotionListener{
     public static int WorldPosX = 0;
     public static int WorldPosY = 0;
+    public static float speed = 5f;
     public static boolean left = false;
     public static boolean right = false;
     public static boolean up = false;
     public static boolean down = false;
+    public static boolean horizontal = false;
+    public static boolean vertical = false;
     public static int characterPosX = 0;
     public static int characterPosY = 0;
     public static ArrayList<BasicBullet> bullets = new ArrayList<>();
@@ -51,18 +54,22 @@ public class Game implements MouseMotionListener{
                 // a or <- //
                 if (key == 65 || key == 37) {
                     left = true;
+                    horizontal = true;
                 }
                 // d or -> //
                 else if (key == 68 || key == 39){
                     right = true;
+                    horizontal = true;
                 }
                 // W or uparrow //
                 if(key == 87 || key == 38){
                     up=true;
+                    vertical = true;
                 }
                 // S or downarrow //
                 else if(key ==83 || key == 40){
                     down=true;
+                    vertical = true;
                 }
             }
             @Override
@@ -71,18 +78,22 @@ public class Game implements MouseMotionListener{
                 // a or <- //
                 if (key == 65 || key == 37) {
                     left = false;
+                    horizontal = false;
                 }
                 // d or -> //
                 else if (key == 68 || key == 39){
                     right = false;
+                    horizontal = false;
                 }
                 // W or uparrow //
                 if(key == 87 || key == 38){
                     up=false;
+                    vertical = false;
                 }
                 // S or downarrow //
                 else if(key ==83 || key == 40){
                     down=false;
+                    vertical = false;
                 }
             }
         });
@@ -90,18 +101,22 @@ public class Game implements MouseMotionListener{
         while (true) {
             //re draw the frame
             frame.repaint();
+            double normalizedSpeed = speed;
+            if(horizontal && vertical){
+                normalizedSpeed = speed * Math.sin(Math.toRadians(45));
+            }
             //move the character
             if(right){
-                WorldPosX+=5;
+                WorldPosX+=normalizedSpeed;
             }
             if(left){
-                WorldPosX-=5;
+                WorldPosX-=normalizedSpeed;
             }
             if(up){
-                WorldPosY-=5;
+                WorldPosY-=normalizedSpeed;
             }
             if(down){
-                WorldPosY+=5;
+                WorldPosY+=normalizedSpeed;
             }
             //wait 10 milliseconds
             Thread.sleep(10);
