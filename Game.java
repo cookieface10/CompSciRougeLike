@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.*;
 
 //Made by Ryan McGurrin
@@ -18,11 +18,15 @@ public class Game implements MouseMotionListener{
     public static int characterPosX = 0;
     public static int characterPosY = 0;
     public static ArrayList<BasicBullet> bullets = new ArrayList<>();
+    public static ArrayList<BasicSpawnPoint> spawns = new ArrayList<>();
     public static ArrayList<BasicEnemy> enemys = new ArrayList<>();
     public static int x;
     public static int y;
     public static JFrame frame;
     public static JPanel panel;
+    public static long gameTime = 0;
+    public static long spawnTime = 500;
+    public static Random rand = new Random();
 
     public static void main(String[] args) throws Exception {
         //setup the frame
@@ -45,7 +49,10 @@ public class Game implements MouseMotionListener{
 
         //testing enemy
         enemys.add(new BasicEnemy(5,WorldPosX,WorldPosY,2,center.x,center.y));
-
+        spawns.add(new BasicSpawnPoint (100,100));
+        spawns.add(new BasicSpawnPoint (1000,100));
+        spawns.add(new BasicSpawnPoint (1000,1000));
+        spawns.add(new BasicSpawnPoint (100,1000));
         //adds keyListener
         frame.addKeyListener(new KeyAdapter() {
             @Override
@@ -159,14 +166,20 @@ class ShapeDrawing extends JComponent{
         super.paint(g);
         int orientatedXWorldPosition = -Game.WorldPosX+Game.characterPosX;
         int orientatedYWorldPosition = -Game.WorldPosY+Game.characterPosY;
-        for(int i = 0; i<=20;i++){
-            for(int k = 0; k<=20;k++){
-                g.setColor(new Color (200,150,0));
-                g.fillRect(i*50+orientatedXWorldPosition, k*50+orientatedYWorldPosition,50,50);
-                g.setColor(new Color(0,0,0));
-                g.drawRect(i*50+orientatedXWorldPosition, k*50+orientatedYWorldPosition,50,50);
+        for(int i = 0; i<=50;i++){
+            for(int k = 0; k<=50;k++){
+                g.setColor(new Color (20,200,30));
+                g.fillRect(i*50+orientatedXWorldPosition-(10*50), k*50+orientatedYWorldPosition-(25*50),50,50);
+                g.setColor(new Color(0,80,0));
+                g.drawRect(i*50+orientatedXWorldPosition-(10*50), k*50+orientatedYWorldPosition-(25*50),50,50);
+                g.fillRect(i*50+orientatedXWorldPosition+12-(10*50), k*50+orientatedYWorldPosition+10-(25*50),5,8);
+                g.fillRect(i*50+orientatedXWorldPosition+32-(10*50), k*50+orientatedYWorldPosition+25-(25*50),5,8);
+                g.fillRect(i*50+orientatedXWorldPosition+27-(10*50), k*50+orientatedYWorldPosition+40-(25*50),5,8);
+                g.fillRect(i*50+orientatedXWorldPosition+8-(10*50), k*50+orientatedYWorldPosition+35-(25*50),5,8);
+            
             }
         }
+        g.setColor(Color.black);
         g.fillRect(Game.characterPosX, Game.characterPosY, 50,50);
         for (BasicBullet b : Game.bullets) {
             b.Move();
@@ -180,5 +193,16 @@ class ShapeDrawing extends JComponent{
             g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition, Math.round(e.yPos)+orientatedYWorldPosition, 50, 100);
             if(e.dead){Game.enemys.remove(e);}
         }
+        Game.spawnTime--;
+        Game.gameTime++;
+        if(Game.spawnTime <= 0){
+            BasicSpawnPoint spawner = Game.spawns.get(Game.rand.nextInt(Game.spawns.size()));
+            spawner.spawn();
+            Game.spawnTime = Game.rand.nextLong(500-(Game.gameTime/100))+250-(Game.gameTime/100);
+            if(Game.spawnTime <= 0){
+                Game.spawnTime = 1;
+            }
+        }
+        
     }
 }
