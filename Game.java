@@ -154,6 +154,7 @@ class CoolMouseEvents implements MouseListener{
     //clicked
     @Override
     public void mousePressed(MouseEvent e) {
+        //creates a new bullet, and puts it in the arrayList
         Game.bullets.add(new BasicBullet(1, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX, Game.characterPosY));
     }
     @Override
@@ -164,42 +165,63 @@ class ShapeDrawing extends JComponent{
     public void paint(Graphics g)
     {
         super.paint(g);
+        //the world position orienteted to the players position
         int orientatedXWorldPosition = -Game.WorldPosX+Game.characterPosX;
         int orientatedYWorldPosition = -Game.WorldPosY+Game.characterPosY;
+        //this is a nestled for loop that draws the grid of grass tiles
         for(int i = 0; i<=50;i++){
             for(int k = 0; k<=50;k++){
+                //these are the main grass tiles
                 g.setColor(new Color (20,200,30));
-                g.fillRect(i*50+orientatedXWorldPosition-(10*50), k*50+orientatedYWorldPosition-(25*50),50,50);
+                g.fillRect(i*50+orientatedXWorldPosition-500, k*50+orientatedYWorldPosition-1250,50,50);
                 g.setColor(new Color(0,80,0));
-                g.drawRect(i*50+orientatedXWorldPosition-(10*50), k*50+orientatedYWorldPosition-(25*50),50,50);
-                g.fillRect(i*50+orientatedXWorldPosition+12-(10*50), k*50+orientatedYWorldPosition+10-(25*50),5,8);
-                g.fillRect(i*50+orientatedXWorldPosition+32-(10*50), k*50+orientatedYWorldPosition+25-(25*50),5,8);
-                g.fillRect(i*50+orientatedXWorldPosition+27-(10*50), k*50+orientatedYWorldPosition+40-(25*50),5,8);
-                g.fillRect(i*50+orientatedXWorldPosition+8-(10*50), k*50+orientatedYWorldPosition+35-(25*50),5,8);
+                g.drawRect(i*50+orientatedXWorldPosition-500, k*50+orientatedYWorldPosition-1250,50,50);
+                //these are the little blades of grass
+                g.fillRect(i*50+orientatedXWorldPosition+12-500, k*50+orientatedYWorldPosition+10-1250,5,8);
+                g.fillRect(i*50+orientatedXWorldPosition+32-500, k*50+orientatedYWorldPosition+25-1250,5,8);
+                g.fillRect(i*50+orientatedXWorldPosition+27-500, k*50+orientatedYWorldPosition+40-1250,5,8);
+                g.fillRect(i*50+orientatedXWorldPosition+8-500, k*50+orientatedYWorldPosition+35-1250,5,8);
             
             }
         }
+        //this draws the player
         g.setColor(Color.black);
         g.fillRect(Game.characterPosX, Game.characterPosY, 50,50);
+        //this checks every bullet
         for (BasicBullet b : Game.bullets) {
+            //this moves the bullet
             b.Move();
+            //this draws the bullet at the new location
             g.fillRect((int)Math.round(b.xPos)+(orientatedXWorldPosition), (int)Math.round(b.yPos)+(orientatedYWorldPosition), 20, 20);
+            //if the bullet dies (happens when it hits a enemy, or goes off screen) it will remove it from the list, compleatly removing its exsitince from the game
             if(b.dead){Game.bullets.remove(b);}
         }
+        //this checks every enemy
         for (BasicEnemy e : Game.enemys){
+            //moves all the enemys
             e.move();
+            //gives the enemys the new orientated world position (because it changes when the player moves)
             e.orientatedX=orientatedXWorldPosition;
             e.orientatedY=orientatedYWorldPosition;
+            //draws the enemys
             g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition, Math.round(e.yPos)+orientatedYWorldPosition, 50, 100);
+            //if it dies, it removes it from the list.
             if(e.dead){Game.enemys.remove(e);}
         }
+        //decreses the spawn time, as 10 milliseconds have now passed
         Game.spawnTime--;
+        //incresing the game time, as 10 milliseconds have now passed
         Game.gameTime++;
+        //if the spawn time has gotten to 0
         if(Game.spawnTime <= 0){
+            //picks a random spawner, from the array list of spawners
             BasicSpawnPoint spawner = Game.spawns.get(Game.rand.nextInt(Game.spawns.size()));
+            //spawns an enemy at that spawner
             spawner.spawn();
+            //resets the spawn time, to a random number that will decessingly get lower over time (so that the longer you play, the more enemys spawn)
             Game.spawnTime = Game.rand.nextLong(500-(Game.gameTime/100))+250-(Game.gameTime/100);
-            if(Game.spawnTime <= 0){
+            //if the spawn time randomiser ends up to low (going into the negitives) just set it back to a max of 1 (10 millisecods) enemys will never spawn faster then that because of this
+            if(Game.spawnTime <= 1){
                 Game.spawnTime = 1;
             }
         }
