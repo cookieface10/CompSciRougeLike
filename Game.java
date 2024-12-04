@@ -20,6 +20,7 @@ public class Game implements MouseMotionListener{
     public static ArrayList<BasicBullet> bullets = new ArrayList<>();
     public static ArrayList<BasicSpawnPoint> spawns = new ArrayList<>();
     public static ArrayList<BasicEnemy> enemys = new ArrayList<>();
+    public static ArrayList<PointOrbs> pointOrbs = new ArrayList<>();
     public static int x;
     public static int y;
     public static JFrame frame;
@@ -207,6 +208,11 @@ class ShapeDrawing extends JComponent{
             g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition, Math.round(e.yPos)+orientatedYWorldPosition, 50, 100);
             //if it dies, it removes it from the list.
             if(e.dead){Game.enemys.remove(e);}
+        }
+        g.setColor(Color.YELLOW);
+        for(PointOrbs p : Game.pointOrbs){
+            p.OrbMove(orientatedXWorldPosition,orientatedYWorldPosition);
+            g.fillOval(p.x+orientatedXWorldPosition, p.y+orientatedYWorldPosition, 10, 10);
         }
         //decreses the spawn time, as 10 milliseconds have now passed
         Game.spawnTime--;

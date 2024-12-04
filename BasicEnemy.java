@@ -29,6 +29,9 @@ public class BasicEnemy {
             }
         }
         if(health <= 0){
+            for(int i = 0; i <= 10; i++){
+                Game.pointOrbs.add(new PointOrbs((int)xPos, (int)yPos));
+            }
             dead = true;
         }
     }
