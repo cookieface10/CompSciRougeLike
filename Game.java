@@ -210,8 +210,11 @@ class ShapeDrawing extends JComponent{
             if(e.dead){Game.enemys.remove(e);}
         }
         g.setColor(Color.YELLOW);
+        //this checks every orb
         for(PointOrbs p : Game.pointOrbs){
+            //moves all the orbs
             p.OrbMove(orientatedXWorldPosition,orientatedYWorldPosition);
+            //draws the orbs
             g.fillOval(p.x+orientatedXWorldPosition, p.y+orientatedYWorldPosition, 10, 10);
         }
         //decreses the spawn time, as 10 milliseconds have now passed
