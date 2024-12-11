@@ -27,6 +27,7 @@ public class Game implements MouseMotionListener{
     public static JPanel panel;
     public static long gameTime = 0;
     public static long spawnTime = 500;
+    public static long points = 0;
     public static Random rand = new Random();
 
     public static void main(String[] args) throws Exception {
@@ -230,10 +231,14 @@ class ShapeDrawing extends JComponent{
             //resets the spawn time, to a random number that will decessingly get lower over time (so that the longer you play, the more enemys spawn)
             Game.spawnTime = Game.rand.nextLong(500-(Game.gameTime/100))+250-(Game.gameTime/100);
             //if the spawn time randomiser ends up to low (going into the negitives) just set it back to a max of 1 (10 millisecods) enemys will never spawn faster then that because of this
-            if(Game.spawnTime <= 1){
-                Game.spawnTime = 1;
+            if(Game.spawnTime <= 5){
+                Game.spawnTime = 5;
             }
         }
-        
+        //draws the players score in the top right corner
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("SansSerif", Font.BOLD, 15)); 
+        //the math for the x moves the text to the left more for every digit in the score, making sure it never goes off screen
+        g.drawString("Score: "+Game.points, (((Game.characterPosX+25)*2)-(((int)Math.floor(Math.log10(Game.points)+1)*7)+60)),11);
     }
 }

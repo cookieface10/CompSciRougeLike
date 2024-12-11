@@ -39,7 +39,7 @@ public class BasicEnemy {
         //if health is less then or = to 0
         if(health <= 0){
             //loop 10 times
-            for(int i = 0; i <= 10; i++){
+            for(int i = 1; i <= 10; i++){
                 //creating point orbs
                 Game.pointOrbs.add(new PointOrbs((int)xPos, (int)yPos));
             }
