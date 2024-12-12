@@ -23,6 +23,7 @@ public class Game implements MouseMotionListener{
     public static ArrayList<PointOrbs> pointOrbs = new ArrayList<>();
     public static int x;
     public static int y;
+    public static double enemyHealthMultiplyer = 1;
     public static JFrame frame;
     public static JPanel panel;
     public static long gameTime = 0;
@@ -50,7 +51,7 @@ public class Game implements MouseMotionListener{
         characterPosY = center.y-25;
 
         //testing enemy
-        enemys.add(new BasicEnemy(5,WorldPosX,WorldPosY,2,center.x,center.y));
+        enemys.add(new BasicEnemy((int)Math.round((double)5*enemyHealthMultiplyer),WorldPosX,WorldPosY,2,center.x,center.y));
         spawns.add(new BasicSpawnPoint (100,100));
         spawns.add(new BasicSpawnPoint (1000,100));
         spawns.add(new BasicSpawnPoint (1000,1000));
@@ -206,7 +207,13 @@ class ShapeDrawing extends JComponent{
             e.orientatedX=orientatedXWorldPosition;
             e.orientatedY=orientatedYWorldPosition;
             //draws the enemys
+            g.setColor(Color.black);
             g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition, Math.round(e.yPos)+orientatedYWorldPosition, 50, 100);
+            //and there health bars
+            g.setColor(new Color(20,20,20));
+            g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition-5, Math.round(e.yPos)+orientatedYWorldPosition-50, 60, 20);
+            g.setColor(new Color(150,20,20));
+            g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition-3, Math.round(e.yPos)+orientatedYWorldPosition-48, (int)Math.round(56*((double)e.health/e.totalHealth)), 16);
             //if it dies, it removes it from the list.
             if(e.dead){Game.enemys.remove(e);}
         }
@@ -232,9 +239,11 @@ class ShapeDrawing extends JComponent{
             Game.spawnTime = Game.rand.nextLong(500-(Game.gameTime/100))+250-(Game.gameTime/100);
             //if the spawn time randomiser ends up to low (going into the negitives) just set it back to a max of 1 (10 millisecods) enemys will never spawn faster then that because of this
             if(Game.spawnTime <= 5){
-                Game.spawnTime = 5;
+                Game.spawnTime = 80;
             }
         }
+        //Enemy Scaling
+        Game.enemyHealthMultiplyer = ((double)Game.gameTime/50000.0)+1;
         //draws the players score in the top right corner
         g.setColor(Color.BLACK);
         g.setFont(new Font("SansSerif", Font.BOLD, 15)); 

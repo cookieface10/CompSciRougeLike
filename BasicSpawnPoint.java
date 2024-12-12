@@ -8,6 +8,6 @@ public class BasicSpawnPoint {
     }
     public void spawn(){
         //this will add a new enemy to the enemy arraylist in the game class
-        Game.enemys.add(new BasicEnemy(5,x,y,2,Game.characterPosX+25,Game.characterPosY+25));
+        Game.enemys.add(new BasicEnemy((int)Math.round((double)5*Game.enemyHealthMultiplyer),x,y,2,Game.characterPosX+25,Game.characterPosY+25));
     }
 }

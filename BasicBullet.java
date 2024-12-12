@@ -11,8 +11,8 @@ public class BasicBullet {
     BasicBullet(int dam, double bulletSpeed, int x, int y, int xDest, int yDest, int charPosX, int charPosY){
         damage=dam;
         speed = bulletSpeed;
-        xPos=(double)x;
-        yPos=(double)y;
+        xPos=(double)x+15;
+        yPos=(double)y+15;
         //subtracts the character positon, to triangulate, based on the corner rather then the center
         xDestination=(double)xDest-charPosX;
         yDestination=(double)yDest-charPosY;

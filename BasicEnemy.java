@@ -1,5 +1,6 @@
 public class BasicEnemy {
     public boolean dead;
+    public int totalHealth;
     public int health;
     public float xPos;
     public float yPos;
@@ -9,6 +10,7 @@ public class BasicEnemy {
     public int orientatedX;
     public int orientatedY;
     BasicEnemy(int totalHealth, int x,int y,float speeds,int charX,int charY){
+        this.totalHealth = totalHealth;
         health = totalHealth;
         xPos=x;
         yPos=y;
