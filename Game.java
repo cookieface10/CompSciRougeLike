@@ -17,6 +17,8 @@ public class Game implements MouseMotionListener{
     public static boolean vertical = false;
     public static int characterPosX = 0;
     public static int characterPosY = 0;
+    public static double playerHealth = 20;
+    public static double playerMaxHealth = 20;
     public static ArrayList<BasicBullet> bullets = new ArrayList<>();
     public static ArrayList<BasicSpawnPoint> spawns = new ArrayList<>();
     public static ArrayList<BasicEnemy> enemys = new ArrayList<>();
@@ -51,7 +53,7 @@ public class Game implements MouseMotionListener{
         characterPosY = center.y-25;
 
         //testing enemy
-        enemys.add(new BasicEnemy((int)Math.round((double)5*enemyHealthMultiplyer),WorldPosX,WorldPosY,2,center.x,center.y));
+        enemys.add(new BasicEnemy((int)Math.round((double)5*enemyHealthMultiplyer), 5,WorldPosX,WorldPosY,2,center.x,center.y));
         spawns.add(new BasicSpawnPoint (100,100));
         spawns.add(new BasicSpawnPoint (1000,100));
         spawns.add(new BasicSpawnPoint (1000,1000));
@@ -196,7 +198,7 @@ class ShapeDrawing extends JComponent{
             b.Move();
             //this draws the bullet at the new location
             g.fillRect((int)Math.round(b.xPos)+(orientatedXWorldPosition), (int)Math.round(b.yPos)+(orientatedYWorldPosition), 20, 20);
-            //if the bullet dies (happens when it hits a enemy, or goes off screen) it will remove it from the list, compleatly removing its exsitince from the game
+            //if the bullet dies (happens when it hits a enemy, or goes off screen)wwwww it will remove it from the list, compleatly removing its exsitince from the game
             if(b.dead){Game.bullets.remove(b);}
         }
         //this checks every enemy
@@ -214,6 +216,13 @@ class ShapeDrawing extends JComponent{
             g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition-5, Math.round(e.yPos)+orientatedYWorldPosition-50, 60, 20);
             g.setColor(new Color(150,20,20));
             g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition-3, Math.round(e.yPos)+orientatedYWorldPosition-48, (int)Math.round(56*((double)e.health/e.totalHealth)), 16);
+            //if the attack is on cooldown, decrees the timer
+            if(e.attackTimer > 0){e.attackTimer--;}
+            //if the enemy is overlaping with the player and the attack is not on cooldown, then attack and, put the attack on cooldown
+            if(Math.round(e.xPos)+orientatedXWorldPosition < Game.characterPosX+50 && Math.round(e.xPos)+orientatedXWorldPosition+50 > Game.characterPosX && Math.round(e.yPos)+orientatedYWorldPosition < Game.characterPosY+50 && Math.round(e.yPos)+orientatedYWorldPosition+100 > Game.characterPosY && e.attackTimer<=0){
+                e.attack();
+                e.attackTimer = 500;
+            }
             //if it dies, it removes it from the list.
             if(e.dead){Game.enemys.remove(e);}
         }
@@ -244,6 +253,12 @@ class ShapeDrawing extends JComponent{
         }
         //Enemy Scaling
         Game.enemyHealthMultiplyer = ((double)Game.gameTime/50000.0)+1;
+        //////////////////////////////UI////////////////////////////////
+        //draws the players health bar in the bottom left corner
+        g.setColor(Color.BLACK);
+        g.fillRect(5, (Game.characterPosY+20)*2, 200, 40);
+        g.setColor(new Color(220,30,30));
+        g.fillRect(7, ((Game.characterPosY+21)*2), (int)Math.round(196*((double)Game.playerHealth/Game.playerMaxHealth)), 36);
         //draws the players score in the top right corner
         g.setColor(Color.BLACK);
         g.setFont(new Font("SansSerif", Font.BOLD, 15)); 

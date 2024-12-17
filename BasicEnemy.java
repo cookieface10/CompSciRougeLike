@@ -9,9 +9,12 @@ public class BasicEnemy {
     public int playerY;
     public int orientatedX;
     public int orientatedY;
-    BasicEnemy(int totalHealth, int x,int y,float speeds,int charX,int charY){
+    public double damage;
+    public int attackTimer;
+    BasicEnemy(int totalHealth, double damage, int x,int y,float speeds,int charX,int charY){
         this.totalHealth = totalHealth;
         health = totalHealth;
+        this.damage = damage;
         xPos=x;
         yPos=y;
         speed=speeds;
@@ -48,5 +51,8 @@ public class BasicEnemy {
             //then die (removing it from the game / ram)
             dead = true;
         }
+    }
+    public void attack(){
+        Game.playerHealth -= damage;
     }
 }
