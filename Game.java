@@ -120,10 +120,19 @@ public class Game implements MouseMotionListener {
         });
         // Game loop
         while (true) {
+            //Checks to see if shop has been opened by player
             if (openShop == true) {
+                //Make shop visible
                 shop.shopFrame.setVisible(true);
+                //Stops all player movement
+                up = false;
+                down = false;
+                right = false;
+                left = false;
+                vertical = false;
+                horizontal = false;
             }
-
+            //Runs the main game while the open is not opened
             while (openShop != true) {
                 // redraw the frame
                 frame.repaint();
