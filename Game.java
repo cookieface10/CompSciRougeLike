@@ -9,6 +9,7 @@ public class Game implements MouseMotionListener {
     public static int WorldPosX = 0;
     public static int WorldPosY = 0;
     public static float speed = 5f;
+    public static int damageBoost = 0;
     public static boolean left = false;
     public static boolean right = false;
     public static boolean up = false;
@@ -16,6 +17,7 @@ public class Game implements MouseMotionListener {
     public static boolean horizontal = false;
     public static boolean vertical = false;
     public static boolean openShop = false;
+    public static boolean openOnce = false;
     public static int characterPosX = 0;
     public static int characterPosY = 0;
     public static double playerHealth = 20;
@@ -34,7 +36,6 @@ public class Game implements MouseMotionListener {
     public static long points = 0;
     public static Random rand = new Random();
     public static Shop shop = new Shop();
-
     public static void main(String[] args) throws Exception {
         // setup the frame
         frame = new JFrame("JFrame");
@@ -86,7 +87,7 @@ public class Game implements MouseMotionListener {
                     down = true;
                     vertical = true;
                 }
-
+                // Press X button to open the shop menu and pause game
                 if (key == 88) {
                     openShop = true;
 
@@ -122,7 +123,6 @@ public class Game implements MouseMotionListener {
         while (true) {
             //Checks to see if shop has been opened by player
             if (openShop == true) {
-                //Make shop visible
                 shop.shopFrame.setVisible(true);
                 //Stops all player movement
                 up = false;
@@ -195,7 +195,7 @@ class CoolMouseEvents implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         // creates a new bullet, and puts it in the arrayList
-        Game.bullets.add(new BasicBullet(1, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX,
+        Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX,
                 Game.characterPosY));
     }
 

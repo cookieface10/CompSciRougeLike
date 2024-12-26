@@ -1,26 +1,30 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
-
-import javax.management.timer.Timer;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 public class Shop implements ActionListener {
     JFrame shopFrame = new JFrame();
     JPanel shopPanel = new JPanel();
+    Abillities ab = new Abillities();
     JLabel title = new JLabel("Shop");
     JButton exitButton = new JButton("Exit");
-    JButton purchase1 = new JButton();
-    JButton purchase2 = new JButton();
-    JButton purchase3 = new JButton();
-    long price1 = 999999999;
-    long price2 = 999999999;
-    long price3 = 999999999;
-    int healthItemsIndex = 0;
-    int attackItemsIndex = 0;
-    int movementItemsIndex = 0;
+    JButton item1 = new JButton();
+    JButton item2 = new JButton();
+    JButton item3 = new JButton();
+
+    int random1 = (int)(Math.random()*3)+1;
+    int random2 = (int)(Math.random()*3)+1;
+    int random3 = (int)(Math.random()*3)+1;
+    String itemTitle1 = ab.randomSelectItemTitles(random1);
+    String itemTitle2 = ab.randomSelectItemTitles(random2);
+    String itemTitle3 = ab.randomSelectItemTitles(random3);
+    
+    int itemsBought = 0;
+
+    long price1 = 1000;
+    long price2 = 1000;
+    long price3 = 1000;
 
     public Shop() {
         //Setting up shop GUI when opened by player
@@ -33,92 +37,181 @@ public class Shop implements ActionListener {
         title.setForeground(Color.WHITE);
 
         exitButton.setBounds(center.x-125, 600, 250, 100);
-        purchase1.setBounds(center.x-400, center.y-100, 200, 200);
-        purchase2.setBounds(center.x-100, center.y-100, 200, 200);
-        purchase3.setBounds(center.x+200, center.y-100, 200, 200);
+        item1.setBounds(center.x-400, center.y-100, 200, 200);
+        item2.setBounds(center.x-100, center.y-100, 200, 200);
+        item3.setBounds(center.x+200, center.y-100, 200, 200);
+
+        item1.setText(itemTitle1);
+        item2.setText(itemTitle2);
+        item3.setText(itemTitle3);
 
         exitButton.setBackground(Color.WHITE);
-        purchase1.setBackground(Color.ORANGE);
-        purchase2.setBackground(Color.ORANGE);
-        purchase3.setBackground(Color.ORANGE);
-
-        Border border = BorderFactory.createLineBorder(Color.white);
-        exitButton.setBorder(border);
-        purchase1.setBorder(border);
-        purchase2.setBorder(border);
-        purchase3.setBorder(border);
+        item1.setBackground(Color.WHITE);
+        item2.setBackground(Color.WHITE);
+        item3.setBackground(Color.WHITE);
 
         exitButton.addActionListener(this);
-        purchase1.addActionListener(this);
-        purchase2.addActionListener(this);
-        purchase3.addActionListener(this);
+        item1.addActionListener(this);
+        item2.addActionListener(this);
+        item3.addActionListener(this);
 
         shopPanel.add(title);
         shopPanel.add(exitButton);
-        shopPanel.add(purchase1);
-        shopPanel.add(purchase2);
-        shopPanel.add(purchase3);
+        shopPanel.add(item1);
+        shopPanel.add(item2);
+        shopPanel.add(item3);
 
         shopFrame.add(shopPanel);
         shopFrame.setUndecorated(true);
         shopFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         shopFrame.setSize(800, 800);
         shopFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        shopFrame.setVisible(false);
+        shopFrame.setVisible(true);
     }
 
-    //Action Listener for when player hits buttons in shop
+    //Action Listener for when player hits buttons in shop should maybe change mouselistener
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == exitButton) {
+            if(itemsBought >= 3)
+            {
+                reset();
+            }
             Game.openShop = false;
             shopFrame.dispose();
-            purchase1.setBackground(Color.orange);
-            purchase2.setBackground(Color.orange);
-            purchase3.setBackground(Color.orange);
-            purchase1.setText(null);
-            purchase2.setText(null);
-            purchase3.setText(null);
         }
         //Checks to see if the first purchase button is clicked
-        if(e.getSource() == purchase1)
+        if(e.getSource() == item1)
         {
-            //Check if the player has enough points to afford item and stop them if they don't
+            //Check if the player has enough points to afford item and stops them if they don't
             if(Game.points >= price1)
             {
-
+                //Finds what ability was randomly choosen and then activating once purchased
+                if(random1 == 1)
+                {
+                    ab.heal();
+                }
+                else if(random1 == 2)
+                {
+                    ab.attackIncrease();
+                }
+                else if(random1 == 3)
+                {
+                    ab.movementIncrease();
+                }
+                /*\
+                UI displaying that the player has succesfully made a purchase and removing
+                the points from their total
+                */
+                item1.setBackground(Color.green);
+                item1.setText("Purchased");
+                item1.setEnabled(false);
+                Game.points -= price1;
+                itemsBought++;
             }
             else{
-                purchase1.setBackground(Color.red);
-                purchase1.setText("Cannot Buy!");                
+                item1.setBackground(Color.red);
+                item1.setText("Cannot Buy!"); 
+                Timer timer = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        item1.setBackground(Color.white);
+                        item1.setText(itemTitle1); 
+                    }
+                });
+                timer.start();
             }
         }
-        if(e.getSource() == purchase2)
+        if(e.getSource() == item2)
         {
             if(Game.points >= price2)
             {
-
+                if(random2 == 1)
+                {
+                    ab.heal();
+                }
+                else if(random2 == 2)
+                {
+                    ab.attackIncrease();
+                }
+                else if(random2 == 3)
+                {
+                    ab.movementIncrease();
+                }
+                item2.setBackground(Color.green);
+                item2.setText("Purchased");
+                item2.setEnabled(false);
+                Game.points -= price2;
+                itemsBought++;
             }
             else{
-                purchase2.setBackground(Color.red);
-                purchase2.setText("Cannot Buy!");
+                item2.setBackground(Color.red);
+                item2.setText("Cannot Buy!");
+                Timer timer = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        item2.setBackground(Color.white);
+                        item2.setText(itemTitle2); 
+                    }
+                });
+                timer.start();
             }
         }
-        if(e.getSource() == purchase3)
+        if(e.getSource() == item3)
         {
             if(Game.points >= price3)
             {
-
+                if(random1 == 1)
+                {
+                    ab.heal();
+                }
+                else if(random1 == 2)
+                {
+                    ab.attackIncrease();
+                }
+                else if(random1 == 3)
+                {
+                    ab.movementIncrease();
+                }
+                item3.setBackground(Color.green);
+                item3.setText("Purchased");
+                item3.setEnabled(false);
+                Game.points -= price3;      
+                itemsBought++;
             }
             else{
-                purchase3.setBackground(Color.red);
-                purchase3.setText("Cannot Buy!");
+                item3.setBackground(Color.red);
+                item3.setText("Cannot Buy!");
+                Timer timer = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        item3.setBackground(Color.white);
+                        item3.setText(itemTitle3); 
+                    }
+                });
+                timer.start();
             }
         }
     }
-    public void randomItems()
+    public void reset()
     {
-        healthItemsIndex = (int) (Math.random()*3)+1;
-        attackItemsIndex = (int) (Math.random()*3)+1;
-        movementItemsIndex = (int) (Math.random()*3)+1;
+        item1.setEnabled(true);
+        item2.setEnabled(true);
+        item3.setEnabled(true);
+        random1 = (int)(Math.random()*3)+1;
+        random2 = (int)(Math.random()*3)+1;
+        random3 = (int)(Math.random()*3)+1;
+        itemTitle1 = ab.randomSelectItemTitles(random1);
+        itemTitle2 = ab.randomSelectItemTitles(random2);
+        itemTitle3 = ab.randomSelectItemTitles(random3);
+        item1.setText(itemTitle1);
+        item2.setText(itemTitle2);
+        item3.setText(itemTitle3);
+        item1.setBackground(Color.WHITE);
+        item2.setBackground(Color.WHITE);
+        item3.setBackground(Color.WHITE);
+        itemsBought = 0;
     }
 }
