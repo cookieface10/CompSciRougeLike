@@ -8,7 +8,7 @@ public class Shop implements ActionListener {
     JPanel shopPanel = new JPanel();
     Abillities ab = new Abillities();
     JLabel title = new JLabel("Shop");
-    JButton exitButton = new JButton("Exit");
+    JButton closeButton = new JButton("Exit");
     JButton item1 = new JButton();
     JButton item2 = new JButton();
     JButton item3 = new JButton();
@@ -27,7 +27,7 @@ public class Shop implements ActionListener {
     long price3 = 1000;
 
     public Shop() {
-        //Setting up shop GUI when opened by player
+        //Setting up shop UI when opened by player
         Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
         shopPanel.setBackground(Color.darkGray);
         shopPanel.setLayout(null);
@@ -36,7 +36,7 @@ public class Shop implements ActionListener {
         title.setFont(new Font("Serif", Font.PLAIN, 78));
         title.setForeground(Color.WHITE);
 
-        exitButton.setBounds(center.x-125, 600, 250, 100);
+        closeButton.setBounds(center.x-125, 600, 250, 100);
         item1.setBounds(center.x-400, center.y-100, 200, 200);
         item2.setBounds(center.x-100, center.y-100, 200, 200);
         item3.setBounds(center.x+200, center.y-100, 200, 200);
@@ -45,18 +45,18 @@ public class Shop implements ActionListener {
         item2.setText(itemTitle2);
         item3.setText(itemTitle3);
 
-        exitButton.setBackground(Color.WHITE);
+        closeButton.setBackground(Color.WHITE);
         item1.setBackground(Color.WHITE);
         item2.setBackground(Color.WHITE);
         item3.setBackground(Color.WHITE);
 
-        exitButton.addActionListener(this);
+        closeButton.addActionListener(this);
         item1.addActionListener(this);
         item2.addActionListener(this);
         item3.addActionListener(this);
 
         shopPanel.add(title);
-        shopPanel.add(exitButton);
+        shopPanel.add(closeButton);
         shopPanel.add(item1);
         shopPanel.add(item2);
         shopPanel.add(item3);
@@ -66,17 +66,21 @@ public class Shop implements ActionListener {
         shopFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         shopFrame.setSize(800, 800);
         shopFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        shopFrame.setVisible(true);
+        shopFrame.setVisible(false);
     }
 
-    //Action Listener for when player hits buttons in shop should maybe change mouselistener
+    //Action Listener for when player hits buttons in shop
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == exitButton) {
+        //Checks to see if the player hits the exit button
+        if (e.getSource() == closeButton) {
+            //If all of the items have been bought in the shop call for a reset on the choices
             if(itemsBought >= 3)
             {
                 reset();
             }
+            //Set the shop to not open in the Game class unfreezing player and enemies
             Game.openShop = false;
+            //Gets rid of the frame
             shopFrame.dispose();
         }
         //Checks to see if the first purchase button is clicked
@@ -98,9 +102,11 @@ public class Shop implements ActionListener {
                 {
                     ab.movementIncrease();
                 }
-                /*\
-                UI displaying that the player has succesfully made a purchase and removing
-                the points from their total
+                /*
+                 - UI displays that the player has succesfully made a purchase
+                - Disables the button so they cannot buy it again
+                 - Removes the points from their total 
+                 - Adds +1 to the items registered as bought
                 */
                 item1.setBackground(Color.green);
                 item1.setText("Purchased");
@@ -109,8 +115,10 @@ public class Shop implements ActionListener {
                 itemsBought++;
             }
             else{
+                //Changes the UI to signify a player cannot buy anything
                 item1.setBackground(Color.red);
                 item1.setText("Cannot Buy!"); 
+                //Returns to UI to the original state after 2 seconds
                 Timer timer = new Timer(2000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e)
@@ -122,6 +130,7 @@ public class Shop implements ActionListener {
                 timer.start();
             }
         }
+        //Same code as actionlistener for item button #1
         if(e.getSource() == item2)
         {
             if(Game.points >= price2)
@@ -158,6 +167,7 @@ public class Shop implements ActionListener {
                 timer.start();
             }
         }
+        //Same code as actionlistener for item button #1
         if(e.getSource() == item3)
         {
             if(Game.points >= price3)
@@ -195,6 +205,8 @@ public class Shop implements ActionListener {
             }
         }
     }
+    //Resets all of the buttons with new UI after reselecting a new set of items for sale
+    //Reactivates buttons so they can be used and sets number of items bought to 0
     public void reset()
     {
         item1.setEnabled(true);

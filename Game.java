@@ -17,7 +17,7 @@ public class Game implements MouseMotionListener {
     public static boolean horizontal = false;
     public static boolean vertical = false;
     public static boolean openShop = false;
-    public static boolean openOnce = false;
+    public static boolean openStartScreen = true;
     public static int characterPosX = 0;
     public static int characterPosY = 0;
     public static double playerHealth = 20;
@@ -36,6 +36,8 @@ public class Game implements MouseMotionListener {
     public static long points = 0;
     public static Random rand = new Random();
     public static Shop shop = new Shop();
+    public static StartScreen startScreen = new StartScreen();
+
     public static void main(String[] args) throws Exception {
         // setup the frame
         frame = new JFrame("JFrame");
@@ -121,8 +123,14 @@ public class Game implements MouseMotionListener {
         });
         // Game loop
         while (true) {
+            if(openStartScreen == true)
+            {
+                startScreen.startFrame.setVisible(true);
+                frame.setVisible(false);
+            }
             //Checks to see if shop has been opened by player
             if (openShop == true) {
+                //Makes the shop UI visible in a new frame that overlaps the main frame.
                 shop.shopFrame.setVisible(true);
                 //Stops all player movement
                 up = false;
@@ -132,7 +140,7 @@ public class Game implements MouseMotionListener {
                 vertical = false;
                 horizontal = false;
             }
-            //Runs the main game while the open is not opened
+            //Runs the main game while the shop menu is not opened
             while (openShop != true) {
                 // redraw the frame
                 frame.repaint();
