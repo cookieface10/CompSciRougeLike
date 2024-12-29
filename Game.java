@@ -37,6 +37,7 @@ public class Game implements MouseMotionListener {
     public static Random rand = new Random();
     public static Shop shop = new Shop();
     public static StartScreen startScreen = new StartScreen();
+    public static EndScreen endScreen = new EndScreen();
 
     public static void main(String[] args) throws Exception {
         // setup the frame
@@ -58,8 +59,6 @@ public class Game implements MouseMotionListener {
         characterPosY = center.y - 25;
 
         // testing enemy
-        enemys.add(new BasicEnemy((int) Math.round((double) 5 * enemyHealthMultiplyer), 5, WorldPosX, WorldPosY, 2,
-                center.x, center.y));
         spawns.add(new BasicSpawnPoint(100, 100));
         spawns.add(new BasicSpawnPoint(1000, 100));
         spawns.add(new BasicSpawnPoint(1000, 1000));
@@ -162,7 +161,12 @@ public class Game implements MouseMotionListener {
                 if (down) {
                     WorldPosY += normalizedSpeed;
                 }
-
+                if(playerHealth <= 0)
+                {
+                    endScreen.endFrame.setVisible(true);
+                    frame.setVisible(false);
+                    frame.dispose();
+                }
                 // wait 10 milliseconds
                 Thread.sleep(10);
                 // repeat
@@ -311,8 +315,8 @@ class ShapeDrawing extends JComponent {
             BasicSpawnPoint spawner = Game.spawns.get(Game.rand.nextInt(Game.spawns.size()));
             // spawns an enemy at that spawner
             spawner.spawn();
-            // resets the spawn time, to a random number that will decessingly get lower
-            // over time (so that the longer you play, the more enemys spawn)
+            // resets the spawn time, to a random number that will decreasingly get lower
+            // over time (the longer you play, the more enemys spawn)
             // Game.spawnTime =
             // Game.rand.nextLong(500-(Game.gameTime/100))+250-(Game.gameTime/100);
             // if the spawn time randomiser ends up to low (going into the negitives) just

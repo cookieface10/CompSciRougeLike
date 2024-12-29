@@ -21,16 +21,16 @@ public class StartScreen implements ActionListener {
         startPanel.setBackground(Color.blue);
         startPanel.setLayout(null);
 
-        gameTitle.setBounds(340, 250, 200, 50);
+        gameTitle.setBounds(340, 150, 200, 50);
         gameTitle.setFont(new Font("Serif", Font.PLAIN, 10));
         gameTitle.setForeground(Color.WHITE);
 
-        credits.setBounds(330, 350, 200, 50);
+        credits.setBounds(330, 250, 200, 50);
         credits.setFont(new Font("Serif", Font.PLAIN, 10));
         credits.setForeground(Color.WHITE);
 
-        startButton.setBounds(350, 450, 100, 50);
-        exitButton.setBounds(350, 550, 100, 50);
+        startButton.setBounds(350, 300, 100, 50);
+        exitButton.setBounds(350, 350, 100, 50);
 
         startButton.addActionListener(this);
         exitButton.addActionListener(this);
@@ -43,7 +43,7 @@ public class StartScreen implements ActionListener {
         startFrame.add(startPanel);
         startFrame.setUndecorated(true);
         startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        startFrame.setSize(800, 800);
+        startFrame.setSize(800, 400);
         startFrame.setLocationRelativeTo(null);
         startFrame.setVisible(false);
     }
