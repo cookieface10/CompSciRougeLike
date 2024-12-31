@@ -207,8 +207,7 @@ class CoolMouseEvents implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         // creates a new bullet, and puts it in the arrayList
-        Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX,
-                Game.characterPosY));
+        Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX, Game.characterPosY));
     }
 
     @Override
@@ -232,15 +231,10 @@ class ShapeDrawing extends JComponent {
                 g.setColor(new Color(0, 80, 0));
                 g.drawRect(i * 50 + orientatedXWorldPosition - 500, k * 50 + orientatedYWorldPosition - 1250, 50, 50);
                 // these are the little blades of grass
-                g.fillRect(i * 50 + orientatedXWorldPosition + 12 - 500, k * 50 + orientatedYWorldPosition + 10 - 1250,
-                        5, 8);
-                g.fillRect(i * 50 + orientatedXWorldPosition + 32 - 500, k * 50 + orientatedYWorldPosition + 25 - 1250,
-                        5, 8);
-                g.fillRect(i * 50 + orientatedXWorldPosition + 27 - 500, k * 50 + orientatedYWorldPosition + 40 - 1250,
-                        5, 8);
-                g.fillRect(i * 50 + orientatedXWorldPosition + 8 - 500, k * 50 + orientatedYWorldPosition + 35 - 1250,
-                        5, 8);
-
+                g.fillRect(i * 50 + orientatedXWorldPosition + 12 - 500, k * 50 + orientatedYWorldPosition + 10 - 1250, 5, 8);
+                g.fillRect(i * 50 + orientatedXWorldPosition + 32 - 500, k * 50 + orientatedYWorldPosition + 25 - 1250, 5, 8);
+                g.fillRect(i * 50 + orientatedXWorldPosition + 27 - 500, k * 50 + orientatedYWorldPosition + 40 - 1250, 5, 8);
+                g.fillRect(i * 50 + orientatedXWorldPosition + 8 - 500, k * 50 + orientatedYWorldPosition + 35 - 1250, 5, 8);
             }
         }
         // this draws the player
@@ -251,8 +245,7 @@ class ShapeDrawing extends JComponent {
             // this moves the bullet
             b.Move();
             // this draws the bullet at the new location
-            g.fillRect((int) Math.round(b.xPos) + (orientatedXWorldPosition),
-                    (int) Math.round(b.yPos) + (orientatedYWorldPosition), 20, 20);
+            g.fillRect((int) Math.round(b.xPos) + (orientatedXWorldPosition),(int) Math.round(b.yPos) + (orientatedYWorldPosition), 20, 20);
             // if the bullet dies (happens when it hits a enemy, or goes off screen)wwwww it
             // will remove it from the list, compleatly removing its exsitince from the game
             if (b.dead) {
@@ -273,22 +266,16 @@ class ShapeDrawing extends JComponent {
                     100);
             // and there health bars
             g.setColor(new Color(20, 20, 20));
-            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 5,
-                    Math.round(e.yPos) + orientatedYWorldPosition - 50, 60, 20);
+            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 5, Math.round(e.yPos) + orientatedYWorldPosition - 50, 60, 20);
             g.setColor(new Color(150, 20, 20));
-            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 3,
-                    Math.round(e.yPos) + orientatedYWorldPosition - 48,
-                    (int) Math.round(56 * ((double) e.health / e.totalHealth)), 16);
+            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 3, Math.round(e.yPos) + orientatedYWorldPosition - 48, (int) Math.round(56 * ((double) e.health / e.totalHealth)), 16);
             // if the attack is on cooldown, decrees the timer
             if (e.attackTimer > 0) {
                 e.attackTimer--;
             }
             // if the enemy is overlaping with the player and the attack is not on cooldown,
             // then attack and, put the attack on cooldown
-            if (Math.round(e.xPos) + orientatedXWorldPosition < Game.characterPosX + 50
-                    && Math.round(e.xPos) + orientatedXWorldPosition + 50 > Game.characterPosX
-                    && Math.round(e.yPos) + orientatedYWorldPosition < Game.characterPosY + 50
-                    && Math.round(e.yPos) + orientatedYWorldPosition + 100 > Game.characterPosY && e.attackTimer <= 0) {
+            if (Math.round(e.xPos) + orientatedXWorldPosition < Game.characterPosX + 50 && Math.round(e.xPos) + orientatedXWorldPosition + 50 > Game.characterPosX && Math.round(e.yPos) + orientatedYWorldPosition < Game.characterPosY + 50 && Math.round(e.yPos) + orientatedYWorldPosition + 100 > Game.characterPosY && e.attackTimer <= 0) {
                 e.attack();
                 e.attackTimer = 500;
             }
@@ -317,8 +304,7 @@ class ShapeDrawing extends JComponent {
             spawner.spawn();
             // resets the spawn time, to a random number that will decreasingly get lower
             // over time (the longer you play, the more enemys spawn)
-            // Game.spawnTime =
-            // Game.rand.nextLong(500-(Game.gameTime/100))+250-(Game.gameTime/100);
+            Game.spawnTime = (long)Game.rand.nextDouble() * (500-(Game.gameTime/100))+250-(Game.gameTime/100);
             // if the spawn time randomiser ends up to low (going into the negitives) just
             // set it back to a max of 1 (10 millisecods) enemys will never spawn faster
             // then that because of this
@@ -333,14 +319,12 @@ class ShapeDrawing extends JComponent {
         g.setColor(Color.BLACK);
         g.fillRect(5, (Game.characterPosY + 20) * 2, 200, 40);
         g.setColor(new Color(220, 30, 30));
-        g.fillRect(7, ((Game.characterPosY + 21) * 2),
-                (int) Math.round(196 * ((double) Game.playerHealth / Game.playerMaxHealth)), 36);
+        g.fillRect(7, ((Game.characterPosY + 21) * 2),(int) Math.round(196 * ((double) Game.playerHealth / Game.playerMaxHealth)), 36);
         // draws the players score in the top right corner
         g.setColor(Color.BLACK);
         g.setFont(new Font("SansSerif", Font.BOLD, 15));
         // the math for the x moves the text to the left more for every digit in the
         // score, making sure it never goes off screen
-        g.drawString("Score: " + Game.points,
-                (((Game.characterPosX + 25) * 2) - (((int) Math.floor(Math.log10(Game.points) + 1) * 7) + 60)), 11);
+        g.drawString("Score: " + Game.points, (((Game.characterPosX + 25) * 2) - (((int) Math.floor(Math.log10(Game.points) + 1) * 7) + 60)), 11);
     }
 }
