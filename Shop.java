@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class Shop implements ActionListener {
@@ -13,13 +14,13 @@ public class Shop implements ActionListener {
     JButton item2 = new JButton();
     JButton item3 = new JButton();
 
-    int random1 = (int)(Math.random()*3)+1;
-    int random2 = (int)(Math.random()*3)+1;
-    int random3 = (int)(Math.random()*3)+1;
+    int random1 = (int) (Math.random() * 7) + 1;
+    int random2 = (int) (Math.random() * 7) + 1;
+    int random3 = (int) (Math.random() * 7) + 1;
     String itemTitle1 = ab.randomSelectItemTitles(random1);
     String itemTitle2 = ab.randomSelectItemTitles(random2);
     String itemTitle3 = ab.randomSelectItemTitles(random3);
-    
+
     int itemsBought = 0;
 
     long price1 = 1000;
@@ -27,19 +28,19 @@ public class Shop implements ActionListener {
     long price3 = 1000;
 
     public Shop() {
-        //Setting up shop UI when opened by player
+        // Setting up shop UI when opened by player
         Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
         shopPanel.setBackground(Color.darkGray);
         shopPanel.setLayout(null);
 
-        title.setBounds(center.x-75, 50, 200, 200);
+        title.setBounds(center.x - 75, 50, 200, 200);
         title.setFont(new Font("Serif", Font.PLAIN, 78));
         title.setForeground(Color.WHITE);
 
-        closeButton.setBounds(center.x-125, 600, 250, 100);
-        item1.setBounds(center.x-400, center.y-100, 200, 200);
-        item2.setBounds(center.x-100, center.y-100, 200, 200);
-        item3.setBounds(center.x+200, center.y-100, 200, 200);
+        closeButton.setBounds(center.x - 125, 600, 250, 100);
+        item1.setBounds(center.x - 400, center.y - 100, 200, 200);
+        item2.setBounds(center.x - 100, center.y - 100, 200, 200);
+        item3.setBounds(center.x + 200, center.y - 100, 200, 200);
 
         item1.setText(itemTitle1);
         item2.setText(itemTitle2);
@@ -69,152 +70,44 @@ public class Shop implements ActionListener {
         shopFrame.setVisible(false);
     }
 
-    //Action Listener for when player hits buttons in shop
+    // Action Listener for when player hits buttons in shop
     public void actionPerformed(ActionEvent e) {
-        //Checks to see if the player hits the exit button
+        // Checks to see if the player hits the exit button
         if (e.getSource() == closeButton) {
-            //If all of the items have been bought in the shop call for a reset on the choices
-            if(itemsBought >= 3)
-            {
+            // If all of the items have been bought in the shop call for a reset on the
+            // choices
+            if (itemsBought >= 3) {
                 reset();
             }
-            //Set the shop to not open in the Game class unfreezing player and enemies
+            // Set the shop to not open in the Game class unfreezing player and enemies
             Game.openShop = false;
-            //Gets rid of the frame
+            // Gets rid of the frame
             shopFrame.dispose();
         }
-        //Checks to see if the first purchase button is clicked
-        if(e.getSource() == item1)
-        {
-            //Check if the player has enough points to afford item and stops them if they don't
-            if(Game.points >= price1)
-            {
-                //Finds what ability was randomly choosen and then activating once purchased
-                if(random1 == 1)
-                {
-                    ab.heal();
-                }
-                else if(random1 == 2)
-                {
-                    ab.attackIncrease();
-                }
-                else if(random1 == 3)
-                {
-                    ab.movementIncrease();
-                }
-                /*
-                 - UI displays that the player has succesfully made a purchase
-                - Disables the button so they cannot buy it again
-                 - Removes the points from their total 
-                 - Adds +1 to the items registered as bought
-                */
-                item1.setBackground(Color.green);
-                item1.setText("Purchased");
-                item1.setEnabled(false);
-                Game.points -= price1;
-                itemsBought++;
-            }
-            else{
-                //Changes the UI to signify a player cannot buy anything
-                item1.setBackground(Color.red);
-                item1.setText("Cannot Buy!"); 
-                //Returns to UI to the original state after 2 seconds
-                Timer timer = new Timer(2000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        item1.setBackground(Color.white);
-                        item1.setText(itemTitle1); 
-                    }
-                });
-                timer.start();
-            }
+        // Checks to see if the first purchase button is clicked
+        if (e.getSource() == item1) {
+            buttonAction(price1, itemTitle1, item1, random1);
         }
-        //Same code as actionlistener for item button #1
-        if(e.getSource() == item2)
-        {
-            if(Game.points >= price2)
-            {
-                if(random2 == 1)
-                {
-                    ab.heal();
-                }
-                else if(random2 == 2)
-                {
-                    ab.attackIncrease();
-                }
-                else if(random2 == 3)
-                {
-                    ab.movementIncrease();
-                }
-                item2.setBackground(Color.green);
-                item2.setText("Purchased");
-                item2.setEnabled(false);
-                Game.points -= price2;
-                itemsBought++;
-            }
-            else{
-                item2.setBackground(Color.red);
-                item2.setText("Cannot Buy!");
-                Timer timer = new Timer(2000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        item2.setBackground(Color.white);
-                        item2.setText(itemTitle2); 
-                    }
-                });
-                timer.start();
-            }
+        // Same code as actionlistener for item button #1
+        if (e.getSource() == item2) {
+            buttonAction(price2, itemTitle2, item2, random2);
         }
-        //Same code as actionlistener for item button #1
-        if(e.getSource() == item3)
-        {
-            if(Game.points >= price3)
-            {
-                if(random1 == 1)
-                {
-                    ab.heal();
-                }
-                else if(random1 == 2)
-                {
-                    ab.attackIncrease();
-                }
-                else if(random1 == 3)
-                {
-                    ab.movementIncrease();
-                }
-                item3.setBackground(Color.green);
-                item3.setText("Purchased");
-                item3.setEnabled(false);
-                Game.points -= price3;      
-                itemsBought++;
-            }
-            else{
-                item3.setBackground(Color.red);
-                item3.setText("Cannot Buy!");
-                Timer timer = new Timer(2000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        item3.setBackground(Color.white);
-                        item3.setText(itemTitle3); 
-                    }
-                });
-                timer.start();
-            }
+        // Same code as actionlistener for item button #1
+        if (e.getSource() == item3) {
+            buttonAction(price3, itemTitle3, item3, random3);
         }
     }
-    //Resets all of the buttons with new UI after reselecting a new set of items for sale
-    //Reactivates buttons so they can be used and sets number of items bought to 0
-    public void reset()
-    {
+
+    // Resets all of the buttons with new UI after reselecting a new set of items
+    // for sale
+    // Reactivates buttons so they can be used and sets number of items bought to 0
+    public void reset() {
         item1.setEnabled(true);
         item2.setEnabled(true);
         item3.setEnabled(true);
-        random1 = (int)(Math.random()*3)+1;
-        random2 = (int)(Math.random()*3)+1;
-        random3 = (int)(Math.random()*3)+1;
+        random1 = (int) (Math.random() * 7) + 1;
+        random2 = (int) (Math.random() * 7) + 1;
+        random3 = (int) (Math.random() * 7) + 1;
         itemTitle1 = ab.randomSelectItemTitles(random1);
         itemTitle2 = ab.randomSelectItemTitles(random2);
         itemTitle3 = ab.randomSelectItemTitles(random3);
@@ -225,5 +118,53 @@ public class Shop implements ActionListener {
         item2.setBackground(Color.WHITE);
         item3.setBackground(Color.WHITE);
         itemsBought = 0;
+    }
+
+    public void buttonAction(long price, String itemTitle, JButton item, int random) {
+        // Check if the player has enough points to afford item and stops them if they
+        // don't
+        if (Game.points >= price) {
+            // Finds what ability was randomly choosen and then activating once purchased
+            if (random == 1) {
+                ab.heal();
+            } else if (random == 2) {
+                ab.attackIncrease();
+            } else if (random == 3) {
+                ab.movementIncrease();
+            } else if (random == 4) {
+                ab.increaseHealth();
+            } else if (random == 5) {
+                ab.bulletSpeedIncrease();
+            } else if (random == 6) {
+                ab.iceShot();
+            } else if (random == 7) {
+                ab.fireShot();
+            }
+
+            /*
+             * - UI displays that the player has succesfully made a purchase
+             * - Disables the button so they cannot buy it again
+             * - Removes the points from their total
+             * - Adds +1 to the items registered as bought
+             */
+            item.setBackground(Color.green);
+            item.setText("Purchased");
+            item.setEnabled(false);
+            Game.points -= price1;
+            itemsBought++;
+        } else {
+            // Changes the UI to signify a player cannot buy anything
+            item.setBackground(Color.red);
+            item.setText("Cannot Buy!");
+            // Returns to UI to the original state after 2 seconds
+            Timer timer = new Timer(2000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    item.setBackground(Color.white);
+                    item.setText(itemTitle);
+                }
+            });
+            timer.start();
+        }
     }
 }

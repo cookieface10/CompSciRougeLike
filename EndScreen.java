@@ -14,9 +14,7 @@ public class EndScreen implements ActionListener {
     JButton quitButton = new JButton("Quit");
     JLabel endMessage = new JLabel("You Died");
 
-    
-    public EndScreen()
-    {
+    public EndScreen() {
         endPanel.setBackground(Color.black);
         endPanel.setLayout(null);
 
@@ -24,7 +22,7 @@ public class EndScreen implements ActionListener {
         endMessage.setFont(new Font("Serif", Font.ROMAN_BASELINE, 10));
         endMessage.setForeground(Color.red);
 
-        restartButton.setBounds(350,300, 100, 50);
+        restartButton.setBounds(350, 300, 100, 50);
         quitButton.setBounds(350, 350, 100, 50);
 
         restartButton.addActionListener(this);
@@ -41,16 +39,27 @@ public class EndScreen implements ActionListener {
         endFrame.setLocationRelativeTo(null);
         endFrame.setVisible(false);
     }
+
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == restartButton)
-        {
-            endFrame.setVisible(false);
-            endFrame.dispose();
-            Game.startScreen.startFrame.setVisible(true);
+        if (e.getSource() == restartButton) {
+            Game.playerHealth = 20;
+            reset();
         }
-        if(e.getSource() == quitButton)
-        {
+        if (e.getSource() == quitButton) {
             System.exit(0);
         }
+    }
+
+    public void reset() {
+        endFrame.setVisible(false);
+        Game.startScreen.startFrame.setVisible(true);
+        Game.points = 0;
+        Game.up = false;
+        Game.down = false;
+        Game.right = false;
+        Game.left = false;
+        Game.vertical = false;
+        Game.horizontal = false;
+        Game.shop.reset();
     }
 }

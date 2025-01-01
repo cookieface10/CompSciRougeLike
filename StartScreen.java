@@ -15,9 +15,7 @@ public class StartScreen implements ActionListener {
     JLabel gameTitle = new JLabel("SuperDuper Astro Destroyer");
     JLabel credits = new JLabel("By Ryan Mcgurrin and William Kim");
 
-    
-    public StartScreen()
-    {
+    public StartScreen() {
         startPanel.setBackground(Color.blue);
         startPanel.setLayout(null);
 
@@ -47,15 +45,22 @@ public class StartScreen implements ActionListener {
         startFrame.setLocationRelativeTo(null);
         startFrame.setVisible(false);
     }
+
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == startButton)
-        {
-            startFrame.dispose();
+        if (e.getSource() == startButton) {
+            // testing enemy
+            Game.spawns.add(new BasicSpawnPoint(100, 100));
+            Game.spawns.add(new BasicSpawnPoint(1000, 100));
+            Game.spawns.add(new BasicSpawnPoint(1000, 1000));
+            Game.spawns.add(new BasicSpawnPoint(100, 1000));
+            Game.enemys.remove(e);
+            Game.characterPosX = Game.center.x - 25;
+            Game.characterPosY = Game.center.y - 25;
             Game.openStartScreen = false;
+            startFrame.setVisible(false);
             Game.frame.setVisible(true);
         }
-        if(e.getSource() == exitButton)
-        {
+        if (e.getSource() == exitButton) {
             System.exit(0);
         }
     }

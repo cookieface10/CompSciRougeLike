@@ -10,6 +10,7 @@ public class Game implements MouseMotionListener {
     public static int WorldPosY = 0;
     public static float speed = 5f;
     public static int damageBoost = 0;
+    public static int speedBoost = 0;
     public static boolean left = false;
     public static boolean right = false;
     public static boolean up = false;
@@ -38,6 +39,8 @@ public class Game implements MouseMotionListener {
     public static Shop shop = new Shop();
     public static StartScreen startScreen = new StartScreen();
     public static EndScreen endScreen = new EndScreen();
+    public static Game newInstanceGame;
+    public static Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
 
     public static void main(String[] args) throws Exception {
         // setup the frame
@@ -53,16 +56,10 @@ public class Game implements MouseMotionListener {
         frame.setVisible(true);
         frame.addMouseListener(new CoolMouseEvents());
         frame.addMouseMotionListener(new Game());
-        Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
         WorldPosX = center.x;
         characterPosX = center.x - 25;
         characterPosY = center.y - 25;
 
-        // testing enemy
-        spawns.add(new BasicSpawnPoint(100, 100));
-        spawns.add(new BasicSpawnPoint(1000, 100));
-        spawns.add(new BasicSpawnPoint(1000, 1000));
-        spawns.add(new BasicSpawnPoint(100, 1000));
         // adds keyListener
         frame.addKeyListener(new KeyAdapter() {
             @Override
@@ -91,7 +88,6 @@ public class Game implements MouseMotionListener {
                 // Press X button to open the shop menu and pause game
                 if (key == 88) {
                     openShop = true;
-
                 }
             }
 
@@ -122,16 +118,15 @@ public class Game implements MouseMotionListener {
         });
         // Game loop
         while (true) {
-            if(openStartScreen == true)
-            {
+            if (openStartScreen == true) {
                 startScreen.startFrame.setVisible(true);
                 frame.setVisible(false);
             }
-            //Checks to see if shop has been opened by player
+            // Checks to see if shop has been opened by player
             if (openShop == true) {
-                //Makes the shop UI visible in a new frame that overlaps the main frame.
+                // Makes the shop UI visible in a new frame that overlaps the main frame.
                 shop.shopFrame.setVisible(true);
-                //Stops all player movement
+                // Stops all player movement
                 up = false;
                 down = false;
                 right = false;
@@ -139,7 +134,7 @@ public class Game implements MouseMotionListener {
                 vertical = false;
                 horizontal = false;
             }
-            //Runs the main game while the shop menu is not opened
+            // Runs the main game while the shop menu is not opened
             while (openShop != true) {
                 // redraw the frame
                 frame.repaint();
@@ -161,18 +156,15 @@ public class Game implements MouseMotionListener {
                 if (down) {
                     WorldPosY += normalizedSpeed;
                 }
-                if(playerHealth <= 0)
-                {
+                if (playerHealth <= 0) {
                     endScreen.endFrame.setVisible(true);
                     frame.setVisible(false);
-                    frame.dispose();
                 }
                 // wait 10 milliseconds
                 Thread.sleep(10);
                 // repeat
             }
         }
-
     }
 
     // get x and y coordinates of the mouse
@@ -207,7 +199,8 @@ class CoolMouseEvents implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         // creates a new bullet, and puts it in the arrayList
-        Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5, Game.WorldPosX, Game.WorldPosY, Game.x, Game.y, Game.characterPosX, Game.characterPosY));
+        Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5 + Game.speedBoost, Game.WorldPosX, Game.WorldPosY,
+                Game.x, Game.y, Game.characterPosX, Game.characterPosY));
     }
 
     @Override
@@ -231,10 +224,14 @@ class ShapeDrawing extends JComponent {
                 g.setColor(new Color(0, 80, 0));
                 g.drawRect(i * 50 + orientatedXWorldPosition - 500, k * 50 + orientatedYWorldPosition - 1250, 50, 50);
                 // these are the little blades of grass
-                g.fillRect(i * 50 + orientatedXWorldPosition + 12 - 500, k * 50 + orientatedYWorldPosition + 10 - 1250, 5, 8);
-                g.fillRect(i * 50 + orientatedXWorldPosition + 32 - 500, k * 50 + orientatedYWorldPosition + 25 - 1250, 5, 8);
-                g.fillRect(i * 50 + orientatedXWorldPosition + 27 - 500, k * 50 + orientatedYWorldPosition + 40 - 1250, 5, 8);
-                g.fillRect(i * 50 + orientatedXWorldPosition + 8 - 500, k * 50 + orientatedYWorldPosition + 35 - 1250, 5, 8);
+                g.fillRect(i * 50 + orientatedXWorldPosition + 12 - 500, k * 50 + orientatedYWorldPosition + 10 - 1250,
+                        5, 8);
+                g.fillRect(i * 50 + orientatedXWorldPosition + 32 - 500, k * 50 + orientatedYWorldPosition + 25 - 1250,
+                        5, 8);
+                g.fillRect(i * 50 + orientatedXWorldPosition + 27 - 500, k * 50 + orientatedYWorldPosition + 40 - 1250,
+                        5, 8);
+                g.fillRect(i * 50 + orientatedXWorldPosition + 8 - 500, k * 50 + orientatedYWorldPosition + 35 - 1250,
+                        5, 8);
             }
         }
         // this draws the player
@@ -245,7 +242,8 @@ class ShapeDrawing extends JComponent {
             // this moves the bullet
             b.Move();
             // this draws the bullet at the new location
-            g.fillRect((int) Math.round(b.xPos) + (orientatedXWorldPosition),(int) Math.round(b.yPos) + (orientatedYWorldPosition), 20, 20);
+            g.fillRect((int) Math.round(b.xPos) + (orientatedXWorldPosition),
+                    (int) Math.round(b.yPos) + (orientatedYWorldPosition), 20, 20);
             // if the bullet dies (happens when it hits a enemy, or goes off screen)wwwww it
             // will remove it from the list, compleatly removing its exsitince from the game
             if (b.dead) {
@@ -256,38 +254,59 @@ class ShapeDrawing extends JComponent {
         for (BasicEnemy e : Game.enemys) {
             // moves all the enemys
             e.move();
-            // gives the enemys the new orientated world position (because it changes when the player moves)
+            // gives the enemys the new orientated world position (because it changes when
+            // the player moves)
             e.orientatedX = orientatedXWorldPosition;
             e.orientatedY = orientatedYWorldPosition;
             // draws the enemys
-            if(e instanceof SlimeEnemy){ // size(50,35)
+            if (e instanceof SlimeEnemy) { // size(50,35)
                 SlimeEnemy s = (SlimeEnemy) e;
                 g.setColor(s.c);
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+5, Math.round(e.yPos) + orientatedYWorldPosition+5, 40, 25);//body color
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 40, 25);// body color
                 g.setColor(Color.white);
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+10, Math.round(e.yPos) + orientatedYWorldPosition+5, 5,5);//higer shine
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+5, Math.round(e.yPos) + orientatedYWorldPosition+10, 5,5);//lower shine
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// higer shine
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 5);// lower shine
                 g.setColor(Color.black);
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+5, Math.round(e.yPos) + orientatedYWorldPosition+5, 5,5);//left corner
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+40, Math.round(e.yPos) + orientatedYWorldPosition+5, 5,5);//right corner
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+15, 5,5);//left eye
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+30, Math.round(e.yPos) + orientatedYWorldPosition+15, 5,5);//right eye
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition, Math.round(e.yPos) + orientatedYWorldPosition+10, 5, 20);//left side
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+45, Math.round(e.yPos) + orientatedYWorldPosition+10, 5, 20);//right side
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+5, Math.round(e.yPos) + orientatedYWorldPosition+30, 40, 5);//bottom
-                g.fillRect(Math.round(e.xPos)+orientatedXWorldPosition+10, Math.round(e.yPos) + orientatedYWorldPosition, 30, 5);//top
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// left eye
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 30,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// right eye
+                g.setColor(e.affect);
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// left corner
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 40,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// right corner
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// left side
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 45,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// right side
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 30, 40, 5);// bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10,
+                        Math.round(e.yPos) + orientatedYWorldPosition, 30, 5);// top
             }
             // and there health bars
             g.setColor(new Color(20, 20, 20));
-            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 5, Math.round(e.yPos) + orientatedYWorldPosition - 50, 60, 20);
+            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 5,
+                    Math.round(e.yPos) + orientatedYWorldPosition - 50, 60, 20);
             g.setColor(new Color(150, 20, 20));
-            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 3, Math.round(e.yPos) + orientatedYWorldPosition - 48, (int) Math.round(56 * ((double) e.health / e.totalHealth)), 16);
+            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 3,
+                    Math.round(e.yPos) + orientatedYWorldPosition - 48,
+                    (int) Math.round(56 * ((double) e.health / e.totalHealth)), 16);
             // if the attack is on cooldown, decrees the timer
             if (e.attackTimer > 0) {
                 e.attackTimer--;
             }
-            // if the enemy is overlaping with the player and the attack is not on cooldown,then attack and, put the attack on cooldown
-            if (Math.round(e.xPos) + orientatedXWorldPosition < Game.characterPosX + 50 && Math.round(e.xPos) + orientatedXWorldPosition + e.xborder > Game.characterPosX && Math.round(e.yPos) + orientatedYWorldPosition < Game.characterPosY + 50 && Math.round(e.yPos) + orientatedYWorldPosition + e.yborder > Game.characterPosY && e.attackTimer <= 0) {
+            // if the enemy is overlaping with the player and the attack is not on
+            // cooldown,then attack and, put the attack on cooldown
+            if (Math.round(e.xPos) + orientatedXWorldPosition < Game.characterPosX + 50
+                    && Math.round(e.xPos) + orientatedXWorldPosition + e.xborder > Game.characterPosX
+                    && Math.round(e.yPos) + orientatedYWorldPosition < Game.characterPosY + 50
+                    && Math.round(e.yPos) + orientatedYWorldPosition + e.yborder > Game.characterPosY
+                    && e.attackTimer <= 0) {
                 e.attack();
                 e.attackTimer = 500;
             }
@@ -314,9 +333,13 @@ class ShapeDrawing extends JComponent {
             BasicSpawnPoint spawner = Game.spawns.get(Game.rand.nextInt(Game.spawns.size()));
             // spawns an enemy at that spawner
             spawner.spawn();
-            // resets the spawn time, to a random number that will decreasingly get lower over time (the longer you play, the more enemys spawn)
-            Game.spawnTime = (long)Game.rand.nextDouble() * (500-(Game.gameTime/100))+250-(Game.gameTime/100);
-            // if the spawn time randomiser ends up to low (going into the negitives) just set it back to a max of 1 (10 millisecods) enemys will never spawn faster then that because of this
+            // resets the spawn time, to a random number that will decreasingly get lower
+            // over time (the longer you play, the more enemys spawn)
+            Game.spawnTime = (long) Game.rand.nextDouble() * (500 - (Game.gameTime / 100)) + 250
+                    - (Game.gameTime / 100);
+            // if the spawn time randomiser ends up to low (going into the negitives) just
+            // set it back to a max of 1 (10 millisecods) enemys will never spawn faster
+            // then that because of this
             if (Game.spawnTime <= 5) {
                 Game.spawnTime = 80;
             }
@@ -328,11 +351,14 @@ class ShapeDrawing extends JComponent {
         g.setColor(Color.BLACK);
         g.fillRect(5, (Game.characterPosY + 20) * 2, 200, 40);
         g.setColor(new Color(220, 30, 30));
-        g.fillRect(7, ((Game.characterPosY + 21) * 2),(int) Math.round(196 * ((double) Game.playerHealth / Game.playerMaxHealth)), 36);
+        g.fillRect(7, ((Game.characterPosY + 21) * 2),
+                (int) Math.round(196 * ((double) Game.playerHealth / Game.playerMaxHealth)), 36);
         // draws the players score in the top right corner
         g.setColor(Color.BLACK);
         g.setFont(new Font("SansSerif", Font.BOLD, 15));
-        // the math for the x moves the text to the left more for every digit in the score, making sure it never goes off screen
-        g.drawString("Score: " + Game.points, (((Game.characterPosX + 25) * 2) - (((int) Math.floor(Math.log10(Game.points) + 1) * 7) + 60)), 11);
+        // the math for the x moves the text to the left more for every digit in the
+        // score, making sure it never goes off screen
+        g.drawString("Score: " + Game.points,
+                (((Game.characterPosX + 25) * 2) - (((int) Math.floor(Math.log10(Game.points) + 1) * 7) + 60)), 11);
     }
 }
