@@ -60,6 +60,12 @@ public class Game implements MouseMotionListener {
         characterPosX = center.x - 25;
         characterPosY = center.y - 25;
 
+        // testing enemy
+        Game.spawns.add(new BasicSpawnPoint(100, 100));
+        Game.spawns.add(new BasicSpawnPoint(1000, 100));
+        Game.spawns.add(new BasicSpawnPoint(1000, 1000));
+        Game.spawns.add(new BasicSpawnPoint(100, 1000));
+
         // adds keyListener
         frame.addKeyListener(new KeyAdapter() {
             @Override

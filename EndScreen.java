@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,8 +20,8 @@ public class EndScreen implements ActionListener {
         endPanel.setBackground(Color.black);
         endPanel.setLayout(null);
 
-        endMessage.setBounds(340, 150, 200, 50);
-        endMessage.setFont(new Font("Serif", Font.ROMAN_BASELINE, 10));
+        endMessage.setBounds(335, 150, 200, 50);
+        endMessage.setFont(new Font("Serif", Font.ROMAN_BASELINE, 30));
         endMessage.setForeground(Color.red);
 
         restartButton.setBounds(350, 300, 100, 50);
@@ -61,5 +63,9 @@ public class EndScreen implements ActionListener {
         Game.vertical = false;
         Game.horizontal = false;
         Game.shop.reset();
+        Game.enemys = new ArrayList<>();
+        Game.gameTime = 0;
+        Game.spawnTime = 500;
+
     }
 }

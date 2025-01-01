@@ -48,12 +48,6 @@ public class StartScreen implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
-            // testing enemy
-            Game.spawns.add(new BasicSpawnPoint(100, 100));
-            Game.spawns.add(new BasicSpawnPoint(1000, 100));
-            Game.spawns.add(new BasicSpawnPoint(1000, 1000));
-            Game.spawns.add(new BasicSpawnPoint(100, 1000));
-            Game.enemys.remove(e);
             Game.characterPosX = Game.center.x - 25;
             Game.characterPosY = Game.center.y - 25;
             Game.openStartScreen = false;
