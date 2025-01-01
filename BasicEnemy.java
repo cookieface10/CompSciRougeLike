@@ -11,20 +11,24 @@ public class BasicEnemy {
     public int orientatedY;
     public double damage;
     public int attackTimer;
-    BasicEnemy(int totalHealth, double damage, int x,int y,float speeds,int charX,int charY){
+    public int xborder;
+    public int yborder;
+    BasicEnemy(int totalHealth, double damage, int x,int y,float speed, int xborder, int yborder){
         this.totalHealth = totalHealth;
         health = totalHealth;
         this.damage = damage;
         xPos=x;
         yPos=y;
-        speed=speeds;
-        playerX=charX;
-        playerY=charY;
+        this.speed=speed;
+        playerX=Game.characterPosX+25;
+        playerY=Game.characterPosY+25;
+        this.xborder = xborder;
+        this.yborder = yborder;
     }
     //move method
     public void move(){
         //calculates the x and y distance between the enemy and the player
-        float yDist = playerY-50-yPos-orientatedY;
+        float yDist = playerY-50-yPos+yborder-orientatedY;
         float xDist = playerX-25-xPos-orientatedX;
         //calculates the angle of the hypotanuse between the enemy and the player
         double angle = Math.atan2(yDist, xDist);
@@ -34,7 +38,7 @@ public class BasicEnemy {
         //checks every bullet
         for(BasicBullet b : Game.bullets){
             //if any part of the bullet is overlaping with this enemy
-            if(b.xPos+20>xPos && b.xPos<xPos+50 && b.yPos+20>yPos && b.yPos<yPos+100){
+            if(b.xPos+20>xPos && b.xPos<xPos+xborder && b.yPos+20>yPos && b.yPos<yPos+yborder){
                 //take damage
                 health-=b.damage;
                 //delete the bullet
