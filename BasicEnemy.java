@@ -19,9 +19,6 @@ public class BasicEnemy {
     public Color affect = Color.black;
     Timer timer = new Timer();
 
-    BasicEnemy() {
-    }
-
     BasicEnemy(int totalHealth, double damage, int x, int y, float speed, int xborder, int yborder) {
         this.totalHealth = totalHealth;
         health = totalHealth;
