@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 public class Shop implements ActionListener {
@@ -13,7 +12,6 @@ public class Shop implements ActionListener {
     JButton item1 = new JButton();
     JButton item2 = new JButton();
     JButton item3 = new JButton();
-
     int random1 = (int) (Math.random() * 7) + 1;
     int random2 = (int) (Math.random() * 7) + 1;
     int random3 = (int) (Math.random() * 7) + 1;
@@ -23,9 +21,8 @@ public class Shop implements ActionListener {
 
     int itemsBought = 0;
 
-    long price1 = 1000;
-    long price2 = 1000;
-    long price3 = 1000;
+    // Dimension getScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    // int height = (int) getScreenSize.getHeight();
 
     public Shop() {
         // Setting up shop UI when opened by player
@@ -37,10 +34,10 @@ public class Shop implements ActionListener {
         title.setFont(new Font("Serif", Font.PLAIN, 78));
         title.setForeground(Color.WHITE);
 
-        closeButton.setBounds(center.x - 125, 600, 250, 100);
         item1.setBounds(center.x - 400, center.y - 100, 200, 200);
         item2.setBounds(center.x - 100, center.y - 100, 200, 200);
         item3.setBounds(center.x + 200, center.y - 100, 200, 200);
+        closeButton.setBounds(center.x - 125, center.y + 200, 250, 100);
 
         item1.setText(itemTitle1);
         item2.setText(itemTitle2);
@@ -72,6 +69,18 @@ public class Shop implements ActionListener {
 
     // Action Listener for when player hits buttons in shop
     public void actionPerformed(ActionEvent e) {
+        // Checks to see if the first purchase button is clicked
+        if (e.getSource() == item1) {
+            buttonAction(ab.itemPrice(random1), itemTitle1, item1, random1);
+        }
+        // Same code as actionlistener for item button #1
+        if (e.getSource() == item2) {
+            buttonAction(ab.itemPrice(random2), itemTitle2, item2, random2);
+        }
+        // Same code as actionlistener for item button #1
+        if (e.getSource() == item3) {
+            buttonAction(ab.itemPrice(random3), itemTitle3, item3, random3);
+        }
         // Checks to see if the player hits the exit button
         if (e.getSource() == closeButton) {
             // If all of the items have been bought in the shop call for a reset on the
@@ -83,18 +92,6 @@ public class Shop implements ActionListener {
             Game.openShop = false;
             // Gets rid of the frame
             shopFrame.dispose();
-        }
-        // Checks to see if the first purchase button is clicked
-        if (e.getSource() == item1) {
-            buttonAction(price1, itemTitle1, item1, random1);
-        }
-        // Same code as actionlistener for item button #1
-        if (e.getSource() == item2) {
-            buttonAction(price2, itemTitle2, item2, random2);
-        }
-        // Same code as actionlistener for item button #1
-        if (e.getSource() == item3) {
-            buttonAction(price3, itemTitle3, item3, random3);
         }
     }
 
@@ -150,7 +147,7 @@ public class Shop implements ActionListener {
             item.setBackground(Color.green);
             item.setText("Purchased");
             item.setEnabled(false);
-            Game.points -= price1;
+            Game.points -= price;
             itemsBought++;
         } else {
             // Changes the UI to signify a player cannot buy anything

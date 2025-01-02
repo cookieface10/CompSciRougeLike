@@ -24,8 +24,8 @@ public class EndScreen implements ActionListener {
         endMessage.setFont(new Font("Serif", Font.ROMAN_BASELINE, 30));
         endMessage.setForeground(Color.red);
 
-        restartButton.setBounds(350, 300, 100, 50);
-        quitButton.setBounds(350, 350, 100, 50);
+        restartButton.setBounds(350, 250, 100, 50);
+        quitButton.setBounds(350, 310, 100, 50);
 
         restartButton.addActionListener(this);
         quitButton.addActionListener(this);
@@ -56,12 +56,19 @@ public class EndScreen implements ActionListener {
         endFrame.setVisible(false);
         Game.startScreen.startFrame.setVisible(true);
         Game.points = 0;
+        Game.playerMaxHealth = 20;
         Game.up = false;
         Game.down = false;
         Game.right = false;
         Game.left = false;
         Game.vertical = false;
         Game.horizontal = false;
+        Game.shop.ab.fireShotEnabled = false;
+        Game.shop.ab.iceShotEnabled = false;
+        Game.characterPosX = Game.center.x - 25;
+        Game.characterPosY = Game.center.y - 25;
+        Game.WorldPosX = Game.center.x;
+        Game.WorldPosY = 0;
         Game.shop.reset();
         Game.enemys = new ArrayList<>();
         Game.gameTime = 0;

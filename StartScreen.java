@@ -12,23 +12,23 @@ public class StartScreen implements ActionListener {
     JPanel startPanel = new JPanel();
     JButton startButton = new JButton("Start!");
     JButton exitButton = new JButton("Exit");
-    JLabel gameTitle = new JLabel("SuperDuper Astro Destroyer");
+    JLabel gameTitle = new JLabel("Block Survival");
     JLabel credits = new JLabel("By Ryan Mcgurrin and William Kim");
 
     public StartScreen() {
         startPanel.setBackground(Color.blue);
         startPanel.setLayout(null);
 
-        gameTitle.setBounds(340, 150, 200, 50);
-        gameTitle.setFont(new Font("Serif", Font.PLAIN, 10));
+        gameTitle.setBounds(315, 130, 200, 50);
+        gameTitle.setFont(new Font("Serif", Font.PLAIN, 30));
         gameTitle.setForeground(Color.WHITE);
 
-        credits.setBounds(330, 250, 200, 50);
-        credits.setFont(new Font("Serif", Font.PLAIN, 10));
+        credits.setBounds(300, 190, 300, 50);
+        credits.setFont(new Font("Serif", Font.PLAIN, 15));
         credits.setForeground(Color.WHITE);
 
-        startButton.setBounds(350, 300, 100, 50);
-        exitButton.setBounds(350, 350, 100, 50);
+        startButton.setBounds(350, 260, 100, 50);
+        exitButton.setBounds(350, 320, 100, 50);
 
         startButton.addActionListener(this);
         exitButton.addActionListener(this);
@@ -48,8 +48,6 @@ public class StartScreen implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
-            Game.characterPosX = Game.center.x - 25;
-            Game.characterPosY = Game.center.y - 25;
             Game.openStartScreen = false;
             startFrame.setVisible(false);
             Game.frame.setVisible(true);

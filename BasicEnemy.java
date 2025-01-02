@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.Timer;
 
 public class BasicEnemy {
     public boolean dead;
@@ -16,6 +17,10 @@ public class BasicEnemy {
     public int xborder;
     public int yborder;
     public Color affect = Color.black;
+    Timer timer = new Timer();
+
+    BasicEnemy() {
+    }
 
     BasicEnemy(int totalHealth, double damage, int x, int y, float speed, int xborder, int yborder) {
         this.totalHealth = totalHealth;
@@ -49,9 +54,15 @@ public class BasicEnemy {
                 health -= b.damage;
                 if (Game.shop.ab.fireShotEnabled == true) {
                     affect = new Color(176, 34, 2);
+                    health -= 2;
                 }
                 if (Game.shop.ab.iceShotEnabled == true) {
                     affect = new Color(2, 139, 189);
+                    speed--;
+                    if (speed < 0) {
+                        speed = 2;
+                        affect = Color.black;
+                    }
                 }
                 // delete the bullet
                 b.dead = true;

@@ -1,6 +1,9 @@
 public class Abillities {
     public boolean iceShotEnabled = false;
     public boolean fireShotEnabled = false;
+    long price1 = 0;
+    long price2 = 0;
+    long price3 = 0;
 
     public void heal() {
         Game.playerHealth = Game.playerMaxHealth;
@@ -47,5 +50,24 @@ public class Abillities {
             return "Fire Shot";
         }
         return null;
+    }
+
+    public int itemPrice(int random) {
+        if (random == 1) {
+            return 3000;
+        } else if (random == 2) {
+            return 10000;
+        } else if (random == 3) {
+            return 10000;
+        } else if (random == 4) {
+            return 10000;
+        } else if (random == 5) {
+            return 10000;
+        } else if (random == 6) {
+            return 25000;
+        } else if (random == 7) {
+            return 25000;
+        }
+        return 1;
     }
 }
