@@ -1,9 +1,16 @@
 public class Abillities {
     public boolean iceShotEnabled = false;
     public boolean fireShotEnabled = false;
-    long price1 = 0;
-    long price2 = 0;
-    long price3 = 0;
+    double price1 = 0;
+    double price2 = 0;
+    double price3 = 0;
+    double priceIncrease1 = 1.00;
+    double priceIncrease2 = 1.00;
+    double priceIncrease3 = 1.00;
+    double priceIncrease4 = 1.00;
+    double priceIncrease5 = 1.00;
+    double priceIncrease6 = 1.00;
+    double priceIncrease7 = 1.00;
 
     // Method that sets the players health back to full
     public void heal() {
@@ -67,19 +74,19 @@ public class Abillities {
     // return an integer price
     public int itemPrice(int random) {
         if (random == 1) {
-            return 0;
+            return (int) (0 * priceIncrease1);
         } else if (random == 2) {
-            return 0;
+            return (int) (0 * priceIncrease2);
         } else if (random == 3) {
-            return 0;
+            return (int) (0 * priceIncrease3);
         } else if (random == 4) {
-            return 0;
+            return (int) (0 * priceIncrease4);
         } else if (random == 5) {
-            return 0;
+            return (int) (0 * priceIncrease5);
         } else if (random == 6) {
-            return 0;
+            return (int) (0 * priceIncrease6);
         } else if (random == 7) {
-            return 0;
+            return (int) (0 * priceIncrease7);
         }
         return 1;
     }

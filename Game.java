@@ -65,7 +65,7 @@ public class Game implements MouseMotionListener {
         Game.spawns.add(new BasicSpawnPoint(1000, 100));
         Game.spawns.add(new BasicSpawnPoint(1000, 1000));
         Game.spawns.add(new BasicSpawnPoint(100, 1000));
-
+        frame.setFocusTraversalKeysEnabled(false);
         // adds keyListener
         frame.addKeyListener(new KeyAdapter() {
             @Override
@@ -91,8 +91,8 @@ public class Game implements MouseMotionListener {
                     down = true;
                     vertical = true;
                 }
-                // Press X button to open the shop menu and pause game
-                if (key == 88) {
+                // Press tab button to open the shop menu and pause game
+                if (key == 9) {
                     openShop = true;
                 }
             }
@@ -132,6 +132,7 @@ public class Game implements MouseMotionListener {
             if (openShop == true) {
                 // Makes the shop UI visible in a new frame that overlaps the main frame.
                 shop.shopFrame.setVisible(true);
+                shop.shopFrame.setFocusable(true);
                 // Stops all player movement
                 up = false;
                 down = false;
@@ -170,6 +171,7 @@ public class Game implements MouseMotionListener {
                 Thread.sleep(10);
                 // repeat
             }
+            Thread.sleep(10);
         }
     }
 

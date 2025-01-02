@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 import javax.swing.*;
 
 public class Shop implements ActionListener {
@@ -65,6 +67,30 @@ public class Shop implements ActionListener {
         shopFrame.setSize(800, 800);
         shopFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         shopFrame.setVisible(false);
+        shopFrame.setFocusTraversalKeysEnabled(false);
+
+        shopFrame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                int key = e.getKeyCode();
+                // Press tab button to open the shop menu and pause game
+                if (key == 9) {
+                    // If all of the items have been bought in the shop call for a reset on the
+                    // choices
+                    if (itemsBought >= 3) {
+                        reset();
+                    }
+                    // Set the shop to not open in the Game class unfreezing player and enemies
+                    Game.openShop = false;
+                    // Gets rid of the frame
+                    shopFrame.dispose();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
+        });
     }
 
     // Action Listener for when player hits buttons in shop
@@ -73,16 +99,19 @@ public class Shop implements ActionListener {
         if (e.getSource() == item1) {
             // Calls method that takes the randomly selected item information as arguements
             buttonAction(ab.itemPrice(random1), itemTitle1, item1, random1);
+            shopFrame.requestFocusInWindow();
         }
         // Same code as actionlistener for item button #1
         if (e.getSource() == item2) {
             // Calls method that takes the randomly selected item information as arguements
             buttonAction(ab.itemPrice(random2), itemTitle2, item2, random2);
+            shopFrame.requestFocusInWindow();
         }
         // Same code as actionlistener for item button #1
         if (e.getSource() == item3) {
             // Calls method that takes the randomly selected item information as arguements
             buttonAction(ab.itemPrice(random3), itemTitle3, item3, random3);
+            shopFrame.requestFocusInWindow();
         }
         // Checks to see if the player hits the exit button
         if (e.getSource() == closeButton) {
@@ -127,34 +156,37 @@ public class Shop implements ActionListener {
             // Checks to see if fire shot or ice shot has been activitated
             // If fire shot is true, then skip any ice shot buy options and change it to
             // fire shot
-            if (Game.shop.ab.fireShotEnabled == true) {
-                if (random == 6) {
-                    random++;
-                }
-
-            } else if (Game.shop.ab.iceShotEnabled == true) {
-                // Otherwise if ice shot is true, then skip any fire shot buy options and change
-                // it to ice shot
-                if (random == 7) {
-                    random--;
-                }
+            if (Game.shop.ab.fireShotEnabled == true && random == 6) {
+                random = 7;
+            }
+            // Otherwise if ice shot is true, then skip any fire shot buy options and change
+            // it to ice shot
+            if (Game.shop.ab.iceShotEnabled == true && random == 7) {
+                random = 6;
             }
             // Finds which of the 7 abilities was randomly choosen and then activates it
             // when purchased
             if (random == 1) {
                 ab.heal();
+                ab.priceIncrease1 += 0.5;
             } else if (random == 2) {
                 ab.attackIncrease();
+                ab.priceIncrease2 += 0.5;
             } else if (random == 3) {
                 ab.movementIncrease();
+                ab.priceIncrease3 += 0.5;
             } else if (random == 4) {
                 ab.increaseHealth();
+                ab.priceIncrease4 += 0.5;
             } else if (random == 5) {
                 ab.bulletSpeedIncrease();
+                ab.priceIncrease5 += 0.5;
             } else if (random == 6) {
                 ab.iceShot();
+                ab.priceIncrease6 += 0.5;
             } else if (random == 7) {
                 ab.fireShot();
+                ab.priceIncrease7 += 0.5;
             }
 
             /*
