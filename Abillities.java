@@ -67,19 +67,19 @@ public class Abillities {
     // return an integer price
     public int itemPrice(int random) {
         if (random == 1) {
-            return 3000;
+            return 0;
         } else if (random == 2) {
-            return 10000;
+            return 0;
         } else if (random == 3) {
-            return 10000;
+            return 0;
         } else if (random == 4) {
-            return 10000;
+            return 0;
         } else if (random == 5) {
-            return 10000;
+            return 0;
         } else if (random == 6) {
-            return 25000;
+            return 0;
         } else if (random == 7) {
-            return 25000;
+            return 0;
         }
         return 1;
     }

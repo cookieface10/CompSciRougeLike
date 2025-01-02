@@ -124,6 +124,19 @@ public class Shop implements ActionListener {
         // Check if the player has enough points to afford item and stops them if they
         // don't
         if (Game.points >= price) {
+            // Checks to see if fire shot or ice shot has been activitated
+            // If fire shot is true, then skip any ice shot buy options and change it to
+            // fire shot
+            if (Game.shop.ab.fireShotEnabled == true) {
+                if (random == 6) {
+                    random++;
+                }
+                // Otherwise if ice shot is true, then skip any fire shot buy options and change
+                // it to ice shot
+                if (random == 7) {
+                    random--;
+                }
+            }
             // Finds which of the 7 abilities was randomly choosen and then activates it
             // when purchased
             if (random == 1) {
