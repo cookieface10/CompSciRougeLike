@@ -71,14 +71,17 @@ public class Shop implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // Checks to see if the first purchase button is clicked
         if (e.getSource() == item1) {
+            // Calls method that takes the randomly selected item information as arguements
             buttonAction(ab.itemPrice(random1), itemTitle1, item1, random1);
         }
         // Same code as actionlistener for item button #1
         if (e.getSource() == item2) {
+            // Calls method that takes the randomly selected item information as arguements
             buttonAction(ab.itemPrice(random2), itemTitle2, item2, random2);
         }
         // Same code as actionlistener for item button #1
         if (e.getSource() == item3) {
+            // Calls method that takes the randomly selected item information as arguements
             buttonAction(ab.itemPrice(random3), itemTitle3, item3, random3);
         }
         // Checks to see if the player hits the exit button
@@ -121,7 +124,8 @@ public class Shop implements ActionListener {
         // Check if the player has enough points to afford item and stops them if they
         // don't
         if (Game.points >= price) {
-            // Finds what ability was randomly choosen and then activating once purchased
+            // Finds which of the 7 abilities was randomly choosen and then activates it
+            // when purchased
             if (random == 1) {
                 ab.heal();
             } else if (random == 2) {
@@ -153,7 +157,8 @@ public class Shop implements ActionListener {
             // Changes the UI to signify a player cannot buy anything
             item.setBackground(Color.red);
             item.setText("Cannot Buy!");
-            // Returns to UI to the original state after 2 seconds
+            // Returns to UI to the original state after 2 seconds using an Anynomous method
+            // as an arguement in an instance of the Timer class
             Timer timer = new Timer(2000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -161,6 +166,7 @@ public class Shop implements ActionListener {
                     item.setText(itemTitle);
                 }
             });
+            // Starts the timer delay
             timer.start();
         }
     }

@@ -5,34 +5,45 @@ public class Abillities {
     long price2 = 0;
     long price3 = 0;
 
+    // Method that sets the players health back to full
     public void heal() {
         Game.playerHealth = Game.playerMaxHealth;
     }
 
+    // Method that increases the speed a player moves at
     public void movementIncrease() {
         Game.speed += 1;
     }
 
+    // Method that increaes the players attack damage
     public void attackIncrease() {
         Game.damageBoost += 1;
     }
 
+    // Method that increases the max health a player can have
     public void increaseHealth() {
         Game.playerMaxHealth += 5;
     }
 
+    // Method that increases the speed a bullet travels at
     public void bulletSpeedIncrease() {
         Game.speedBoost++;
     }
 
+    // Enables the ice shot ability which give a basic enemy with a freezing affect
+    // when hit by a bullet
     public void iceShot() {
         iceShotEnabled = true;
     }
 
+    // Enables the fire shot ability which give a basic enemy with a burning affect
+    // when hit by a bullet
     public void fireShot() {
         fireShotEnabled = true;
     }
 
+    // Selects an item title at random by taking an integer random as the arguement
+    // return a string title
     public String randomSelectItemTitles(int random) {
         if (random == 1) {
             return "Heal";
@@ -52,6 +63,8 @@ public class Abillities {
         return null;
     }
 
+    // Selects an items price at random by taking an integer random as the arguement
+    // return an integer price
     public int itemPrice(int random) {
         if (random == 1) {
             return 3000;

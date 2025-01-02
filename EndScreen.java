@@ -17,6 +17,7 @@ public class EndScreen implements ActionListener {
     JLabel endMessage = new JLabel("You Died");
 
     public EndScreen() {
+        // Setting up GUI of death screen that player sees when they lose
         endPanel.setBackground(Color.black);
         endPanel.setLayout(null);
 
@@ -43,15 +44,21 @@ public class EndScreen implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        // If the player hits the restart button, set their health back to original
+        // state and call reset method
         if (e.getSource() == restartButton) {
             Game.playerHealth = 20;
             reset();
         }
+        // If player hits the quit button, close the thread and stop the game from
+        // running
         if (e.getSource() == quitButton) {
             System.exit(0);
         }
     }
 
+    // Method for setting all game variables and frames back to their original
+    // states as if the game was open for the first time
     public void reset() {
         endFrame.setVisible(false);
         Game.startScreen.startFrame.setVisible(true);
@@ -73,6 +80,5 @@ public class EndScreen implements ActionListener {
         Game.enemys = new ArrayList<>();
         Game.gameTime = 0;
         Game.spawnTime = 500;
-
     }
 }

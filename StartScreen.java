@@ -16,6 +16,8 @@ public class StartScreen implements ActionListener {
     JLabel credits = new JLabel("By Ryan Mcgurrin and William Kim");
 
     public StartScreen() {
+        // Setting up GUI of the start screen, including game title, credits and start
+        // and quit buttons
         startPanel.setBackground(Color.blue);
         startPanel.setLayout(null);
 
@@ -47,11 +49,14 @@ public class StartScreen implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        // If the start button is pressed, hid the start screen and make the main game
+        // frame visible
         if (e.getSource() == startButton) {
             Game.openStartScreen = false;
             startFrame.setVisible(false);
             Game.frame.setVisible(true);
         }
+        // If the exit button is pressed close the thread and stop running the game
         if (e.getSource() == exitButton) {
             System.exit(0);
         }

@@ -52,13 +52,21 @@ public class BasicEnemy {
             if (b.xPos + 20 > xPos && b.xPos < xPos + xborder && b.yPos + 20 > yPos && b.yPos < yPos + yborder) {
                 // take damage
                 health -= b.damage;
+                // If the player has bought the fireshot ability, add an effect to their bullets
+                // and deal additional damage
                 if (Game.shop.ab.fireShotEnabled == true) {
+                    // changes enemy outline to the color of fire
                     affect = new Color(176, 34, 2);
                     health -= 2;
                 }
+                // If the player has bought the iceshot ability, add an effect to their bullets
+                // that slows the hit enemies
                 if (Game.shop.ab.iceShotEnabled == true) {
+                    // changes the enemy outline to the color of ice
                     affect = new Color(2, 139, 189);
                     speed--;
+                    // If the enemy's speed is less than 0, then reset their speed and remove the
+                    // effect
                     if (speed < 0) {
                         speed = 2;
                         affect = Color.black;
