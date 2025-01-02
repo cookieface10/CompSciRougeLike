@@ -131,6 +131,8 @@ public class Shop implements ActionListener {
                 if (random == 6) {
                     random++;
                 }
+
+            } else if (Game.shop.ab.iceShotEnabled == true) {
                 // Otherwise if ice shot is true, then skip any fire shot buy options and change
                 // it to ice shot
                 if (random == 7) {

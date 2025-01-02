@@ -76,7 +76,6 @@ public class EndScreen implements ActionListener {
         Game.characterPosY = Game.center.y - 25;
         Game.WorldPosX = Game.center.x;
         Game.WorldPosY = 0;
-        Game.shop.reset();
         Game.enemys = new ArrayList<>();
         Game.gameTime = 0;
         Game.spawnTime = 500;
