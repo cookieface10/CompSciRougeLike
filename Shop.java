@@ -100,9 +100,7 @@ public class Shop implements ActionListener {
                 if (key == 9) {
                     // If all of the items have been bought in the shop call for a reset on the
                     // choices
-                    if (itemsBought >= 3) {
-                        reset();
-                    }
+                    reset();
                     // Set the shop to not open in the Game class unfreezing player and enemies
                     Game.openShop = false;
                     // Gets rid of the frame
@@ -139,11 +137,8 @@ public class Shop implements ActionListener {
         }
         // Checks to see if the player hits the exit button
         if (e.getSource() == closeButton) {
-            // If all of the items have been bought in the shop call for a reset on the
-            // choices
-            if (itemsBought >= 3) {
-                reset();
-            }
+            // reset shop choice
+            reset();
             // Set the shop to not open in the Game class unfreezing player and enemies
             Game.openShop = false;
             // Gets rid of the frame
@@ -249,9 +244,11 @@ public class Shop implements ActionListener {
             } else if (random == 6) {
                 ab.iceShot();
                 ab.priceIncrease6 += 0.5;
+                ab.iceShotTimesBought++;
             } else if (random == 7) {
                 ab.fireShot();
                 ab.priceIncrease7 += 0.5;
+                ab.fireShotTimesBought++;
             }
 
             /*

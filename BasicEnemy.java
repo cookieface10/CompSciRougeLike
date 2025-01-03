@@ -7,6 +7,7 @@ public class BasicEnemy {
     public float xPos;
     public float yPos;
     public float speed;
+    public int fireDamage = 0;
     public int playerX;
     public int playerY;
     public int orientatedX;
@@ -17,6 +18,7 @@ public class BasicEnemy {
     public int yborder;
     public Color affect = Color.black;
     public boolean onFire;
+    public boolean frozen;
     public int fireTicker;
 
     BasicEnemy(int totalHealth, double damage, int x, int y, float speed, int xborder, int yborder) {
@@ -45,12 +47,13 @@ public class BasicEnemy {
         xPos += Math.cos(angle) * speed;
         yPos += Math.sin(angle) * speed;
         checkBullet();
-        if(onFire){
+        if (onFire) {
             fireTick();
         }
         checkHealth();
     }
-    public void checkBullet(){
+
+    public void checkBullet() {
         // checks every bullet
         for (BasicBullet b : Game.bullets) {
             // if any part of the bullet is overlaping with this enemy
@@ -62,6 +65,7 @@ public class BasicEnemy {
                 if (Game.shop.ab.fireShotEnabled == true) {
                     // changes enemy outline to the color of fire
                     affect = new Color(176, 34, 2);
+                    // Sets the passibe damage ticker to true
                     onFire = true;
                 }
                 // If the player has bought the iceshot ability, add an effect to their bullets
@@ -69,12 +73,11 @@ public class BasicEnemy {
                 if (Game.shop.ab.iceShotEnabled == true) {
                     // changes the enemy outline to the color of ice
                     affect = new Color(2, 139, 189);
-                    speed--;
-                    // If the enemy's speed is less than 0, then reset their speed and remove the
-                    // effect
-                    if (speed < 0) {
-                        speed = 2;
-                        affect = Color.black;
+                    // Checks how many times ice shot has been bought and decreases the enemy speed
+                    // accordingly
+                    if (!frozen) {
+                        speed /= (Game.shop.ab.iceShotTimesBought + 1);
+                        frozen = true;
                     }
                 }
                 // delete the bullet
@@ -82,7 +85,8 @@ public class BasicEnemy {
             }
         }
     }
-    public void checkHealth(){
+
+    public void checkHealth() {
         // if health is less then or = to 0
         if (health <= 0) {
             // loop 10 times
@@ -94,13 +98,15 @@ public class BasicEnemy {
             dead = true;
         }
     }
-    public void fireTick(){
+
+    public void fireTick() {
         fireTicker--;
-        if(fireTicker <= 0){
-            health-= 1;
+        if (fireTicker <= 0) {
+            health -= Game.shop.ab.fireShotTimesBought;
             fireTicker = 50;
         }
     }
+
     public void attack() {
         Game.playerHealth -= damage;
     }

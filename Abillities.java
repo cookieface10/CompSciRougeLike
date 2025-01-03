@@ -4,6 +4,8 @@ public class Abillities {
     double price1 = 0;
     double price2 = 0;
     double price3 = 0;
+    int iceShotTimesBought = 0;
+    int fireShotTimesBought = 0;
     double priceIncrease1 = 1.00;
     double priceIncrease2 = 1.00;
     double priceIncrease3 = 1.00;
