@@ -21,8 +21,8 @@ public class Shop implements ActionListener {
     String itemTitle1 = ab.randomSelectItemTitles(random1);
     String itemTitle2 = ab.randomSelectItemTitles(random2);
     String itemTitle3 = ab.randomSelectItemTitles(random3);
-
-    int itemsBought = 0;
+    public boolean resetOnce;
+    Timer resetDelay;
 
     public Shop() {
         // Checks to see if fire shot and ice shot were randomly selected at the same
@@ -98,9 +98,6 @@ public class Shop implements ActionListener {
                 int key = e.getKeyCode();
                 // Press tab button to close the shop menu and unpause game
                 if (key == 9) {
-                    // If all of the items have been bought in the shop call for a reset on the
-                    // choices
-                    reset();
                     // Set the shop to not open in the Game class unfreezing player and enemies
                     Game.openShop = false;
                     // Gets rid of the frame
@@ -137,87 +134,11 @@ public class Shop implements ActionListener {
         }
         // Checks to see if the player hits the exit button
         if (e.getSource() == closeButton) {
-            // reset shop choice
-            reset();
             // Set the shop to not open in the Game class unfreezing player and enemies
             Game.openShop = false;
             // Gets rid of the frame
             shopFrame.dispose();
         }
-    }
-
-    public void reset() {
-        // Reactivates buttons so they can be used
-        item1.setEnabled(true);
-        item2.setEnabled(true);
-        item3.setEnabled(true);
-        // Reselecting a new set of items for sale
-        random1 = (int) (Math.random() * 7) + 1;
-        random2 = (int) (Math.random() * 7) + 1;
-        random3 = (int) (Math.random() * 7) + 1;
-        // Checks to see if fire shot and ice shot were randomly selected at the same
-        // time during shop reset
-        // If both ice shot and fire shot are options the player rolls, do another
-        // reroll tie breaker
-        // and set it equal to either only ice shot or fire shot
-        if ((random1 == 7 && random2 == 6) || (random1 == 6 && random2 == 7)) {
-            random1 = randomTieBreaker;
-            random2 = randomTieBreaker;
-            itemTitle1 = ab.randomSelectItemTitles(random1);
-            itemTitle2 = ab.randomSelectItemTitles(random1);
-
-        }
-        if ((random2 == 7 && random3 == 6) || (random2 == 6 && random3 == 7)) {
-            random2 = randomTieBreaker;
-            random3 = randomTieBreaker;
-            itemTitle2 = ab.randomSelectItemTitles(random2);
-            itemTitle3 = ab.randomSelectItemTitles(random3);
-        }
-        if ((random1 == 7 && random3 == 6) || (random1 == 6 && random3 == 7)) {
-            random1 = randomTieBreaker;
-            random3 = randomTieBreaker;
-            itemTitle1 = ab.randomSelectItemTitles(random2);
-            itemTitle3 = ab.randomSelectItemTitles(random3);
-        }
-        // Checks to see if fire shot or ice shot has been activitated
-        // If fire shot is true, then skip any ice shot buy options and change it to
-        // fire shot
-        if (Game.shop.ab.fireShotEnabled == true) {
-            if (random1 == 6) {
-                random1 = 7;
-            }
-            if (random2 == 6) {
-                random2 = 7;
-            }
-            if (random3 == 6) {
-                random3 = 7;
-            }
-        }
-        // Otherwise if ice shot is true, then skip any fire shot buy options and change
-        // it to ice shot
-        if (Game.shop.ab.iceShotEnabled == true) {
-            if (random1 == 7) {
-                random1 = 6;
-            }
-            if (random2 == 7) {
-                random2 = 6;
-            }
-            if (random3 == 7) {
-                random3 = 6;
-            }
-        }
-
-        // Resets all of the buttons with new UI after
-        itemTitle1 = ab.randomSelectItemTitles(random1);
-        itemTitle2 = ab.randomSelectItemTitles(random2);
-        itemTitle3 = ab.randomSelectItemTitles(random3);
-        item1.setText(itemTitle1);
-        item2.setText(itemTitle2);
-        item3.setText(itemTitle3);
-        item1.setBackground(Color.WHITE);
-        item2.setBackground(Color.WHITE);
-        item3.setBackground(Color.WHITE);
-        itemsBought = 0;
     }
 
     public void buttonAction(long price, String itemTitle, JButton item, int random) {
@@ -261,7 +182,20 @@ public class Shop implements ActionListener {
             item.setText("Purchased");
             item.setEnabled(false);
             Game.points -= price;
-            itemsBought++;
+            resetOnce = false;
+            resetDelay = new Timer(2000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    reset(itemTitle, item, random);
+                    resetOnce = true;
+                    if (resetOnce) {
+                        resetDelay.stop();
+                    }
+                }
+            });
+            // Starts the timer delay
+            resetDelay.start();
+
         } else {
             // Changes the UI to signify a player cannot buy anything
             item.setBackground(Color.red);
@@ -278,5 +212,32 @@ public class Shop implements ActionListener {
             // Starts the timer delay
             timer.start();
         }
+    }
+
+    public void reset(String itemTitle, JButton item, int random) {
+        // Reactivates buttons so they can be used
+        item.setEnabled(true);
+        // Reselecting a new set of items for sale
+        random = (int) (Math.random() * 7) + 1;
+        // Checks to see if fire shot or ice shot has been activitated
+        // If fire shot is true, then skip any ice shot buy options and change it to
+        // fire shot
+        if (Game.shop.ab.fireShotEnabled == true) {
+            if (random == 6) {
+                random = 7;
+            }
+        }
+        // Otherwise if ice shot is true, then skip any fire shot buy options and change
+        // it to ice shot
+        if (Game.shop.ab.iceShotEnabled == true) {
+            if (random == 7) {
+                random = 6;
+            }
+        }
+        // Resets all of the buttons with new UI after
+        itemTitle = ab.randomSelectItemTitles(random);
+        item.setText(itemTitle);
+        item.setBackground(Color.WHITE);
+
     }
 }
