@@ -21,8 +21,12 @@ public class Shop implements ActionListener {
     String itemTitle1 = ab.randomSelectItemTitles(random1);
     String itemTitle2 = ab.randomSelectItemTitles(random2);
     String itemTitle3 = ab.randomSelectItemTitles(random3);
-    public boolean resetOnce;
-    Timer resetDelay;
+    public boolean resetOnceItem1;
+    public boolean resetOnceItem2;
+    public boolean resetOnceItem3;
+    Timer resetDelay1;
+    Timer resetDelay2;
+    Timer resetDelay3;
 
     public Shop() {
         // Checks to see if fire shot and ice shot were randomly selected at the same
@@ -117,19 +121,19 @@ public class Shop implements ActionListener {
         // Checks to see if the first purchase button is clicked
         if (e.getSource() == item1) {
             // Calls method that takes the randomly selected item information as arguements
-            buttonAction(ab.itemPrice(random1), itemTitle1, item1, random1);
+            buttonAction(ab.itemPrice(random1), itemTitle1, item1, random1, 1);
             shopFrame.requestFocusInWindow();
         }
         // Same code as actionlistener for item button #1
         if (e.getSource() == item2) {
             // Calls method that takes the randomly selected item information as arguements
-            buttonAction(ab.itemPrice(random2), itemTitle2, item2, random2);
+            buttonAction(ab.itemPrice(random2), itemTitle2, item2, random2, 2);
             shopFrame.requestFocusInWindow();
         }
         // Same code as actionlistener for item button #1
         if (e.getSource() == item3) {
             // Calls method that takes the randomly selected item information as arguements
-            buttonAction(ab.itemPrice(random3), itemTitle3, item3, random3);
+            buttonAction(ab.itemPrice(random3), itemTitle3, item3, random3, 3);
             shopFrame.requestFocusInWindow();
         }
         // Checks to see if the player hits the exit button
@@ -141,7 +145,7 @@ public class Shop implements ActionListener {
         }
     }
 
-    public void buttonAction(long price, String itemTitle, JButton item, int random) {
+    public void buttonAction(long price, String itemTitle, JButton item, int random, int timerChoice) {
         // Check if the player has enough points to afford item and stops them if they
         // don't
         if (Game.points >= price) {
@@ -182,19 +186,51 @@ public class Shop implements ActionListener {
             item.setText("Purchased");
             item.setEnabled(false);
             Game.points -= price;
-            resetOnce = false;
-            resetDelay = new Timer(2000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    reset(itemTitle, item, random);
-                    resetOnce = true;
-                    if (resetOnce) {
-                        resetDelay.stop();
+            if (timerChoice == 1) {
+                resetOnceItem1 = false;
+                resetDelay1 = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        reset(itemTitle, item, random);
+                        resetOnceItem1 = true;
+                        if (resetOnceItem1) {
+                            resetDelay1.stop();
+                        }
                     }
-                }
-            });
-            // Starts the timer delay
-            resetDelay.start();
+                });
+                // Starts the timer delay
+                resetDelay1.start();
+            }
+            if (timerChoice == 2) {
+                resetOnceItem2 = false;
+                resetDelay2 = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        reset(itemTitle, item, random);
+                        resetOnceItem2 = true;
+                        if (resetOnceItem2) {
+                            resetDelay2.stop();
+                        }
+                    }
+                });
+                // Starts the timer delay
+                resetDelay2.start();
+            }
+            if (timerChoice == 3) {
+                resetOnceItem3 = false;
+                resetDelay3 = new Timer(2000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        reset(itemTitle, item, random);
+                        resetOnceItem3 = true;
+                        if (resetOnceItem3) {
+                            resetDelay3.stop();
+                        }
+                    }
+                });
+                // Starts the timer delay
+                resetDelay3.start();
+            }
 
         } else {
             // Changes the UI to signify a player cannot buy anything
