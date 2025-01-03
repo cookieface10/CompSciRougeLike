@@ -47,10 +47,6 @@ public class BasicEnemy {
         xPos += Math.cos(angle) * speed;
         yPos += Math.sin(angle) * speed;
         checkBullet();
-        if (onFire) {
-            fireTick();
-        }
-        checkHealth();
     }
 
     public void checkBullet() {
@@ -84,6 +80,10 @@ public class BasicEnemy {
                 b.dead = true;
             }
         }
+        if(onFire){
+            fireTick();
+        }
+        checkHealth();
     }
 
     public void checkHealth() {
