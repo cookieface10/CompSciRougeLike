@@ -75,6 +75,7 @@ public class Game implements MouseMotionListener {
                 if (key == 65 || key == 37) {
                     left = true;
                     horizontal = true;
+                    System.out.println("a");
                 }
                 // d or -> //
                 else if (key == 68 || key == 39) {
@@ -250,9 +251,8 @@ class ShapeDrawing extends JComponent {
             // this moves the bullet
             b.Move();
             // this draws the bullet at the new location
-            g.fillRect((int) Math.round(b.xPos) + (orientatedXWorldPosition),
-                    (int) Math.round(b.yPos) + (orientatedYWorldPosition), 20, 20);
-            // if the bullet dies (happens when it hits a enemy, or goes off screen)wwwww it
+            g.fillRect((int) Math.round(b.xPos) + (orientatedXWorldPosition), (int) Math.round(b.yPos) + (orientatedYWorldPosition), 20, 20);
+            // if the bullet dies (happens when it hits a enemy, or goes off screen) it
             // will remove it from the list, compleatly removing its exsitince from the game
             if (b.dead) {
                 Game.bullets.remove(b);
@@ -270,31 +270,20 @@ class ShapeDrawing extends JComponent {
             if (e instanceof SlimeEnemy) { // size(50,35)
                 SlimeEnemy s = (SlimeEnemy) e;
                 g.setColor(s.c);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 40, 25);// body color
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 5, 40, 25);// body color
                 g.setColor(Color.white);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// higer shine
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 5);// lower shine
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10, Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// higer shine
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 5);// lower shine
                 g.setColor(Color.black);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// left eye
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 30,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// right eye
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15, Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// left eye
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 30, Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// right eye
                 g.setColor(e.affect);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// left corner
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 40,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// right corner
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// left side
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 45,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// right side
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
-                        Math.round(e.yPos) + orientatedYWorldPosition + 30, 40, 5);// bottom
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10,
-                        Math.round(e.yPos) + orientatedYWorldPosition, 30, 5);// top
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// left corner
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 40, Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// right corner
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition, Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// left side
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 45, Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// right side
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 30, 40, 5);// bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10, Math.round(e.yPos) + orientatedYWorldPosition, 30, 5);// top
             }
             // and there health bars
             g.setColor(new Color(20, 20, 20));
@@ -343,13 +332,12 @@ class ShapeDrawing extends JComponent {
             spawner.spawn();
             // resets the spawn time, to a random number that will decreasingly get lower
             // over time (the longer you play, the more enemys spawn)
-            Game.spawnTime = (long) Game.rand.nextDouble() * (500 - (Game.gameTime / 100)) + 250
-                    - (Game.gameTime / 100);
+            Game.spawnTime = (long) Game.rand.nextDouble() * (500 - (Game.gameTime / 100)) + 250 - (Game.gameTime / 100);
             // if the spawn time randomiser ends up to low (going into the negitives) just
             // set it back to a max of 1 (10 millisecods) enemys will never spawn faster
             // then that because of this
-            if (Game.spawnTime <= 5) {
-                Game.spawnTime = 80;
+            if(Game.spawnTime > 5){//if (Game.spawnTime <= 5) {
+                Game.spawnTime = 5;
             }
         }
         // Enemy Scaling

@@ -34,10 +34,10 @@ public class PointOrbs {
             //calculates the angle of the hypotanuse between the enemy and the player
             double angle = Math.atan2(yDist, xDist);
             //moves by x and y component of the hypotinouse if the triangle was shrunk to make the hypotanuse 1
-            x += Math.cos(angle)*20;
-            y += Math.sin(angle)*20;
+            x += Math.cos(angle)*30;
+            y += Math.sin(angle)*30;
             //if its touching the player
-            if(Game.characterPosY+15<y+orientatedY+10 && Game.characterPosY+35>y+orientatedY && Game.characterPosX+15<x+orientatedX+10 && Game.characterPosX+35>x+orientatedX){
+            if(Game.characterPosY<y+orientatedY+10 && Game.characterPosY+50>y+orientatedY && Game.characterPosX<x+orientatedX+10 && Game.characterPosX+50>x+orientatedX){
                 //add to the amount of times its swirled around the player
                 swirlCount++;
                 //if that count hits 5

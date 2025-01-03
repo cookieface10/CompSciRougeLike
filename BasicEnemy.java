@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.util.Timer;
 
 public class BasicEnemy {
     public boolean dead;
@@ -17,7 +16,8 @@ public class BasicEnemy {
     public int xborder;
     public int yborder;
     public Color affect = Color.black;
-    Timer timer = new Timer();
+    public boolean onFire;
+    public int fireTicker;
 
     BasicEnemy(int totalHealth, double damage, int x, int y, float speed, int xborder, int yborder) {
         this.totalHealth = totalHealth;
@@ -30,6 +30,7 @@ public class BasicEnemy {
         playerY = Game.characterPosY + 25;
         this.xborder = xborder;
         this.yborder = yborder;
+        fireTicker = 50;
     }
 
     // move method
@@ -43,6 +44,13 @@ public class BasicEnemy {
         // make the hypotanuse 1
         xPos += Math.cos(angle) * speed;
         yPos += Math.sin(angle) * speed;
+        checkBullet();
+        if(onFire){
+            fireTick();
+        }
+        checkHealth();
+    }
+    public void checkBullet(){
         // checks every bullet
         for (BasicBullet b : Game.bullets) {
             // if any part of the bullet is overlaping with this enemy
@@ -54,7 +62,7 @@ public class BasicEnemy {
                 if (Game.shop.ab.fireShotEnabled == true) {
                     // changes enemy outline to the color of fire
                     affect = new Color(176, 34, 2);
-                    health -= 2;
+                    onFire = true;
                 }
                 // If the player has bought the iceshot ability, add an effect to their bullets
                 // that slows the hit enemies
@@ -73,6 +81,8 @@ public class BasicEnemy {
                 b.dead = true;
             }
         }
+    }
+    public void checkHealth(){
         // if health is less then or = to 0
         if (health <= 0) {
             // loop 10 times
@@ -84,7 +94,13 @@ public class BasicEnemy {
             dead = true;
         }
     }
-
+    public void fireTick(){
+        fireTicker--;
+        if(fireTicker <= 0){
+            health-= 1;
+            fireTicker = 50;
+        }
+    }
     public void attack() {
         Game.playerHealth -= damage;
     }
