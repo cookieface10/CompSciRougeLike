@@ -45,9 +45,5 @@ public class SlimeEnemy extends BasicEnemy {
             }
         }
         checkBullet();
-        if (onFire) {
-            fireTick();
-        }
-        checkHealth();
     }
 }

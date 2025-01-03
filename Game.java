@@ -285,12 +285,37 @@ class ShapeDrawing extends JComponent {
                 g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 30, 40, 5);// bottom
                 g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10, Math.round(e.yPos) + orientatedYWorldPosition, 30, 5);// top
             }
+            else if(e instanceof BatEnemy){
+                g.setColor(new Color(70,70,70));
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+12, 9, 3); //part of body
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+3, Math.round(e.yPos) + orientatedYWorldPosition+6, 33, 6); //wings
+                g.setColor(new Color(237, 28, 36));
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 3); //eyes
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+21, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 3); //eyes
+                g.setColor(e.affect);
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+3, 9, 3); //top of head
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+15, 9, 3); //bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+12, Math.round(e.yPos) + orientatedYWorldPosition, 3, 18); //left side body
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+24, Math.round(e.yPos) + orientatedYWorldPosition, 3, 18); //right side body
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+18, 3, 3); //left foot
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+21, Math.round(e.yPos) + orientatedYWorldPosition+18, 3, 3); //right foot
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 9); //left side wing
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+3, Math.round(e.yPos) + orientatedYWorldPosition+3, 6, 3); //left wing top
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+3, Math.round(e.yPos) + orientatedYWorldPosition+9, 6, 3); //left wing bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+9, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 3); //left wing top connector
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+9, Math.round(e.yPos) + orientatedYWorldPosition+12, 3, 3); //left wing bottom connector
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+36, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 9); //right side wing
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+30, Math.round(e.yPos) + orientatedYWorldPosition+3, 6, 3); //right wing top
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+30, Math.round(e.yPos) + orientatedYWorldPosition+9, 6, 3); //right wing bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+27, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 3); //right wing top connector
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+27, Math.round(e.yPos) + orientatedYWorldPosition+12, 3, 3); //right wing bottom connector
+            }
             // and there health bars
             g.setColor(new Color(20, 20, 20));
-            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 5,
+            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 5+((e.xborder-50)/2),
                     Math.round(e.yPos) + orientatedYWorldPosition - 50, 60, 20);
             g.setColor(new Color(150, 20, 20));
-            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 3,
+            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 3+((e.xborder-50)/2),
                     Math.round(e.yPos) + orientatedYWorldPosition - 48,
                     (int) Math.round(56 * ((double) e.health / e.totalHealth)), 16);
             // if the attack is on cooldown, decrees the timer
@@ -336,7 +361,8 @@ class ShapeDrawing extends JComponent {
             // if the spawn time randomiser ends up to low (going into the negitives) just
             // set it back to a max of 1 (10 millisecods) enemys will never spawn faster
             // then that because of this
-            if(Game.spawnTime > 5){//if (Game.spawnTime <= 5) {
+            //if(Game.spawnTime > 5){ ///// FOR TESTING
+            if (Game.spawnTime <= 5) {
                 Game.spawnTime = 5;
             }
         }
