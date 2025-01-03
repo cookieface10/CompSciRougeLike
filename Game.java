@@ -17,6 +17,9 @@ public class Game implements MouseMotionListener {
     public static boolean down = false;
     public static boolean horizontal = false;
     public static boolean vertical = false;
+    public static boolean shooting =false;
+    public static int bulletCooldown =0;
+    public static boolean coyoteShot =false;
     public static boolean openShop = false;
     public static boolean openStartScreen = true;
     public static int characterPosX = 0;
@@ -143,7 +146,7 @@ public class Game implements MouseMotionListener {
                 horizontal = false;
             }
             // Runs the main game while the shop menu is not opened
-            while (openShop != true) {
+            else{
                 // redraw the frame
                 frame.repaint();
 
@@ -164,15 +167,21 @@ public class Game implements MouseMotionListener {
                 if (down) {
                     WorldPosY += normalizedSpeed;
                 }
+                if(bulletCooldown>0){bulletCooldown--;}
+                if(shooting && bulletCooldown == 0 || coyoteShot && bulletCooldown==0){
+                    // creates a new bullet, and puts it in the arrayList
+                    Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5 + Game.speedBoost, Game.WorldPosX, Game.WorldPosY,Game.x-20, Game.y-20, Game.characterPosX, Game.characterPosY));
+                    coyoteShot = false;
+                    bulletCooldown = 25;
+                }
                 if (playerHealth <= 0) {
                     endScreen.endFrame.setVisible(true);
                     frame.setVisible(false);
                 }
-                // wait 10 milliseconds
-                Thread.sleep(10);
-                // repeat
             }
+            // wait 10 milliseconds
             Thread.sleep(10);
+            // repeat
         }
     }
 
@@ -207,13 +216,15 @@ class CoolMouseEvents implements MouseListener {
     // clicked
     @Override
     public void mousePressed(MouseEvent e) {
-        // creates a new bullet, and puts it in the arrayList
-        Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5 + Game.speedBoost, Game.WorldPosX, Game.WorldPosY,
-                Game.x, Game.y, Game.characterPosX, Game.characterPosY));
+        Game.shooting = true;
+        if(Game.bulletCooldown <= 15){
+            Game.coyoteShot = true;
+        }
     }
-
+    // release click
     @Override
     public void mouseReleased(MouseEvent e) {
+        Game.shooting = false;
     }
 }
 

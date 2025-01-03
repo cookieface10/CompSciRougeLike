@@ -53,7 +53,7 @@ public class BasicEnemy {
         // checks every bullet
         for (BasicBullet b : Game.bullets) {
             // if any part of the bullet is overlaping with this enemy
-            if (b.xPos + 20 > xPos && b.xPos < xPos + xborder && b.yPos + 20 > yPos && b.yPos < yPos + yborder) {
+            if (b.xPos + 10 > xPos && b.xPos-10 < xPos + xborder && b.yPos + 10 > yPos && b.yPos-10 < yPos + yborder) {
                 // take damage
                 health -= b.damage;
                 // If the player has bought the fireshot ability, add an effect to their bullets
