@@ -17,9 +17,9 @@ public class Game implements MouseMotionListener {
     public static boolean down = false;
     public static boolean horizontal = false;
     public static boolean vertical = false;
-    public static boolean shooting =false;
-    public static int bulletCooldown =0;
-    public static boolean coyoteShot =false;
+    public static boolean shooting = false;
+    public static int bulletCooldown = 0;
+    public static boolean coyoteShot = false;
     public static boolean openShop = false;
     public static boolean openStartScreen = true;
     public static int characterPosX = 0;
@@ -128,6 +128,7 @@ public class Game implements MouseMotionListener {
         });
         // Game loop
         while (true) {
+            // If startscreen is true, make main game invisible and start screen visible
             if (openStartScreen == true) {
                 startScreen.startFrame.setVisible(true);
                 frame.setVisible(false);
@@ -146,7 +147,7 @@ public class Game implements MouseMotionListener {
                 horizontal = false;
             }
             // Runs the main game while the shop menu is not opened
-            else{
+            else {
                 // redraw the frame
                 frame.repaint();
 
@@ -167,14 +168,20 @@ public class Game implements MouseMotionListener {
                 if (down) {
                     WorldPosY += normalizedSpeed;
                 }
-                if(bulletCooldown>0){bulletCooldown--;}
-                if(shooting && bulletCooldown == 0 || coyoteShot && bulletCooldown==0){
-                    // creates a new bullet, and puts it in the arrayList
-                    Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5 + Game.speedBoost, Game.WorldPosX, Game.WorldPosY,Game.x-20, Game.y-20, Game.characterPosX, Game.characterPosY));
-                    coyoteShot = false;
-                    bulletCooldown = 25;
+                if (bulletCooldown > 0) {
+                    bulletCooldown--;
                 }
+                if (shooting && bulletCooldown == 0 || coyoteShot && bulletCooldown == 0) {
+                    // creates a new bullet, and puts it in the arrayList
+                    Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5 + Game.speedBoost, Game.WorldPosX,
+                            Game.WorldPosY, Game.x - 20, Game.y - 20, Game.characterPosX, Game.characterPosY));
+                    coyoteShot = false;
+                    // sets the bullet cooldown to default bulletdelay of 25
+                    bulletCooldown = Game.shop.ab.bulletDelay;
+                }
+                // If player health is less than or equal to 0
                 if (playerHealth <= 0) {
+                    // Make end screen visible and main game invisible
                     endScreen.endFrame.setVisible(true);
                     frame.setVisible(false);
                 }
@@ -217,10 +224,11 @@ class CoolMouseEvents implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         Game.shooting = true;
-        if(Game.bulletCooldown <= 15){
+        if (Game.bulletCooldown <= 15) {
             Game.coyoteShot = true;
         }
     }
+
     // release click
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -262,7 +270,8 @@ class ShapeDrawing extends JComponent {
             // this moves the bullet
             b.Move();
             // this draws the bullet at the new location
-            g.fillRect((int) Math.round(b.xPos) + (orientatedXWorldPosition), (int) Math.round(b.yPos) + (orientatedYWorldPosition), 20, 20);
+            g.fillRect((int) Math.round(b.xPos) + (orientatedXWorldPosition),
+                    (int) Math.round(b.yPos) + (orientatedYWorldPosition), 20, 20);
             // if the bullet dies (happens when it hits a enemy, or goes off screen) it
             // will remove it from the list, compleatly removing its exsitince from the game
             if (b.dead) {
@@ -281,52 +290,82 @@ class ShapeDrawing extends JComponent {
             if (e instanceof SlimeEnemy) { // size(50,35)
                 SlimeEnemy s = (SlimeEnemy) e;
                 g.setColor(s.c);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 5, 40, 25);// body color
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 40, 25);// body color
                 g.setColor(Color.white);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10, Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// higer shine
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 5);// lower shine
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// higer shine
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 5);// lower shine
                 g.setColor(Color.black);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15, Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// left eye
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 30, Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// right eye
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// left eye
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 30,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 15, 5, 5);// right eye
                 g.setColor(e.affect);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// left corner
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 40, Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// right corner
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition, Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// left side
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 45, Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// right side
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5, Math.round(e.yPos) + orientatedYWorldPosition + 30, 40, 5);// bottom
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10, Math.round(e.yPos) + orientatedYWorldPosition, 30, 5);// top
-            }
-            else if(e instanceof BatEnemy){
-                g.setColor(new Color(70,70,70));
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+12, 9, 3); //part of body
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+3, Math.round(e.yPos) + orientatedYWorldPosition+6, 33, 6); //wings
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// left corner
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 40,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 5, 5, 5);// right corner
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// left side
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 45,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 10, 5, 20);// right side
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 5,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 30, 40, 5);// bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 10,
+                        Math.round(e.yPos) + orientatedYWorldPosition, 30, 5);// top
+            } else if (e instanceof BatEnemy) {
+                g.setColor(new Color(70, 70, 70));
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 12, 9, 3); // part of body
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 3,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 6, 33, 6); // wings
                 g.setColor(new Color(237, 28, 36));
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 3); //eyes
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+21, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 3); //eyes
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 6, 3, 3); // eyes
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 21,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 6, 3, 3); // eyes
                 g.setColor(e.affect);
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+3, 9, 3); //top of head
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+15, 9, 3); //bottom
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+12, Math.round(e.yPos) + orientatedYWorldPosition, 3, 18); //left side body
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+24, Math.round(e.yPos) + orientatedYWorldPosition, 3, 18); //right side body
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+15, Math.round(e.yPos) + orientatedYWorldPosition+18, 3, 3); //left foot
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+21, Math.round(e.yPos) + orientatedYWorldPosition+18, 3, 3); //right foot
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 9); //left side wing
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+3, Math.round(e.yPos) + orientatedYWorldPosition+3, 6, 3); //left wing top
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+3, Math.round(e.yPos) + orientatedYWorldPosition+9, 6, 3); //left wing bottom
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+9, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 3); //left wing top connector
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+9, Math.round(e.yPos) + orientatedYWorldPosition+12, 3, 3); //left wing bottom connector
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+36, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 9); //right side wing
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+30, Math.round(e.yPos) + orientatedYWorldPosition+3, 6, 3); //right wing top
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+30, Math.round(e.yPos) + orientatedYWorldPosition+9, 6, 3); //right wing bottom
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+27, Math.round(e.yPos) + orientatedYWorldPosition+6, 3, 3); //right wing top connector
-                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition+27, Math.round(e.yPos) + orientatedYWorldPosition+12, 3, 3); //right wing bottom connector
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 3, 9, 3); // top of head
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 15, 9, 3); // bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 12,
+                        Math.round(e.yPos) + orientatedYWorldPosition, 3, 18); // left side body
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 24,
+                        Math.round(e.yPos) + orientatedYWorldPosition, 3, 18); // right side body
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 15,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 18, 3, 3); // left foot
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 21,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 18, 3, 3); // right foot
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 6, 3, 9); // left side wing
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 3,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 3, 6, 3); // left wing top
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 3,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 9, 6, 3); // left wing bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 9,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 6, 3, 3); // left wing top connector
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 9,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 12, 3, 3); // left wing bottom connector
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 36,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 6, 3, 9); // right side wing
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 30,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 3, 6, 3); // right wing top
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 30,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 9, 6, 3); // right wing bottom
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 27,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 6, 3, 3); // right wing top connector
+                g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition + 27,
+                        Math.round(e.yPos) + orientatedYWorldPosition + 12, 3, 3); // right wing bottom connector
             }
             // and there health bars
             g.setColor(new Color(20, 20, 20));
-            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 5+((e.xborder-50)/2),
+            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 5 + ((e.xborder - 50) / 2),
                     Math.round(e.yPos) + orientatedYWorldPosition - 50, 60, 20);
             g.setColor(new Color(150, 20, 20));
-            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 3+((e.xborder-50)/2),
+            g.fillRect(Math.round(e.xPos) + orientatedXWorldPosition - 3 + ((e.xborder - 50) / 2),
                     Math.round(e.yPos) + orientatedYWorldPosition - 48,
                     (int) Math.round(56 * ((double) e.health / e.totalHealth)), 16);
             // if the attack is on cooldown, decrees the timer
@@ -368,11 +407,12 @@ class ShapeDrawing extends JComponent {
             spawner.spawn();
             // resets the spawn time, to a random number that will decreasingly get lower
             // over time (the longer you play, the more enemys spawn)
-            Game.spawnTime = (long) Game.rand.nextDouble() * (500 - (Game.gameTime / 100)) + 250 - (Game.gameTime / 100);
+            Game.spawnTime = (long) Game.rand.nextDouble() * (500 - (Game.gameTime / 100)) + 250
+                    - (Game.gameTime / 100);
             // if the spawn time randomiser ends up to low (going into the negitives) just
             // set it back to a max of 1 (10 millisecods) enemys will never spawn faster
             // then that because of this
-            //if(Game.spawnTime > 5){ ///// FOR TESTING
+            // if(Game.spawnTime > 5){ ///// FOR TESTING
             if (Game.spawnTime <= 5) {
                 Game.spawnTime = 5;
             }

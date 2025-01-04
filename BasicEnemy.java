@@ -20,6 +20,7 @@ public class BasicEnemy {
     public boolean onFire;
     public boolean frozen;
     public int fireTicker;
+    public BasicBullet hitBullet;
 
     BasicEnemy(int totalHealth, double damage, int x, int y, float speed, int xborder, int yborder) {
         this.totalHealth = totalHealth;
@@ -53,7 +54,8 @@ public class BasicEnemy {
         // checks every bullet
         for (BasicBullet b : Game.bullets) {
             // if any part of the bullet is overlaping with this enemy
-            if (b.xPos + 10 > xPos && b.xPos-10 < xPos + xborder && b.yPos + 10 > yPos && b.yPos-10 < yPos + yborder) {
+            if (b.xPos + 10 > xPos && b.xPos - 10 < xPos + xborder && b.yPos + 10 > yPos
+                    && b.yPos - 10 < yPos + yborder && hitBullet != b) {
                 // take damage
                 health -= b.damage;
                 // If the player has bought the fireshot ability, add an effect to their bullets
@@ -69,20 +71,30 @@ public class BasicEnemy {
                 if (Game.shop.ab.iceShotEnabled == true) {
                     // changes the enemy outline to the color of ice
                     affect = new Color(2, 139, 189);
-                    // Checks how many times ice shot has been bought and decreases the enemy speed
+                    // Checks how many times ice shot has been bought and divides the enemy speed
                     // accordingly
                     if (!frozen) {
                         speed /= (Game.shop.ab.iceShotTimesBought + 1);
                         frozen = true;
                     }
                 }
-                // delete the bullet
-                b.dead = true;
+                // Sets the bullets health to 0 by default
+                b.bulletHealth--;
+                // If the bullethealth is 0
+                if (b.bulletHealth <= 0) {
+                    // delete the bullet
+                    b.dead = true;
+                }
+                // If an enemy has been hit by the bullet, let the game know that it has been
+                // hit once and to inflict further damage
+                hitBullet = b;
             }
         }
-        if(onFire){
+        // Check if the fire affect has been applied and call the fire tick method
+        if (onFire) {
             fireTick();
         }
+        // Calls method to check the health of enemy
         checkHealth();
     }
 
@@ -100,14 +112,19 @@ public class BasicEnemy {
     }
 
     public void fireTick() {
+        // Reduces the fireTicker value by 1
         fireTicker--;
+        // If the fireTicker is less than or equal to 0
         if (fireTicker <= 0) {
+            // Reduce enemy health by the amount of times the player has bougth the fire
+            // shot ability
             health -= Game.shop.ab.fireShotTimesBought;
             fireTicker = 50;
         }
     }
 
     public void attack() {
+        // Reduces player health by the damage value
         Game.playerHealth -= damage;
     }
 }

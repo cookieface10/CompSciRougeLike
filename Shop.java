@@ -17,9 +17,9 @@ public class Shop implements ActionListener {
     JButton item1 = new JButton();
     JButton item2 = new JButton();
     JButton item3 = new JButton();
-    int random1 = (int) (Math.random() * 7) + 1;
-    int random2 = (int) (Math.random() * 7) + 1;
-    int random3 = (int) (Math.random() * 7) + 1;
+    int random1 = (int) (Math.random() * 9) + 1;
+    int random2 = (int) (Math.random() * 9) + 1;
+    int random3 = (int) (Math.random() * 9) + 1;
     int randomTieBreaker = (int) (Math.random() * 6 + 1);
     double itemPrice1 = ab.itemPrice(random1);
     double itemPrice2 = ab.itemPrice(random2);
@@ -175,55 +175,61 @@ public class Shop implements ActionListener {
         // don't
         if (Game.points >= price) {
             // Finds which of the 7 abilities was randomly choosen and then activates it
-            // when purchased
+            // when purchased, increasing the cost for the next time it is put into the shop
             if (random == 1) {
                 ab.heal();
                 ab.priceIncrease1 += 0.5;
-            }
-            if (random == 2) {
+            } else if (random == 2) {
                 ab.attackIncrease();
                 ab.priceIncrease2 += 0.5;
-            }
-            if (random == 3) {
+            } else if (random == 3) {
                 ab.movementIncrease();
                 ab.priceIncrease3 += 0.5;
-            }
-            if (random == 4) {
+            } else if (random == 4) {
                 ab.increaseHealth();
                 ab.priceIncrease4 += 0.5;
-            }
-            if (random == 5) {
+            } else if (random == 5) {
                 ab.bulletSpeedIncrease();
                 ab.priceIncrease5 += 0.5;
-            }
-            if (random == 6) {
+            } else if (random == 6) {
                 ab.iceShot();
                 ab.priceIncrease6 += 0.5;
-                ab.iceShotTimesBought++;
-            }
-            if (random == 7) {
+            } else if (random == 7) {
                 ab.fireShot();
                 ab.priceIncrease7 += 0.5;
-                ab.fireShotTimesBought++;
+            } else if (random == 8) {
+                ab.reduceBulletDelay();
+                ab.priceIncrease8 += 0.5;
+            } else if (random == 9) {
+                ab.bulletPierce();
+                ab.priceIncrease9 += 0.5;
             }
 
             /*
              * - UI displays that the player has succesfully made a purchase
              * - Disables the button so they cannot buy it again
              * - Removes the points from their total
-             * - Adds +1 to the items registered as bought
              */
             item.setBackground(Color.green);
             item.setText("Purchased");
             item.setEnabled(false);
             Game.points -= price;
+
+            // If button 1 has been clicked, run it's reset and button delay
             if (timerChoice == 1) {
+                // The button has not been reset once yet
                 resetOnceItem1 = false;
-                resetDelay1 = new Timer(2000, new ActionListener() {
+                // First instance of timer for button delay, uses a lambda method to create a
+                // new actionlistener instance
+                resetDelay1 = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        // Calls reset method with the Jbutton, title, corresponding random value, which
+                        // button is reset, price tag and price tage Jlabel
                         reset(itemTitle, item, random, 1, price1, itemPrice1);
+                        // The button has now been reset once
                         resetOnceItem1 = true;
+                        // If the button is reset, stop the timer from repeating the action
                         if (resetOnceItem1) {
                             resetDelay1.stop();
                         }
@@ -232,13 +238,21 @@ public class Shop implements ActionListener {
                 // Starts the timer delay
                 resetDelay1.start();
             }
+            // If button 2 has been clicked, run it's reset and button delay
             if (timerChoice == 2) {
+                // The button has not been reset once yet
                 resetOnceItem2 = false;
-                resetDelay2 = new Timer(2000, new ActionListener() {
+                // Second instance of timer for button delay, uses a lambda method to create a
+                // new actionlistener instance
+                resetDelay2 = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        // Calls reset method with the Jbutton, title, corresponding random value, which
+                        // button is reset, price tag and price tage Jlabel
                         reset(itemTitle, item, random, 2, price2, itemPrice2);
+                        // The button has now been reset once
                         resetOnceItem2 = true;
+                        // If the button is reset, stop the timer from repeating the action
                         if (resetOnceItem2) {
                             resetDelay2.stop();
                         }
@@ -247,13 +261,21 @@ public class Shop implements ActionListener {
                 // Starts the timer delay
                 resetDelay2.start();
             }
+            // If button 2 has been clicked, run it's reset and button delay
             if (timerChoice == 3) {
+                // The button has not been reset once yet
                 resetOnceItem3 = false;
-                resetDelay3 = new Timer(2000, new ActionListener() {
+                // Second instance of timer for button delay, uses a lambda method to create a
+                // new actionlistener instance
+                resetDelay3 = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        // Calls reset method with the Jbutton, title, corresponding random value, which
+                        // button is reset, price tag and price tage Jlabel
                         reset(itemTitle, item, random, 3, price3, itemPrice3);
+                        // The button has now been reset once
                         resetOnceItem3 = true;
+                        // If the button is reset, stop the timer from repeating the action
                         if (resetOnceItem3) {
                             resetDelay3.stop();
                         }
@@ -267,7 +289,7 @@ public class Shop implements ActionListener {
             // Changes the UI to signify a player cannot buy anything
             item.setBackground(Color.red);
             item.setText("Cannot Buy!");
-            // Returns to UI to the original state after 2 seconds using an Anynomous method
+            // Returns to UI to the original state after 2 seconds using an lambda method
             // as an arguement in an instance of the Timer class
             Timer timer = new Timer(2000, new ActionListener() {
                 @Override
@@ -285,7 +307,13 @@ public class Shop implements ActionListener {
         // Reactivates buttons so they can be used
         item.setEnabled(true);
         // Reselecting a new set of items for sale
-        random = (int) (Math.random() * 7) + 1;
+        random = (int) (Math.random() * 9) + 1;
+        // Checks if the bullet pierce ability has been bought to much and chooses a new
+        // number if it has
+        if (random == 8 && ab.bulletDelay <= 10) {
+            random = (int) (Math.random() * 9) + 1;
+        }
+        // Sets the new randomly number to the random value of the corresponding button
         if (buttonNumber == 1) {
             random1 = random;
         } else if (buttonNumber == 2) {
@@ -309,7 +337,8 @@ public class Shop implements ActionListener {
                 random = 6;
             }
         }
-        // Resets all of the buttons with new UI after
+
+        // Resets all of the buttons and price tags with new UI
         itemTitle = ab.randomSelectItemTitles(random);
         item.setText(itemTitle);
         item.setBackground(Color.WHITE);

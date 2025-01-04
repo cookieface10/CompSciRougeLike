@@ -83,5 +83,9 @@ public class EndScreen implements ActionListener {
         Game.damageBoost = 0;
         Game.speedBoost = 0;
         Game.speed = 5;
+        Game.shop.ab.bulletDelay = 25;
+        Game.shop.ab.fireShotTimesBought = 0;
+        Game.shop.ab.iceShotTimesBought = 0;
+        Game.shop.ab.pierceTimesBought = 0;
     }
 }
