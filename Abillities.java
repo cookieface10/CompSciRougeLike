@@ -14,6 +14,7 @@ public class Abillities {
     // Method that sets the players health back to full
     public void heal() {
         Game.playerHealth = Game.playerMaxHealth;
+        System.out.println("healed");
     }
 
     // Method that increases the speed a player moves at
@@ -28,7 +29,7 @@ public class Abillities {
 
     // Method that increases the max health a player can have
     public void increaseHealth() {
-        Game.playerMaxHealth += 5;
+        Game.playerMaxHealth += 10;
         Game.playerHealth += 5;
     }
 

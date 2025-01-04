@@ -63,7 +63,7 @@ public class Shop implements ActionListener {
         // Setting up shop UI when opened by player and activiating keylistener for exit
         // shop button
         Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
-        shopPanel.setBackground(Color.darkGray);
+        shopPanel.setBackground(new Color(161, 102, 47));
         shopPanel.setLayout(null);
 
         title.setBounds(center.x - 75, 50, 200, 200);
@@ -179,23 +179,29 @@ public class Shop implements ActionListener {
             if (random == 1) {
                 ab.heal();
                 ab.priceIncrease1 += 0.5;
-            } else if (random == 2) {
+            }
+            if (random == 2) {
                 ab.attackIncrease();
                 ab.priceIncrease2 += 0.5;
-            } else if (random == 3) {
+            }
+            if (random == 3) {
                 ab.movementIncrease();
                 ab.priceIncrease3 += 0.5;
-            } else if (random == 4) {
+            }
+            if (random == 4) {
                 ab.increaseHealth();
                 ab.priceIncrease4 += 0.5;
-            } else if (random == 5) {
+            }
+            if (random == 5) {
                 ab.bulletSpeedIncrease();
                 ab.priceIncrease5 += 0.5;
-            } else if (random == 6) {
+            }
+            if (random == 6) {
                 ab.iceShot();
                 ab.priceIncrease6 += 0.5;
                 ab.iceShotTimesBought++;
-            } else if (random == 7) {
+            }
+            if (random == 7) {
                 ab.fireShot();
                 ab.priceIncrease7 += 0.5;
                 ab.fireShotTimesBought++;
@@ -280,6 +286,7 @@ public class Shop implements ActionListener {
         item.setEnabled(true);
         // Reselecting a new set of items for sale
         random = (int) (Math.random() * 7) + 1;
+        System.out.println(random);
         // Checks to see if fire shot or ice shot has been activitated
         // If fire shot is true, then skip any ice shot buy options and change it to
         // fire shot
