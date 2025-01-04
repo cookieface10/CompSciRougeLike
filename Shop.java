@@ -91,9 +91,9 @@ public class Shop implements ActionListener {
         item2.setText(itemTitle2);
         item3.setText(itemTitle3);
 
-        price1.setText("$" + String.valueOf(itemPrice1));
-        price2.setText("$" + String.valueOf(itemPrice2));
-        price3.setText("$" + String.valueOf(itemPrice3));
+        price1.setText(String.valueOf(itemPrice1));
+        price2.setText(String.valueOf(itemPrice2));
+        price3.setText(String.valueOf(itemPrice3));
 
         closeButton.setBackground(Color.WHITE);
         item1.setBackground(Color.WHITE);
@@ -222,7 +222,7 @@ public class Shop implements ActionListener {
                 resetDelay1 = new Timer(2000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        reset(itemTitle, item, random);
+                        reset(itemTitle, item, random, 1, price1, itemPrice1);
                         resetOnceItem1 = true;
                         if (resetOnceItem1) {
                             resetDelay1.stop();
@@ -237,7 +237,7 @@ public class Shop implements ActionListener {
                 resetDelay2 = new Timer(2000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        reset(itemTitle, item, random);
+                        reset(itemTitle, item, random, 2, price2, itemPrice2);
                         resetOnceItem2 = true;
                         if (resetOnceItem2) {
                             resetDelay2.stop();
@@ -252,7 +252,7 @@ public class Shop implements ActionListener {
                 resetDelay3 = new Timer(2000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        reset(itemTitle, item, random);
+                        reset(itemTitle, item, random, 3, price3, itemPrice3);
                         resetOnceItem3 = true;
                         if (resetOnceItem3) {
                             resetDelay3.stop();
@@ -281,11 +281,18 @@ public class Shop implements ActionListener {
         }
     }
 
-    public void reset(String itemTitle, JButton item, int random) {
+    public void reset(String itemTitle, JButton item, int random, int buttonNumber, JLabel priceTag, double itemPrice) {
         // Reactivates buttons so they can be used
         item.setEnabled(true);
         // Reselecting a new set of items for sale
         random = (int) (Math.random() * 7) + 1;
+        if (buttonNumber == 1) {
+            random1 = random;
+        } else if (buttonNumber == 2) {
+            random2 = random;
+        } else if (buttonNumber == 3) {
+            random3 = random;
+        }
         System.out.println(random);
         // Checks to see if fire shot or ice shot has been activitated
         // If fire shot is true, then skip any ice shot buy options and change it to
@@ -306,6 +313,8 @@ public class Shop implements ActionListener {
         itemTitle = ab.randomSelectItemTitles(random);
         item.setText(itemTitle);
         item.setBackground(Color.WHITE);
+        itemPrice = ab.itemPrice(random);
+        priceTag.setText(String.valueOf(itemPrice));
 
     }
 }
