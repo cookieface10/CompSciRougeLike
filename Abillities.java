@@ -1,9 +1,6 @@
 public class Abillities {
     public boolean iceShotEnabled = false;
     public boolean fireShotEnabled = false;
-    double price1 = 0;
-    double price2 = 0;
-    double price3 = 0;
     int iceShotTimesBought = 0;
     int fireShotTimesBought = 0;
     double priceIncrease1 = 1.00;
@@ -32,6 +29,7 @@ public class Abillities {
     // Method that increases the max health a player can have
     public void increaseHealth() {
         Game.playerMaxHealth += 5;
+        Game.playerHealth += 5;
     }
 
     // Method that increases the speed a bullet travels at

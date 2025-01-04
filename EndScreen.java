@@ -79,5 +79,8 @@ public class EndScreen implements ActionListener {
         Game.enemys = new ArrayList<>();
         Game.gameTime = 0;
         Game.spawnTime = 500;
+        Game.damageBoost = 0;
+        Game.speedBoost = 0;
+        Game.speed = 5;
     }
 }

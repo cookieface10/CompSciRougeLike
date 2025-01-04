@@ -10,6 +10,9 @@ public class Shop implements ActionListener {
     JPanel shopPanel = new JPanel();
     Abillities ab = new Abillities();
     JLabel title = new JLabel("Shop");
+    JLabel price1 = new JLabel();
+    JLabel price2 = new JLabel();
+    JLabel price3 = new JLabel();
     JButton closeButton = new JButton("Exit");
     JButton item1 = new JButton();
     JButton item2 = new JButton();
@@ -18,6 +21,9 @@ public class Shop implements ActionListener {
     int random2 = (int) (Math.random() * 7) + 1;
     int random3 = (int) (Math.random() * 7) + 1;
     int randomTieBreaker = (int) (Math.random() * 6 + 1);
+    double itemPrice1 = ab.itemPrice(random1);
+    double itemPrice2 = ab.itemPrice(random2);
+    double itemPrice3 = ab.itemPrice(random3);
     String itemTitle1 = ab.randomSelectItemTitles(random1);
     String itemTitle2 = ab.randomSelectItemTitles(random2);
     String itemTitle3 = ab.randomSelectItemTitles(random3);
@@ -64,14 +70,30 @@ public class Shop implements ActionListener {
         title.setFont(new Font("Serif", Font.PLAIN, 78));
         title.setForeground(Color.WHITE);
 
-        item1.setBounds(center.x - 400, center.y - 100, 200, 200);
-        item2.setBounds(center.x - 100, center.y - 100, 200, 200);
-        item3.setBounds(center.x + 200, center.y - 100, 200, 200);
+        price1.setBounds(center.x - 325, center.y - 50, 200, 200);
+        price1.setFont(new Font("Serif", Font.PLAIN, 20));
+        price1.setForeground(Color.WHITE);
+
+        price2.setBounds(center.x - 25, center.y - 50, 200, 200);
+        price2.setFont(new Font("Serif", Font.PLAIN, 20));
+        price2.setForeground(Color.WHITE);
+
+        price3.setBounds(center.x + 275, center.y - 50, 200, 200);
+        price3.setFont(new Font("Serif", Font.PLAIN, 20));
+        price3.setForeground(Color.WHITE);
+
+        item1.setBounds(center.x - 400, center.y - 200, 200, 200);
+        item2.setBounds(center.x - 100, center.y - 200, 200, 200);
+        item3.setBounds(center.x + 200, center.y - 200, 200, 200);
         closeButton.setBounds(center.x - 125, center.y + 200, 250, 100);
 
         item1.setText(itemTitle1);
         item2.setText(itemTitle2);
         item3.setText(itemTitle3);
+
+        price1.setText("$" + String.valueOf(itemPrice1));
+        price2.setText("$" + String.valueOf(itemPrice2));
+        price3.setText("$" + String.valueOf(itemPrice3));
 
         closeButton.setBackground(Color.WHITE);
         item1.setBackground(Color.WHITE);
@@ -88,6 +110,9 @@ public class Shop implements ActionListener {
         shopPanel.add(item1);
         shopPanel.add(item2);
         shopPanel.add(item3);
+        shopPanel.add(price1);
+        shopPanel.add(price2);
+        shopPanel.add(price3);
 
         shopFrame.add(shopPanel);
         shopFrame.setUndecorated(true);
@@ -121,19 +146,19 @@ public class Shop implements ActionListener {
         // Checks to see if the first purchase button is clicked
         if (e.getSource() == item1) {
             // Calls method that takes the randomly selected item information as arguements
-            buttonAction(ab.itemPrice(random1), itemTitle1, item1, random1, 1);
+            buttonAction(itemPrice1, itemTitle1, item1, random1, 1);
             shopFrame.requestFocusInWindow();
         }
         // Same code as actionlistener for item button #1
         if (e.getSource() == item2) {
             // Calls method that takes the randomly selected item information as arguements
-            buttonAction(ab.itemPrice(random2), itemTitle2, item2, random2, 2);
+            buttonAction(itemPrice2, itemTitle2, item2, random2, 2);
             shopFrame.requestFocusInWindow();
         }
         // Same code as actionlistener for item button #1
         if (e.getSource() == item3) {
             // Calls method that takes the randomly selected item information as arguements
-            buttonAction(ab.itemPrice(random3), itemTitle3, item3, random3, 3);
+            buttonAction(itemPrice3, itemTitle3, item3, random3, 3);
             shopFrame.requestFocusInWindow();
         }
         // Checks to see if the player hits the exit button
@@ -145,7 +170,7 @@ public class Shop implements ActionListener {
         }
     }
 
-    public void buttonAction(long price, String itemTitle, JButton item, int random, int timerChoice) {
+    public void buttonAction(double price, String itemTitle, JButton item, int random, int timerChoice) {
         // Check if the player has enough points to afford item and stops them if they
         // don't
         if (Game.points >= price) {
