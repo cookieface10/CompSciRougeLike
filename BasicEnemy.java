@@ -101,10 +101,16 @@ public class BasicEnemy {
     public void checkHealth() {
         // if health is less then or = to 0
         if (health <= 0) {
-            // loop 10 times
-            for (int i = 1; i <= 10; i++) {
-                // creating point orbs
-                Game.pointOrbs.add(new PointOrbs((int) xPos, (int) yPos));
+            //if there are allready a lot of point orbs on screen, then just give the points without making anymore, to save on proformance
+            if(Game.pointOrbs.size() >= 50){
+                Game.points+=1000;
+            }
+            else{
+                // loop 10 times
+                for (int i = 1; i <= 10; i++) {
+                    // creating point orbs
+                    Game.pointOrbs.add(new PointOrbs((int) xPos, (int) yPos));
+                }
             }
             // then die (removing it from the game / ram)
             dead = true;

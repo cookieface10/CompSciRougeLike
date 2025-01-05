@@ -68,8 +68,6 @@ public class EndScreen implements ActionListener {
         Game.down = false;
         Game.right = false;
         Game.left = false;
-        Game.vertical = false;
-        Game.horizontal = false;
         Game.shop.ab.fireShotEnabled = false;
         Game.shop.ab.iceShotEnabled = false;
         Game.characterPosX = Game.center.x - 25;

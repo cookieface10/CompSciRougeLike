@@ -6,6 +6,8 @@ public class PointOrbs {
     public int y;
     public int xMomentum;
     public int yMomentum;
+    public int redirectTimer;
+    private double angle;
     public boolean hitGround = false;
     int swirlCount;
     Random rand = new Random();
@@ -15,6 +17,7 @@ public class PointOrbs {
         startingY = y;
         xMomentum = rand.nextInt(14)-7;
         yMomentum = rand.nextInt(25)*-1;
+        redirectTimer = 0;
     }
 
     public void OrbMove(int orientatedX, int orientatedY){
@@ -27,12 +30,16 @@ public class PointOrbs {
             yMomentum+=1;
         }
         else{
-            hitGround = true;
-            //calculates the x and y distance between the enemy and the player
-            float yDist = Game.characterPosY+25-y-orientatedY;
-            float xDist = Game.characterPosX+25-x-orientatedX;
-            //calculates the angle of the hypotanuse between the enemy and the player
-            double angle = Math.atan2(yDist, xDist);
+            if(redirectTimer == 0 || swirlCount > 0){
+                hitGround = true;
+                //calculates the x and y distance between the enemy and the player
+                float yDist = Game.characterPosY+25-y-orientatedY;
+                float xDist = Game.characterPosX+25-x-orientatedX;
+                //calculates the angle of the hypotanuse between the enemy and the player
+                angle = Math.atan2(yDist, xDist);
+                redirectTimer = 4;
+            }
+            redirectTimer--;
             //moves by x and y component of the hypotinouse if the triangle was shrunk to make the hypotanuse 1
             x += Math.cos(angle)*30;
             y += Math.sin(angle)*30;

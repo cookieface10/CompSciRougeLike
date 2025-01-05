@@ -15,8 +15,8 @@ public class BatEnemy extends BasicEnemy{
         // make the hypotanuse 1
         xVol += Math.cos(angle) * speed;
         yVol += Math.sin(angle) * speed;
-        xPos += Math.cos(angle) * speed*2; //wihtout this the acceleration would cause an effect like centripetal force
-        yPos += Math.sin(angle) * speed*2;
+        xPos += Math.cos(angle) * speed*3; //wihtout this the acceleration would cause an effect like centripetal force
+        yPos += Math.sin(angle) * speed*3;
         if(xVol > 10){ xVol = 10;} if(xVol < -10){ xVol = -10;} // sets maximums for velocity
         if(yVol > 10){ yVol = 10;} if(yVol < -10){ yVol = -10;}
         xPos+=xVol;
