@@ -379,7 +379,6 @@ public class Shop implements ActionListener {
         itemTitle = ab.randomSelectItemTitles(random);
         item.setText(itemTitle);
         item.setBackground(Color.WHITE);
-        itemPrice = ab.itemPrice(random);
         priceTag.setText(String.valueOf(itemPrice));
 
     }
