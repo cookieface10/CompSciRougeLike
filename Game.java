@@ -471,9 +471,9 @@ class ShapeDrawing extends JComponent {
         ////////////////////////////// UI////////////////////////////////
         // draws the players health bar in the bottom left corner
         g.setColor(Color.BLACK);
-        g.fillRect(5, (Game.center.y*2)- 40, 200, 40);
+        g.fillRect(5, getHeight()- 42, 200, 40);
         g.setColor(new Color(220, 30, 30));
-        g.fillRect(7, (Game.center.y*2)- 38,(int) Math.round(196 * ((double) Game.playerHealth / Game.playerMaxHealth)), 36);
+        g.fillRect(7, getHeight()- 40,(int) Math.round(196 * ((double) Game.playerHealth / Game.playerMaxHealth)), 36);
         // draws the players score in the top right corner
         g.setColor(Color.BLACK);
         g.setFont(new Font("SansSerif", Font.BOLD, 24));
