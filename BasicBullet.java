@@ -36,8 +36,7 @@ public class BasicBullet {
         yPos += Math.sin(angle) * speed;
         // if the bullet exits the confines of the screen, kill the bullet (to save on
         // ram)
-        if (xPos + (-Game.WorldPosX + Game.characterPosX) > Game.frame.getWidth()
-                || yPos + (-Game.WorldPosY + Game.characterPosY) > Game.frame.getHeight()) {
+        if (xPos + (-Game.WorldPosX + Game.characterPosX) > Game.frame.getWidth() || xPos + (-Game.WorldPosX + Game.characterPosX) < 0|| yPos + (-Game.WorldPosY + Game.characterPosY) > Game.frame.getHeight() || yPos + (-Game.WorldPosY + Game.characterPosY) < 0) {
             dead = true;
         }
     }
