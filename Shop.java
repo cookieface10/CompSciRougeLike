@@ -17,6 +17,7 @@ public class Shop implements ActionListener {
     JButton item1 = new JButton();
     JButton item2 = new JButton();
     JButton item3 = new JButton();
+    JLabel numberOfPoints = new JLabel();
     int random1 = (int) (Math.random() * 9) + 1;
     int random2 = (int) (Math.random() * 9) + 1;
     int random3 = (int) (Math.random() * 9) + 1;
@@ -70,11 +71,15 @@ public class Shop implements ActionListener {
         title.setFont(new Font("Serif", Font.PLAIN, 78));
         title.setForeground(Color.WHITE);
 
-        price1.setBounds(center.x - 325, center.y - 50, 200, 200);
+        numberOfPoints.setBounds(100, 50, 1000, 200);
+        numberOfPoints.setFont(new Font("Serif", Font.PLAIN, 50));
+        numberOfPoints.setForeground(Color.white);
+
+        price1.setBounds(center.x - 330, center.y - 50, 200, 200);
         price1.setFont(new Font("Serif", Font.PLAIN, 20));
         price1.setForeground(Color.WHITE);
 
-        price2.setBounds(center.x - 25, center.y - 50, 200, 200);
+        price2.setBounds(center.x - 30, center.y - 50, 200, 200);
         price2.setFont(new Font("Serif", Font.PLAIN, 20));
         price2.setForeground(Color.WHITE);
 
@@ -95,10 +100,10 @@ public class Shop implements ActionListener {
         price2.setText(String.valueOf(itemPrice2));
         price3.setText(String.valueOf(itemPrice3));
 
-        closeButton.setBackground(Color.WHITE);
         item1.setBackground(Color.WHITE);
         item2.setBackground(Color.WHITE);
         item3.setBackground(Color.WHITE);
+        closeButton.setBackground(Color.WHITE);
 
         closeButton.addActionListener(this);
         item1.addActionListener(this);
@@ -106,6 +111,7 @@ public class Shop implements ActionListener {
         item3.addActionListener(this);
 
         shopPanel.add(title);
+        shopPanel.add(numberOfPoints);
         shopPanel.add(closeButton);
         shopPanel.add(item1);
         shopPanel.add(item2);
@@ -170,53 +176,70 @@ public class Shop implements ActionListener {
         }
     }
 
-    public void buttonAction(double price, String itemTitle, JButton item, int random, int timerChoice) {
+    public void buttonAction(double price, String itemTitle, JButton item, int random, int buttonNumber) {
         // Check if the player has enough points to afford item and stops them if they
         // don't
         if (Game.points >= price) {
             // Finds which of the 7 abilities was randomly choosen and then activates it
             // when purchased, increasing the cost for the next time it is put into the shop
-            if (random == 1) {
-                ab.heal();
-                ab.priceIncrease1 += 0.5;
-            } else if (random == 2) {
-                ab.attackIncrease();
-                ab.priceIncrease2 += 0.5;
-            } else if (random == 3) {
-                ab.movementIncrease();
-                ab.priceIncrease3 += 0.5;
-            } else if (random == 4) {
-                ab.increaseHealth();
-                ab.priceIncrease4 += 0.5;
-            } else if (random == 5) {
-                ab.bulletSpeedIncrease();
-                ab.priceIncrease5 += 0.5;
-            } else if (random == 6) {
-                ab.iceShot();
-                ab.priceIncrease6 += 0.5;
-            } else if (random == 7) {
-                ab.fireShot();
-                ab.priceIncrease7 += 0.5;
-            } else if (random == 8) {
-                ab.reduceBulletDelay();
-                ab.priceIncrease8 += 0.5;
-            } else if (random == 9) {
-                ab.bulletPierce();
-                ab.priceIncrease9 += 0.5;
+            switch (random) {
+                case 1:
+                    ab.heal();
+                    ab.priceIncrease1 += 0.1;
+                    break;
+                case 2:
+                    ab.attackIncrease();
+                    ab.priceIncrease2 += 0.1;
+                    break;
+                case 3:
+                    ab.movementIncrease();
+                    ab.priceIncrease3 += 0.1;
+                    break;
+                case 4:
+                    ab.increaseHealth();
+                    ab.priceIncrease4 += 0.1;
+                    break;
+                case 5:
+                    ab.bulletSpeedIncrease();
+                    ab.priceIncrease5 += 0.1;
+                    break;
+                case 6:
+                    ab.iceShot();
+                    ab.priceIncrease6 += 0.1;
+                    break;
+                case 7:
+                    ab.fireShot();
+                    ab.priceIncrease7 += 0.1;
+                    break;
+                case 8:
+                    ab.reduceBulletDelay();
+                    ab.priceIncrease8 += 0.1;
+                    break;
+                case 9:
+                    ab.bulletPierce();
+                    ab.priceIncrease9 += 0.1;
+                    break;
+                default:
+                    break;
             }
-
             /*
              * - UI displays that the player has succesfully made a purchase
              * - Disables the button so they cannot buy it again
-             * - Removes the points from their total
+             * - Removes the points from their total and displays new balance in shop
              */
             item.setBackground(Color.green);
             item.setText("Purchased");
             item.setEnabled(false);
             Game.points -= price;
-
+            numberOfPoints.setText(String.valueOf(Game.points));
+            if (random2 == random) {
+                price2.setText(String.valueOf(ab.itemPrice(random)));
+            }
+            if (random3 == random) {
+                price3.setText(String.valueOf(ab.itemPrice(random)));
+            }
             // If button 1 has been clicked, run it's reset and button delay
-            if (timerChoice == 1) {
+            if (buttonNumber == 1) {
                 // The button has not been reset once yet
                 resetOnceItem1 = false;
                 // First instance of timer for button delay, uses a lambda method to create a
@@ -239,7 +262,7 @@ public class Shop implements ActionListener {
                 resetDelay1.start();
             }
             // If button 2 has been clicked, run it's reset and button delay
-            if (timerChoice == 2) {
+            if (buttonNumber == 2) {
                 // The button has not been reset once yet
                 resetOnceItem2 = false;
                 // Second instance of timer for button delay, uses a lambda method to create a
@@ -262,7 +285,7 @@ public class Shop implements ActionListener {
                 resetDelay2.start();
             }
             // If button 2 has been clicked, run it's reset and button delay
-            if (timerChoice == 3) {
+            if (buttonNumber == 3) {
                 // The button has not been reset once yet
                 resetOnceItem3 = false;
                 // Second instance of timer for button delay, uses a lambda method to create a
@@ -308,6 +331,27 @@ public class Shop implements ActionListener {
         item.setEnabled(true);
         // Reselecting a new set of items for sale
         random = (int) (Math.random() * 9) + 1;
+        // Checks to see if fire shot or ice shot has been activitated
+        // If fire shot is true, then skip any ice shot buy options and change it to
+        // fire shot
+        if (random == 6 && (random1 == 7 || random2 == 7 || random3 == 7)) {
+            random = 7;
+        }
+        if (random == 7 && (random1 == 6 || random2 == 6 || random3 == 6)) {
+            random = 6;
+        }
+        if (Game.shop.ab.fireShotEnabled == true) {
+            if (random == 6) {
+                random = 7;
+            }
+        }
+        // Otherwise if ice shot is true, then skip any fire shot buy options and change
+        // it to ice shot
+        if (Game.shop.ab.iceShotEnabled == true) {
+            if (random == 7) {
+                random = 6;
+            }
+        }
         // Checks if the bullet pierce ability has been bought to much and chooses a new
         // number if it has
         if (random == 8 && ab.bulletDelay <= 10) {
@@ -320,22 +364,6 @@ public class Shop implements ActionListener {
             random2 = random;
         } else if (buttonNumber == 3) {
             random3 = random;
-        }
-        System.out.println(random);
-        // Checks to see if fire shot or ice shot has been activitated
-        // If fire shot is true, then skip any ice shot buy options and change it to
-        // fire shot
-        if (Game.shop.ab.fireShotEnabled == true) {
-            if (random == 6) {
-                random = 7;
-            }
-        }
-        // Otherwise if ice shot is true, then skip any fire shot buy options and change
-        // it to ice shot
-        if (Game.shop.ab.iceShotEnabled == true) {
-            if (random == 7) {
-                random = 6;
-            }
         }
 
         // Resets all of the buttons and price tags with new UI

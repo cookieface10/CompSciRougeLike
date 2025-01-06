@@ -15,9 +15,9 @@ public class Game implements MouseMotionListener {
     public static boolean right = false;
     public static boolean up = false;
     public static boolean down = false;
-    public static boolean shooting =false;
-    public static int bulletCooldown =0;
-    public static boolean coyoteShot =false;
+    public static boolean shooting = false;
+    public static int bulletCooldown = 0;
+    public static boolean coyoteShot = false;
     public static boolean openShop = false;
     public static boolean openStartScreen = true;
     public static int characterPosX = 0;
@@ -57,7 +57,7 @@ public class Game implements MouseMotionListener {
         frame.setVisible(true);
         frame.addMouseListener(new CoolMouseEvents());
         frame.addMouseMotionListener(new Game());
-        frame.getContentPane().setBackground(new Color(20,180,30));
+        frame.getContentPane().setBackground(new Color(20, 180, 30));
         WorldPosX = center.x;
         characterPosX = center.x - 25;
         characterPosY = center.y - 25;
@@ -127,6 +127,7 @@ public class Game implements MouseMotionListener {
             if (openShop == true) {
                 // Makes the shop UI visible in a new frame that overlaps the main frame.
                 shop.shopFrame.setVisible(true);
+                shop.numberOfPoints.setText(String.valueOf("Points: " + points));
                 shop.shopFrame.setFocusable(true);
                 // Stops all player movement
                 up = false;
@@ -141,19 +142,19 @@ public class Game implements MouseMotionListener {
 
                 double normalizedSpeed = speed;
                 if ((left || right) && (up || down)) {
-                    normalizedSpeed = speed * Math.sin(Math.PI/4);
+                    normalizedSpeed = speed * Math.sin(Math.PI / 4);
                 }
                 // move the character
-                if (right && characterPosX < 2000-Game.WorldPosX+Game.characterPosX) {
+                if (right && characterPosX < 2000 - Game.WorldPosX + Game.characterPosX) {
                     WorldPosX += normalizedSpeed;
                 }
-                if (left && characterPosX > -500-Game.WorldPosX+Game.characterPosX) {
+                if (left && characterPosX > -500 - Game.WorldPosX + Game.characterPosX) {
                     WorldPosX -= normalizedSpeed;
                 }
-                if (up && characterPosY > Game.characterPosY-Game.WorldPosY-1250) {
+                if (up && characterPosY > Game.characterPosY - Game.WorldPosY - 1250) {
                     WorldPosY -= normalizedSpeed;
                 }
-                if (down && characterPosY < Game.characterPosY-Game.WorldPosY+1250) {
+                if (down && characterPosY < Game.characterPosY - Game.WorldPosY + 1250) {
                     WorldPosY += normalizedSpeed;
                 }
                 if (bulletCooldown > 0) {
@@ -161,7 +162,8 @@ public class Game implements MouseMotionListener {
                 }
                 if (shooting && bulletCooldown == 0 || coyoteShot && bulletCooldown == 0) {
                     // creates a new bullet, and puts it in the arrayList
-                    Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5 + Game.speedBoost, Game.WorldPosX, Game.WorldPosY, Game.x - 20, Game.y - 20, Game.characterPosX, Game.characterPosY));
+                    Game.bullets.add(new BasicBullet(1 + Game.damageBoost, 5 + Game.speedBoost, Game.WorldPosX,
+                            Game.WorldPosY, Game.x - 20, Game.y - 20, Game.characterPosX, Game.characterPosY));
                     coyoteShot = false;
                     // sets the bullet cooldown to default bulletdelay of 25
                     bulletCooldown = Game.shop.ab.bulletDelay;
@@ -171,6 +173,8 @@ public class Game implements MouseMotionListener {
                     // Make end screen visible and main game invisible
                     endScreen.endFrame.setVisible(true);
                     frame.setVisible(false);
+                    endScreen.finalTime.setText(
+                            "Time: " + String.format("%02d:%02d", Game.gameTime / 6000, (Game.gameTime / 100) % 60));
                 }
             }
             // wait 10 milliseconds
@@ -249,29 +253,29 @@ class ShapeDrawing extends JComponent {
                         5, 8);
             }
         }
-        //draws Borders
-        g.setColor(new Color(70,70,70));
-        g.fillRect(-550+orientatedXWorldPosition, orientatedYWorldPosition-1250, 50, 2550);
-        g.fillRect(2050+orientatedXWorldPosition, orientatedYWorldPosition-1250, 50, 2550);
-        g.fillRect(-550+orientatedXWorldPosition, orientatedYWorldPosition-1300, 2650, 50);
-        g.fillRect(-550+orientatedXWorldPosition, orientatedYWorldPosition+1300, 2650, 50);
+        // draws Borders
+        g.setColor(new Color(70, 70, 70));
+        g.fillRect(-550 + orientatedXWorldPosition, orientatedYWorldPosition - 1250, 50, 2550);
+        g.fillRect(2050 + orientatedXWorldPosition, orientatedYWorldPosition - 1250, 50, 2550);
+        g.fillRect(-550 + orientatedXWorldPosition, orientatedYWorldPosition - 1300, 2650, 50);
+        g.fillRect(-550 + orientatedXWorldPosition, orientatedYWorldPosition + 1300, 2650, 50);
         // this draws the player
-        g.fillRect(Game.characterPosX+10, Game.characterPosY+30, 30, 5);
-        g.fillRect(Game.characterPosX+5, Game.characterPosY+35, 40, 15);
-        g.setColor(new Color(245,228,156));
-        g.fillRect(Game.characterPosX+10, Game.characterPosY+5, 30, 15);
-        g.fillRect(Game.characterPosX+15, Game.characterPosY+20, 20, 5);
-        g.fillRect(Game.characterPosX+20, Game.characterPosY+25, 10, 5);
+        g.fillRect(Game.characterPosX + 10, Game.characterPosY + 30, 30, 5);
+        g.fillRect(Game.characterPosX + 5, Game.characterPosY + 35, 40, 15);
+        g.setColor(new Color(245, 228, 156));
+        g.fillRect(Game.characterPosX + 10, Game.characterPosY + 5, 30, 15);
+        g.fillRect(Game.characterPosX + 15, Game.characterPosY + 20, 20, 5);
+        g.fillRect(Game.characterPosX + 20, Game.characterPosY + 25, 10, 5);
         g.setColor(Color.black);
-        g.fillRect(Game.characterPosX+15, Game.characterPosY+10, 5, 5);
-        g.fillRect(Game.characterPosX+30, Game.characterPosY+10, 5, 5);
-        g.fillRect(Game.characterPosX+10, Game.characterPosY, 30, 5);
-        g.fillRect(Game.characterPosX+5, Game.characterPosY+5, 5, 15);
-        g.fillRect(Game.characterPosX+40, Game.characterPosY+5, 5, 15);
-        g.fillRect(Game.characterPosX+10, Game.characterPosY+20, 5, 5);
-        g.fillRect(Game.characterPosX+35, Game.characterPosY+20, 5, 5);
-        g.fillRect(Game.characterPosX+15, Game.characterPosY+25, 5, 5);
-        g.fillRect(Game.characterPosX+30, Game.characterPosY+25, 5, 5);
+        g.fillRect(Game.characterPosX + 15, Game.characterPosY + 10, 5, 5);
+        g.fillRect(Game.characterPosX + 30, Game.characterPosY + 10, 5, 5);
+        g.fillRect(Game.characterPosX + 10, Game.characterPosY, 30, 5);
+        g.fillRect(Game.characterPosX + 5, Game.characterPosY + 5, 5, 15);
+        g.fillRect(Game.characterPosX + 40, Game.characterPosY + 5, 5, 15);
+        g.fillRect(Game.characterPosX + 10, Game.characterPosY + 20, 5, 5);
+        g.fillRect(Game.characterPosX + 35, Game.characterPosY + 20, 5, 5);
+        g.fillRect(Game.characterPosX + 15, Game.characterPosY + 25, 5, 5);
+        g.fillRect(Game.characterPosX + 30, Game.characterPosY + 25, 5, 5);
         // this checks every bullet
         for (BasicBullet b : Game.bullets) {
             // this moves the bullet
@@ -412,8 +416,12 @@ class ShapeDrawing extends JComponent {
             while (true) {
                 // picks a random spawner, from the array list of spawners
                 spawner = Game.spawns.get(Game.rand.nextInt(Game.spawns.size()));
-                //the if statment will accept that spawner only if the players not right next to it, otherwise reroll
-                if(Game.characterPosX > spawner.x+orientatedXWorldPosition+100 || Game.characterPosX+50 < spawner.x+orientatedXWorldPosition-100 || Game.characterPosY > spawner.y+orientatedYWorldPosition+100 || Game.characterPosY+50 < spawner.y+orientatedYWorldPosition-100){
+                // the if statment will accept that spawner only if the players not right next
+                // to it, otherwise reroll
+                if (Game.characterPosX > spawner.x + orientatedXWorldPosition + 100
+                        || Game.characterPosX + 50 < spawner.x + orientatedXWorldPosition - 100
+                        || Game.characterPosY > spawner.y + orientatedYWorldPosition + 100
+                        || Game.characterPosY + 50 < spawner.y + orientatedYWorldPosition - 100) {
                     break;
                 }
             }
@@ -426,7 +434,7 @@ class ShapeDrawing extends JComponent {
             // if the spawn time randomiser ends up to low (going into the negitives) just
             // set it back to a max of 1 (10 millisecods) enemys will never spawn faster
             // then that because of this
-            //if(Game.spawnTime > 5){ ///// FOR TESTING
+            // if(Game.spawnTime > 5){ ///// FOR TESTING
             if (Game.spawnTime <= 5) {
                 Game.spawnTime = 5;
             }
@@ -438,17 +446,19 @@ class ShapeDrawing extends JComponent {
         g.setColor(Color.BLACK);
         g.fillRect(5, (Game.characterPosY + 20) * 2, 200, 40);
         g.setColor(new Color(220, 30, 30));
-        g.fillRect(7, ((Game.characterPosY + 21) * 2),(int) Math.round(196 * ((double) Game.playerHealth / Game.playerMaxHealth)), 36);
+        g.fillRect(7, ((Game.characterPosY + 21) * 2),
+                (int) Math.round(196 * ((double) Game.playerHealth / Game.playerMaxHealth)), 36);
         // draws the players score in the top right corner
         g.setColor(Color.BLACK);
         g.setFont(new Font("SansSerif", Font.BOLD, 24));
         // the math for the x moves the text to the left more for every digit in the
         // score, making sure it never goes off screen
-        g.drawString("Score: " + Game.points,(((Game.characterPosX + 25) * 2) - (((int) Math.floor(Math.log10(Game.points) + 1) * 12) + 100)), 20);
+        g.drawString("Score: " + Game.points,
+                (((Game.characterPosX + 25) * 2) - (((int) Math.floor(Math.log10(Game.points) + 1) * 12) + 100)), 20);
 
         // Format the time as MM:SS
         String timeFormatted = String.format("%02d:%02d", Game.gameTime / 6000, (Game.gameTime / 100) % 60);
-        
+
         // Draw the timer at the top-center of the screen
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 24));

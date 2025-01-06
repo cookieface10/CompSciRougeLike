@@ -15,15 +15,20 @@ public class EndScreen implements ActionListener {
     JButton restartButton = new JButton("Restart");
     JButton quitButton = new JButton("Quit");
     JLabel endMessage = new JLabel("You Died");
+    JLabel finalTime = new JLabel();
 
     public EndScreen() {
         // Setting up GUI of death screen that player sees when they lose
         endPanel.setBackground(Color.black);
         endPanel.setLayout(null);
 
-        endMessage.setBounds(335, 150, 200, 50);
+        endMessage.setBounds(340, 150, 200, 50);
         endMessage.setFont(new Font("Serif", Font.ROMAN_BASELINE, 30));
         endMessage.setForeground(Color.red);
+
+        finalTime.setBounds(350, 200, 200, 50);
+        finalTime.setFont(new Font("Serif", Font.ROMAN_BASELINE, 20));
+        finalTime.setForeground(Color.white);
 
         restartButton.setBounds(350, 250, 100, 50);
         quitButton.setBounds(350, 310, 100, 50);
@@ -33,6 +38,7 @@ public class EndScreen implements ActionListener {
 
         endPanel.add(restartButton);
         endPanel.add(quitButton);
+        endPanel.add(finalTime);
         endPanel.add(endMessage);
 
         endFrame.add(endPanel);
@@ -85,5 +91,14 @@ public class EndScreen implements ActionListener {
         Game.shop.ab.fireShotTimesBought = 0;
         Game.shop.ab.iceShotTimesBought = 0;
         Game.shop.ab.pierceTimesBought = 0;
+        Game.shop.ab.priceIncrease1 = 1.00;
+        Game.shop.ab.priceIncrease2 = 1.00;
+        Game.shop.ab.priceIncrease3 = 1.00;
+        Game.shop.ab.priceIncrease4 = 1.00;
+        Game.shop.ab.priceIncrease5 = 1.00;
+        Game.shop.ab.priceIncrease6 = 1.00;
+        Game.shop.ab.priceIncrease7 = 1.00;
+        Game.shop.ab.priceIncrease8 = 1.00;
+        Game.shop.ab.priceIncrease9 = 1.00;
     }
 }
