@@ -12,7 +12,7 @@ public class StartScreen implements ActionListener {
     JPanel startPanel = new JPanel();
     JButton startButton = new JButton("Start!");
     JButton exitButton = new JButton("Exit");
-    JLabel gameTitle = new JLabel("Block Survival");
+    JLabel gameTitle = new JLabel("The Survivor");
     JLabel credits = new JLabel("By Ryan Mcgurrin and William Kim");
 
     public StartScreen() {

@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-//Made by Ryan McGurrin
+//Made by Ryan McGurrin and William Kim
 
 public class Game implements MouseMotionListener {
     public static int WorldPosX = 0;
