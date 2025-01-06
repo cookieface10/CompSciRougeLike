@@ -100,5 +100,21 @@ public class EndScreen implements ActionListener {
         Game.shop.ab.priceIncrease7 = 1.00;
         Game.shop.ab.priceIncrease8 = 1.00;
         Game.shop.ab.priceIncrease9 = 1.00;
+        Game.shop.random1 = (int) (Math.random() * 9) + 1;
+        Game.shop.random2 = (int) (Math.random() * 9) + 1;
+        Game.shop.random3 = (int) (Math.random() * 9) + 1;
+        Game.shop.itemTitle1 = Game.shop.ab.randomSelectItemTitles(Game.shop.random1);
+        Game.shop.itemTitle2 = Game.shop.ab.randomSelectItemTitles(Game.shop.random2);
+        Game.shop.itemTitle3 = Game.shop.ab.randomSelectItemTitles(Game.shop.random3);
+        Game.shop.itemPrice1 = Game.shop.ab.itemPrice(Game.shop.random1);
+        Game.shop.itemPrice2 = Game.shop.ab.itemPrice(Game.shop.random2);
+        Game.shop.itemPrice3 = Game.shop.ab.itemPrice(Game.shop.random3);
+        Game.shop.item1.setText(Game.shop.itemTitle1);
+        Game.shop.item2.setText(Game.shop.itemTitle2);
+        Game.shop.item3.setText(Game.shop.itemTitle3);
+        Game.shop.price1.setText(String.valueOf(Game.shop.itemPrice1));
+        Game.shop.price2.setText(String.valueOf(Game.shop.itemPrice2));
+        Game.shop.price3.setText(String.valueOf(Game.shop.itemPrice3));
+
     }
 }
