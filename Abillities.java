@@ -105,7 +105,7 @@ public class Abillities {
         } else if (random == 5) {
             return (int) (5000 * priceIncrease5);
         } else if (random == 6) {
-            return (int) (20000 * priceIncrease6);
+            return (int) (15000 * priceIncrease6);
         } else if (random == 7) {
             return (int) (20000 * priceIncrease7);
         } else if (random == 8) {

@@ -333,10 +333,14 @@ public class Shop implements ActionListener {
         // Checks to make sure that fire shot and ice shot cannot be rerolled into the
         // same shop
         if (random == 6 && (random1 == 7 || random2 == 7 || random3 == 7)) {
-            random = 7;
+            while (random != 6) {
+                random = (int) (Math.random() * 9) + 1;
+            }
         }
         if (random == 7 && (random1 == 6 || random2 == 6 || random3 == 6)) {
-            random = 6;
+            while (random != 7) {
+                random = (int) (Math.random() * 9) + 1;
+            }
         }
         // Checks to see if fire shot or ice shot has been activitated
         // If fire shot is true, then skip any ice shot buy options and change it to
