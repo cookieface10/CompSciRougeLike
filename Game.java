@@ -173,6 +173,7 @@ public class Game implements MouseMotionListener {
                     // Make end screen visible and main game invisible
                     endScreen.endFrame.setVisible(true);
                     frame.setVisible(false);
+                    // Set final time in endscreen to last recorded game time before player death
                     endScreen.finalTime.setText(
                             "Time: " + String.format("%02d:%02d", Game.gameTime / 6000, (Game.gameTime / 100) % 60));
                 }
