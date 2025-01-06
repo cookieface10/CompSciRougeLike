@@ -249,7 +249,7 @@ public class Shop implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         // Calls reset method with the Jbutton, title, corresponding random value, which
                         // button is reset, price tag and price tage Jlabel
-                        reset(itemTitle, item, random, 1, price1, itemPrice1);
+                        reset(itemTitle, item, random, buttonNumber, price1, itemPrice1);
                         // The button has now been reset once
                         resetOnceItem1 = true;
                         // If the button is reset, stop the timer from repeating the action performed
@@ -272,7 +272,7 @@ public class Shop implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         // Calls reset method with the Jbutton, title, corresponding random value, which
                         // button is reset, price tag and price tage Jlabel
-                        reset(itemTitle, item, random, 2, price2, itemPrice2);
+                        reset(itemTitle, item, random, buttonNumber, price2, itemPrice2);
                         // The button has now been reset once
                         resetOnceItem2 = true;
                         // If the button is reset, stop the timer from repeating the action
@@ -295,7 +295,7 @@ public class Shop implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         // Calls reset method with the Jbutton, title, corresponding random value, which
                         // button is reset, price tag and price tage Jlabel
-                        reset(itemTitle, item, random, 3, price3, itemPrice3);
+                        reset(itemTitle, item, random, buttonNumber, price3, itemPrice3);
                         // The button has now been reset once
                         resetOnceItem3 = true;
                         // If the button is reset, stop the timer from repeating the action
@@ -360,10 +360,13 @@ public class Shop implements ActionListener {
         // Sets the new randomly number to the random value of the corresponding button
         if (buttonNumber == 1) {
             random1 = random;
+            itemPrice1 = ab.itemPrice(random1);
         } else if (buttonNumber == 2) {
             random2 = random;
+            itemPrice2 = ab.itemPrice(random2);
         } else if (buttonNumber == 3) {
             random3 = random;
+            itemPrice3 = ab.itemPrice(random3);
         }
 
         // Resets all of the buttons and price tags with new UI

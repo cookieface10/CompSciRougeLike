@@ -95,7 +95,7 @@ public class Abillities {
     // return an integer price
     public int itemPrice(int random) {
         if (random == 1) {
-            return (int) (2000 * priceIncrease1);
+            return (int) (5000 * priceIncrease1);
         } else if (random == 2) {
             return (int) (10000 * priceIncrease2);
         } else if (random == 3) {
@@ -103,11 +103,11 @@ public class Abillities {
         } else if (random == 4) {
             return (int) (15000 * priceIncrease4);
         } else if (random == 5) {
-            return (int) (9000 * priceIncrease5);
+            return (int) (5000 * priceIncrease5);
         } else if (random == 6) {
-            return (int) (30000 * priceIncrease6);
+            return (int) (20000 * priceIncrease6);
         } else if (random == 7) {
-            return (int) (30000 * priceIncrease7);
+            return (int) (20000 * priceIncrease7);
         } else if (random == 8) {
             return (int) (10000 * priceIncrease8);
         } else if (random == 9) {
