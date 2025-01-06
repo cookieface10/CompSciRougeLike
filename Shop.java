@@ -356,11 +356,13 @@ public class Shop implements ActionListener {
         }
         // Checks if the bullet delay decrease has been bought too much and chooses a
         // new number if it has, rerolling until it has not selected 8
-        while (random != 8) {
-            if (random == 8 && ab.bulletDelay <= 10) {
+
+        if (random == 8 && ab.bulletDelay <= 10) {
+            while (random != 8) {
                 random = (int) (Math.random() * 9) + 1;
             }
         }
+
         // Sets the new randomly number to the random value of the corresponding button
         if (buttonNumber == 1) {
             random1 = random;
