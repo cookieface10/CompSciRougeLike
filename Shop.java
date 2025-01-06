@@ -331,15 +331,17 @@ public class Shop implements ActionListener {
         item.setEnabled(true);
         // Reselecting a new set of items for sale
         random = (int) (Math.random() * 9) + 1;
-        // Checks to see if fire shot or ice shot has been activitated
-        // If fire shot is true, then skip any ice shot buy options and change it to
-        // fire shot
+        // Checks to make sure that fire shot and ice shot cannot be rerolled into the
+        // same shop
         if (random == 6 && (random1 == 7 || random2 == 7 || random3 == 7)) {
             random = 7;
         }
         if (random == 7 && (random1 == 6 || random2 == 6 || random3 == 6)) {
             random = 6;
         }
+        // Checks to see if fire shot or ice shot has been activitated
+        // If fire shot is true, then skip any ice shot buy options and change it to
+        // fire shot
         if (Game.shop.ab.fireShotEnabled == true) {
             if (random == 6) {
                 random = 7;
@@ -352,10 +354,12 @@ public class Shop implements ActionListener {
                 random = 6;
             }
         }
-        // Checks if the bullet pierce ability has been bought to much and chooses a new
-        // number if it has
-        if (random == 8 && ab.bulletDelay <= 10) {
-            random = (int) (Math.random() * 9) + 1;
+        // Checks if the bullet delay decrease has been bought too much and chooses a
+        // new number if it has, rerolling until it has not selected 8
+        while (random != 8) {
+            if (random == 8 && ab.bulletDelay <= 10) {
+                random = (int) (Math.random() * 9) + 1;
+            }
         }
         // Sets the new randomly number to the random value of the corresponding button
         if (buttonNumber == 1) {
