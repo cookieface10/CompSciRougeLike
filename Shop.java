@@ -249,7 +249,7 @@ public class Shop implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         // Calls reset method with the Jbutton, title, corresponding random value, which
                         // button is reset, price tag and price tage Jlabel
-                        reset(itemTitle, item, random, buttonNumber, price1, itemPrice1);
+                        reset(random, buttonNumber);
                         // The button has now been reset once
                         resetOnceItem1 = true;
                         // If the button is reset, stop the timer from repeating the action performed
@@ -272,7 +272,7 @@ public class Shop implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         // Calls reset method with the Jbutton, title, corresponding random value, which
                         // button is reset, price tag and price tage Jlabel
-                        reset(itemTitle, item, random, buttonNumber, price2, itemPrice2);
+                        reset(random, buttonNumber);
                         // The button has now been reset once
                         resetOnceItem2 = true;
                         // If the button is reset, stop the timer from repeating the action
@@ -295,7 +295,7 @@ public class Shop implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         // Calls reset method with the Jbutton, title, corresponding random value, which
                         // button is reset, price tag and price tage Jlabel
-                        reset(itemTitle, item, random, buttonNumber, price3, itemPrice3);
+                        reset(random, buttonNumber);
                         // The button has now been reset once
                         resetOnceItem3 = true;
                         // If the button is reset, stop the timer from repeating the action
@@ -326,9 +326,8 @@ public class Shop implements ActionListener {
         }
     }
 
-    public void reset(String itemTitle, JButton item, int random, int buttonNumber, JLabel priceTag, int itemPrice) {
-        // Reactivates buttons so they can be used
-        item.setEnabled(true);
+    public void reset(int random, int buttonNumber) {
+
         // Reselecting a new set of items for sale
         random = (int) (Math.random() * 9) + 1;
         // Checks to make sure that fire shot and ice shot cannot be rerolled into the
@@ -367,19 +366,32 @@ public class Shop implements ActionListener {
         if (buttonNumber == 1) {
             random1 = random;
             itemPrice1 = ab.itemPrice(random1);
+            price1.setText(String.valueOf(itemPrice1));
+            // Resets all of the buttons and price tags with new UI
+            itemTitle1 = ab.randomSelectItemTitles(random1);
+            item1.setText(itemTitle1);
+            item1.setBackground(Color.WHITE);
+            // Reactivates buttons so they can be used
+            item1.setEnabled(true);
         } else if (buttonNumber == 2) {
             random2 = random;
             itemPrice2 = ab.itemPrice(random2);
+            // Resets all of the buttons and price tags with new UI
+            itemTitle2 = ab.randomSelectItemTitles(random2);
+            item2.setText(itemTitle2);
+            item2.setBackground(Color.WHITE);
+            // Reactivates buttons so they can be used
+            item2.setEnabled(true);
         } else if (buttonNumber == 3) {
             random3 = random;
             itemPrice3 = ab.itemPrice(random3);
+            // Resets all of the buttons and price tags with new UI
+            itemTitle3 = ab.randomSelectItemTitles(random3);
+            item3.setText(itemTitle3);
+            item3.setBackground(Color.WHITE);
+            // Reactivates buttons so they can be used
+            item3.setEnabled(true);
         }
-
-        // Resets all of the buttons and price tags with new UI
-        itemTitle = ab.randomSelectItemTitles(random);
-        item.setText(itemTitle);
-        item.setBackground(Color.WHITE);
-        priceTag.setText(String.valueOf(itemPrice));
 
     }
 }
