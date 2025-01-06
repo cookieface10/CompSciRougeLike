@@ -22,11 +22,11 @@ public class EndScreen implements ActionListener {
         endPanel.setBackground(Color.black);
         endPanel.setLayout(null);
 
-        endMessage.setBounds(340, 150, 200, 50);
+        endMessage.setBounds(340, 100, 200, 50);
         endMessage.setFont(new Font("Serif", Font.ROMAN_BASELINE, 30));
         endMessage.setForeground(Color.red);
 
-        finalTime.setBounds(350, 200, 200, 50);
+        finalTime.setBounds(350, 150, 200, 50);
         finalTime.setFont(new Font("Serif", Font.ROMAN_BASELINE, 20));
         finalTime.setForeground(Color.white);
 
