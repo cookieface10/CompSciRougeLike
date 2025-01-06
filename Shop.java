@@ -242,8 +242,8 @@ public class Shop implements ActionListener {
             if (buttonNumber == 1) {
                 // The button has not been reset once yet
                 resetOnceItem1 = false;
-                // First instance of timer for button delay, uses a lambda method to create a
-                // new actionlistener instance
+                // Button #1 delay, passes the time in milliseconds and instance of
+                // actionlistener class to reset shop item #1
                 resetDelay1 = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -252,7 +252,7 @@ public class Shop implements ActionListener {
                         reset(itemTitle, item, random, 1, price1, itemPrice1);
                         // The button has now been reset once
                         resetOnceItem1 = true;
-                        // If the button is reset, stop the timer from repeating the action
+                        // If the button is reset, stop the timer from repeating the action performed
                         if (resetOnceItem1) {
                             resetDelay1.stop();
                         }
@@ -265,8 +265,8 @@ public class Shop implements ActionListener {
             if (buttonNumber == 2) {
                 // The button has not been reset once yet
                 resetOnceItem2 = false;
-                // Second instance of timer for button delay, uses a lambda method to create a
-                // new actionlistener instance
+                // Button #2 delay, passes the time in milliseconds and instance of
+                // actionlistener class to reset shop item #2
                 resetDelay2 = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -288,8 +288,8 @@ public class Shop implements ActionListener {
             if (buttonNumber == 3) {
                 // The button has not been reset once yet
                 resetOnceItem3 = false;
-                // Second instance of timer for button delay, uses a lambda method to create a
-                // new actionlistener instance
+                // Button #3 delay, passes the time in milliseconds and instance of
+                // actionlistener class to reset shop item #3
                 resetDelay3 = new Timer(1000, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -312,8 +312,8 @@ public class Shop implements ActionListener {
             // Changes the UI to signify a player cannot buy anything
             item.setBackground(Color.red);
             item.setText("Cannot Buy!");
-            // Returns to UI to the original state after 2 seconds using an lambda method
-            // as an arguement in an instance of the Timer class
+            // Returns to UI to the original state after 2 seconds using an instance of the
+            // actionlistner class to perform an action after a delay
             Timer timer = new Timer(2000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
