@@ -22,9 +22,9 @@ public class Shop implements ActionListener {
     int random2 = (int) (Math.random() * 9) + 1;
     int random3 = (int) (Math.random() * 9) + 1;
     int randomTieBreaker = (int) (Math.random() * 6 + 1);
-    double itemPrice1 = ab.itemPrice(random1);
-    double itemPrice2 = ab.itemPrice(random2);
-    double itemPrice3 = ab.itemPrice(random3);
+    int itemPrice1 = ab.itemPrice(random1);
+    int itemPrice2 = ab.itemPrice(random2);
+    int itemPrice3 = ab.itemPrice(random3);
     String itemTitle1 = ab.randomSelectItemTitles(random1);
     String itemTitle2 = ab.randomSelectItemTitles(random2);
     String itemTitle3 = ab.randomSelectItemTitles(random3);
@@ -176,7 +176,7 @@ public class Shop implements ActionListener {
         }
     }
 
-    public void buttonAction(double price, String itemTitle, JButton item, int random, int buttonNumber) {
+    public void buttonAction(int price, String itemTitle, JButton item, int random, int buttonNumber) {
         // Check if the player has enough points to afford item and stops them if they
         // don't
         if (Game.points >= price) {
@@ -326,7 +326,7 @@ public class Shop implements ActionListener {
         }
     }
 
-    public void reset(String itemTitle, JButton item, int random, int buttonNumber, JLabel priceTag, double itemPrice) {
+    public void reset(String itemTitle, JButton item, int random, int buttonNumber, JLabel priceTag, int itemPrice) {
         // Reactivates buttons so they can be used
         item.setEnabled(true);
         // Reselecting a new set of items for sale
