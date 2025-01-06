@@ -63,10 +63,37 @@ public class Game implements MouseMotionListener {
         characterPosY = center.y - 25;
 
         // testing enemy
-        Game.spawns.add(new BasicSpawnPoint(100, 100));
-        Game.spawns.add(new BasicSpawnPoint(1000, 100));
+        Game.spawns.add(new BasicSpawnPoint(-400, -1000));
+        Game.spawns.add(new BasicSpawnPoint(-400, -500));
+        Game.spawns.add(new BasicSpawnPoint(-400, 0));
+        Game.spawns.add(new BasicSpawnPoint(-400, 500));
+        Game.spawns.add(new BasicSpawnPoint(-400, 1000));
+        Game.spawns.add(new BasicSpawnPoint(0, -1000));
+        Game.spawns.add(new BasicSpawnPoint(0, -500));
+        Game.spawns.add(new BasicSpawnPoint(0, 0));
+        Game.spawns.add(new BasicSpawnPoint(0, 500));
+        Game.spawns.add(new BasicSpawnPoint(0, 1000));
+        Game.spawns.add(new BasicSpawnPoint(500, -1000));
+        Game.spawns.add(new BasicSpawnPoint(500, -500));
+        Game.spawns.add(new BasicSpawnPoint(500, 0));
+        Game.spawns.add(new BasicSpawnPoint(500, 500));
+        Game.spawns.add(new BasicSpawnPoint(500, 1000));
+        Game.spawns.add(new BasicSpawnPoint(1000, -1000));
+        Game.spawns.add(new BasicSpawnPoint(1000, -500));
+        Game.spawns.add(new BasicSpawnPoint(1000, 0));
+        Game.spawns.add(new BasicSpawnPoint(1000, 500));
         Game.spawns.add(new BasicSpawnPoint(1000, 1000));
-        Game.spawns.add(new BasicSpawnPoint(100, 1000));
+        Game.spawns.add(new BasicSpawnPoint(1500, -1000));
+        Game.spawns.add(new BasicSpawnPoint(1500, -500));
+        Game.spawns.add(new BasicSpawnPoint(1500, 0));
+        Game.spawns.add(new BasicSpawnPoint(1500, 500));
+        Game.spawns.add(new BasicSpawnPoint(1500, 1000));
+        Game.spawns.add(new BasicSpawnPoint(1900, -1000));
+        Game.spawns.add(new BasicSpawnPoint(1900, -500));
+        Game.spawns.add(new BasicSpawnPoint(1900, 0));
+        Game.spawns.add(new BasicSpawnPoint(1900, 500));
+        Game.spawns.add(new BasicSpawnPoint(1900, 1000));
+        
         frame.setFocusTraversalKeysEnabled(false);
         // adds keyListener
         frame.addKeyListener(new KeyAdapter() {
@@ -145,10 +172,10 @@ public class Game implements MouseMotionListener {
                     normalizedSpeed = speed * Math.sin(Math.PI / 4);
                 }
                 // move the character
-                if (right && characterPosX < 2000 - Game.WorldPosX + Game.characterPosX) {
+                if (right && characterPosX < 2008-Game.WorldPosX+Game.characterPosX) {
                     WorldPosX += normalizedSpeed;
                 }
-                if (left && characterPosX > -500 - Game.WorldPosX + Game.characterPosX) {
+                if (left && characterPosX > -508-Game.WorldPosX+Game.characterPosX) {
                     WorldPosX -= normalizedSpeed;
                 }
                 if (up && characterPosY > Game.characterPosY - Game.WorldPosY - 1250) {
@@ -250,8 +277,7 @@ class ShapeDrawing extends JComponent {
                         5, 8);
                 g.fillRect(i * 50 + orientatedXWorldPosition + 27 - 500, k * 50 + orientatedYWorldPosition + 40 - 1250,
                         5, 8);
-                g.fillRect(i * 50 + orientatedXWorldPosition + 8 - 500, k * 50 + orientatedYWorldPosition + 35 - 1250,
-                        5, 8);
+                g.fillRect(i * 50 + orientatedXWorldPosition + 8 - 500, k * 50 + orientatedYWorldPosition + 35 - 1250, 5, 8);
             }
         }
         // draws Borders
@@ -261,22 +287,22 @@ class ShapeDrawing extends JComponent {
         g.fillRect(-550 + orientatedXWorldPosition, orientatedYWorldPosition - 1300, 2650, 50);
         g.fillRect(-550 + orientatedXWorldPosition, orientatedYWorldPosition + 1300, 2650, 50);
         // this draws the player
-        g.fillRect(Game.characterPosX + 10, Game.characterPosY + 30, 30, 5);
-        g.fillRect(Game.characterPosX + 5, Game.characterPosY + 35, 40, 15);
-        g.setColor(new Color(245, 228, 156));
-        g.fillRect(Game.characterPosX + 10, Game.characterPosY + 5, 30, 15);
-        g.fillRect(Game.characterPosX + 15, Game.characterPosY + 20, 20, 5);
-        g.fillRect(Game.characterPosX + 20, Game.characterPosY + 25, 10, 5);
+        g.setColor(new Color(245,228,156));
+        g.fillRect(Game.characterPosX+12, Game.characterPosY+4, 24, 16);
+        g.setColor(new Color(0, 183, 239));
+        g.fillRect(Game.characterPosX+12, Game.characterPosY+24, 24, 12);
+        g.setColor(new Color(77, 109, 243));
+        g.fillRect(Game.characterPosX+12, Game.characterPosY+36, 24, 8);
         g.setColor(Color.black);
-        g.fillRect(Game.characterPosX + 15, Game.characterPosY + 10, 5, 5);
-        g.fillRect(Game.characterPosX + 30, Game.characterPosY + 10, 5, 5);
-        g.fillRect(Game.characterPosX + 10, Game.characterPosY, 30, 5);
-        g.fillRect(Game.characterPosX + 5, Game.characterPosY + 5, 5, 15);
-        g.fillRect(Game.characterPosX + 40, Game.characterPosY + 5, 5, 15);
-        g.fillRect(Game.characterPosX + 10, Game.characterPosY + 20, 5, 5);
-        g.fillRect(Game.characterPosX + 35, Game.characterPosY + 20, 5, 5);
-        g.fillRect(Game.characterPosX + 15, Game.characterPosY + 25, 5, 5);
-        g.fillRect(Game.characterPosX + 30, Game.characterPosY + 25, 5, 5);
+        g.fillRect(Game.characterPosX+12, Game.characterPosY, 24, 4);
+        g.fillRect(Game.characterPosX+16, Game.characterPosY+8, 4, 4);
+        g.fillRect(Game.characterPosX+28, Game.characterPosY+8, 4, 4);
+        g.fillRect(Game.characterPosX+8, Game.characterPosY+4, 4, 16);
+        g.fillRect(Game.characterPosX+36, Game.characterPosY+4, 4, 16);
+        g.fillRect(Game.characterPosX+12, Game.characterPosY+20, 24, 4);
+        g.fillRect(Game.characterPosX+8, Game.characterPosY+24, 4, 24);
+        g.fillRect(Game.characterPosX+36, Game.characterPosY+24, 4, 24);
+        g.fillRect(Game.characterPosX+12, Game.characterPosY+44, 24, 4);
         // this checks every bullet
         for (BasicBullet b : Game.bullets) {
             // this moves the bullet
@@ -419,10 +445,10 @@ class ShapeDrawing extends JComponent {
                 spawner = Game.spawns.get(Game.rand.nextInt(Game.spawns.size()));
                 // the if statment will accept that spawner only if the players not right next
                 // to it, otherwise reroll
-                if (Game.characterPosX > spawner.x + orientatedXWorldPosition + 100
-                        || Game.characterPosX + 50 < spawner.x + orientatedXWorldPosition - 100
-                        || Game.characterPosY > spawner.y + orientatedYWorldPosition + 100
-                        || Game.characterPosY + 50 < spawner.y + orientatedYWorldPosition - 100) {
+                if (Game.characterPosX > spawner.x + orientatedXWorldPosition + 400
+                        || Game.characterPosX + 50 < spawner.x + orientatedXWorldPosition - 400
+                        || Game.characterPosY > spawner.y + orientatedYWorldPosition + 400
+                        || Game.characterPosY + 50 < spawner.y + orientatedYWorldPosition - 400) {
                     break;
                 }
             }
@@ -441,7 +467,7 @@ class ShapeDrawing extends JComponent {
             }
         }
         // Enemy Scaling
-        Game.enemyHealthMultiplyer = ((double) Game.gameTime / 50000.0) + 1;
+        Game.enemyHealthMultiplyer = ((double) Game.gameTime / 12000.0) + 1;
         ////////////////////////////// UI////////////////////////////////
         // draws the players health bar in the bottom left corner
         g.setColor(Color.BLACK);

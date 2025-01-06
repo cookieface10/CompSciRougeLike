@@ -7,7 +7,7 @@ public class SlimeEnemy extends BasicEnemy {
     public Color c;
 
     public SlimeEnemy(int x, int y, int level) {
-        super((int) Math.round((double) 5 * Game.enemyHealthMultiplyer), 5 * level, x, y, 6, 50, 35);
+        super((int) Math.round((double) 5 * Game.enemyHealthMultiplyer), 5 * level, x, y, 8, 50, 35);
         this.level = level;
         // picks color based on the difficulty of the enemy
         if (level == 3) {
@@ -23,7 +23,7 @@ public class SlimeEnemy extends BasicEnemy {
     @Override
     public void move() {
         moveTimer--;
-        if (moveTimer == 15) {
+        if (moveTimer == 20) {
             // calculates the x and y distance between the enemy and the player
             float yDist = playerY - 50 - yPos + yborder - orientatedY;
             float xDist = playerX - 25 - xPos - orientatedX;
@@ -34,8 +34,8 @@ public class SlimeEnemy extends BasicEnemy {
             xPos += Math.cos(angle) * speed;
             yPos += Math.sin(angle) * speed;
         }
-        if (moveTimer < 15) {
-            yPos += 7 - moveTimer;
+        if (moveTimer < 20) {
+            yPos += 9 - moveTimer;
             // moves by x and y component of the hypotinouse if the triangle was shrunk to
             // make the hypotanuse 1
             xPos += Math.cos(angle) * speed;
