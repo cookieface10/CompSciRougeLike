@@ -376,6 +376,7 @@ public class Shop implements ActionListener {
         } else if (buttonNumber == 2) {
             random2 = random;
             itemPrice2 = ab.itemPrice(random2);
+            price2.setText(String.valueOf(itemPrice2));
             // Resets all of the buttons and price tags with new UI
             itemTitle2 = ab.randomSelectItemTitles(random2);
             item2.setText(itemTitle2);
@@ -385,6 +386,7 @@ public class Shop implements ActionListener {
         } else if (buttonNumber == 3) {
             random3 = random;
             itemPrice3 = ab.itemPrice(random3);
+            price3.setText(String.valueOf(itemPrice3));
             // Resets all of the buttons and price tags with new UI
             itemTitle3 = ab.randomSelectItemTitles(random3);
             item3.setText(itemTitle3);
